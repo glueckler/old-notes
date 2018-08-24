@@ -1,0 +1,59 @@
+dotenv
+------
+---
+-
+
+
+npm i dotenv
+
+
+.env file
+---------
+//Add environment-specific variables on new lines in the form of NAME=VALUE
+//ex
+
+DB_HOST=localhost
+DB_USER=root
+DB_PASS=s1mpl3
+
+
+server file
+-----------
+//As early as possible
+require('dotenv').config()
+
+//process.env now has the keys and values you defined in your .env file.
+
+var db = require('db')
+db.connect({
+  host: process.env.DB_HOST,
+  username: process.env.DB_USER,
+  password: process.env.DB_PASS
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

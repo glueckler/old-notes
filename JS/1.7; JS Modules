@@ -1,0 +1,119 @@
+Javascript Modules
+------------------
+------
+--
+-
+
+
+
+
+
+
+Objects as Interfaces
+---------------------
+//ex
+var weekDay = function() {
+  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+               "Thursday", "Friday", "Saturday"];
+  return {
+    name: function(number) { return names[number]; },
+    number: function(name) { return names.indexOf(name); }
+  };
+}();
+
+console.log(weekDay.name(weekDay.number("Sunday")));
+// → Sunday
+
+//The purpose of this function is to seperate the internal variables and functions from the global scope
+//the returned object contains whats known as the exported values
+//Gathering all of these exported properties at the end of the function expression becomes very awkward when making large interfaces
+//it's a lot more sensical to write them near related internal code
+
+//A convenient workaround is to declare an object named exports and add properties (that need to be exported) to that whenever necessary
+
+//ex
+(function(exports) {
+  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+               "Thursday", "Friday", "Saturday"];
+
+  exports.name = function(number) {
+    return names[number];
+  };
+  exports.number = function(name) {
+    return names.indexOf(name);
+  };
+})(this.weekDay = {});
+
+console.log(weekDay.name(weekDay.number("Saturday")));
+// → Saturday
+
+//here we call the module function with it's interface object as an argument
+//When using this outside a function, it points to the global scope object
+
+//Note this is okay is certain cases and is a common way to create module objects intended for the browser
+//Since this creates the object in the global scope, you couldn't claim the same name with two different modules and you couldn't have two versions of the same modules running along side each other
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+Detaching from the global scope
+-------------------------------
+.. we'll get here eventually
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

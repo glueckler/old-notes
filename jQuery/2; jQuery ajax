@@ -1,0 +1,223 @@
+jQuery ajax
+-----------
+----
+-
+
+
+docs - https://api.jquery.com/jQuery.ajax/
+
+
+
+
+
+$.ajax()
+--------
+
+jQuery.ajax( url [, settings ] )
+
+//settings
+
+url
+//Type: String
+//A string containing the URL to which the request is sent.
+
+data
+//Type: PlainObject or String or Array
+//Data to be sent to the server.
+//It is converted to a query string, if not already a string.
+//It's appended to the url for GET-requests.
+//See processData option to prevent this automatic processing.
+//Object must be Key/Value pairs.
+//If value is an Array, jQuery serializes multiple values with same key based on the value of the traditional setting (described below).
+
+method
+//(default: 'GET')
+//Type: String
+//The HTTP method to use for the request (e.g. "POST", "GET", "PUT").
+
+
+
+----------------------------------------------
+
+
+
+examples
+---
+
+//ex - Retrieve the latest version of an HTML page
+$.ajax({
+  url: "test.html",
+  cache: false
+})
+  .done(function( html ) {
+    $( "#results" ).append( html );
+  });
+
+
+-
+
+
+//ex Save some data to the server and notify the user once it's complete
+$.ajax({
+  method: "POST",
+  url: "some.php",
+  data: { name: "John", location: "Boston" }
+})
+  .done(function( msg ) {
+    alert( "Data Saved: " + msg );
+  });
+
+
+-
+
+
+//ex load squeaks from a server..
+
+function loadSqueaks() {
+  // todo get squeaks from server
+  $.ajax({
+    method: 'get',
+    url: '/squeaks'
+  }).done(function (squeaks) {
+    allSqueaks.empty();
+
+    // todo then iterate over each squeak
+    squeaks.forEach(function (squeak) {
+
+      // todo then create html representing the squeak
+      var squeakHTML = getSqueakHTML(squeak);
+
+      // todo then append that html to the #all-squeaks
+      allSqueaks.prepend(squeakHTML);
+    });
+  });
+}
+
+
+-
+
+
+callback handlers
+---
+
+// Assign handlers immediately after making the request,
+// and remember the jqXHR object for this request
+
+.done()
+.fail()
+.always()
+
+//ex
+var jqxhr = $.ajax( "example.php" )
+  .done(function() {
+    alert( "success" );
+  })
+  .fail(function() {
+    alert( "error" );
+  })
+  .always(function() {
+    alert( "complete" );
+  });
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+
+hi-jax
+------
+
+$('#new-squeak-form').on('submit', function (event) {
+
+  //1. prevent the default behaviour that you are hijacking
+  event.preventDefault();
+
+  //2. perform the hijacked behaviour programmatically
+  var theForm = this;
+  var data = $(this).serialize(); //see definition below..
+
+  $.ajax({
+    method: 'post',
+    url: '/squeaks',
+    data: data
+  }).done(function () {
+
+    // 3. manipulate the DOM to indicate to the user that the action was *completed*
+    // What is `this` in this function? not useful..
+    theForm.reset();
+    loadSqueaks();
+  });
+})
+
+
+
+-
+
+.serialize()
+---
+turns the form data into a query string.
+//This serialized data will be sent to the server in the POST request body
+
+//ex field1=value1&field2=value2&field3=value3...
+
+//An alternative would be to serialize the form data to a JSON. string instead of a query string
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+success function
+----------------
+$.ajax({
+  url: 'more-posts.html',
+  method: 'GET',
+  success: function (morePostsHtml) {
+    console.log('Success: ', morePostsHtml);
+  }
+})
+
+
+
+----------------------------------------------------------------
+
+
+ajax refresh
+------------
+
+$.ajax({
+  url: 'http://example.com/refresh.php',
+  success: function(data) {
+    if (data == "refresh"){
+      window.location.reload(); // This is not jQuery but simple plain ol' JS
+    }
+  }
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

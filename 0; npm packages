@@ -1,0 +1,97 @@
+npm packages
+------------
+-------
+--
+-
+
+
+## uninstall
+
+npm uninstall [<@scope>/]<pkg>[@<version>]... [-S|--save|-D|--save-dev|-O|--save-optional|--no-save]
+
+aliases: remove, rm, r, un, unlink
+
+In global mode (ie, with -g or --global appended to the command), it uninstalls the current package context as a global package
+
+---
+
+npm uninstall takes 3 exclusive, optional flags which save or update the package version in your main package.json:
+
+-S, --save: Package will be removed from your dependencies.
+
+-D, --save-dev: Package will be removed from your devDependencies.
+
+-O, --save-optional: Package will be removed from your optionalDependencies.
+
+--no-save: Package will not be removed from your package.json file.
+
+
+---
+
+
+## commands
+
+npm init //to initialize projects package manager (package.json)
+//then hit enter a bunch of times..
+
+npm install //node looks for package.json and downloads all dependencies
+
+npm install jquery //downloads jquery in current folder
+
+npm install jquery --save //downloads and saves to projects package file
+
+npm install normalize.css --save
+
+npm install gulp --save
+
+npm install gulp-watch --save-dev
+
+//rename
+npm install gulp-rename --save-dev
+
+//delete
+npm install del --save-dev
+
+npm install gulp-postcss --save-dev
+
+//sprite
+npm install gulp-svg-sprite@1.3.1 --save-dev //@1.3.1 means version 1.3.1
+
+//webpack
+npm install webpack --save-dev //installs to the project
+
+npm install webpack -g //-g installs it globally
+
+//babel
+npm install babel-core babel-loader babel-preset-es2015 --save-dev
+
+//waypoints
+npm install waypoints --save
+
+//smooth-scroll
+npm install jquery-smooth-scroll --save
+
+//lazysizes
+npm install lazysizes --save
+
+//picturefill
+npm install picturefill --save
+
+//svg2png
+npm install gulp-svg2png@0.3.0 --save-dev
+
+//imagemin
+npm install gulp-imagemin --save-dev
+
+//gulp-rev, gulp-cssnano, gulp-uglify
+npm install gulp-rev gulp-cssnano gulp-uglify --save-dev
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+

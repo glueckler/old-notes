@@ -1,0 +1,292 @@
+Node.js
+-------
+--
+-
+
+
+node -v //version of node
+
+
+
+console.log()
+-------------
+//to print out the contents of an objects (not including methods)
+console.dir(Object, { depth: null });
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+__dirname vs ./
+---------------
+__dirname // is the directory the current script resides
+
+./ // is the directory from which you called the script
+
+// the exceptiong is when you use the require() function
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+intro
+-----
+//when node.js is installed on your computer it provides a program called node.  This will run .js files.
+
+//ex hello.js
+var message = "Hello world";
+console.log(message);
+
+//then from your command prompt..
+$ node hello.js
+Hello world
+
+-
+
+//if you run node without giving it a file, it provides you with a prompt in which you can write javascript code and immidiately see the result..
+$ node
+> 1 + 1
+2
+> [-1, -2, -3].map(Math.abs)
+[1, 2, 3]
+> process.exit(0)
+$
+
+-
+
+//NOTE
+//some browser base variables are missing (alert, document..)
+//and the global scope object (window in a browser), is called global
+
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+process variable
+----------------
+//the process variable is available globally and provides ways to inspect and manipulate the current program
+
+.exit method
+---
+//is used to end the program
+//argument 0 for successful completion
+//any other argument for error
+
+-
+
+.argv
+---
+//process.argv returns the arguments of the program entered in the command line
+//return an array of strings containing each argument beginning at index 2
+//the first two index values contain the name of the node command and your script name
+
+//ex if showargv.js simply contains the statement console.log(process.argv)..
+$ node showargv.js one --and two
+["node", "/home/marijn/showargv.js", "one", "--and", "two"]
+
+//now we can clean it up
+//ex - inside argv.js
+ var myArgs = process.argv.slice(2);
+ console.log('myArgs: ', myArgs);
+
+//now in terminal
+$ node argv.js one two three four
+ myArgs:  [ 'one', 'two', 'three', 'four' ]
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+require function
+----------------
+//which is somehow related to the CommonJS module system in node
+
+//when require is called, node resolves the given string to an actual file to load
+/ - points to root directory
+./ - points to current directory
+../ - point to parent directory
+
+//so if you ask for "./world/world" from the directory "/home/dean/elife/run.js"
+//node will try and load "/home/dean/elife/world/world.js"
+//the .js extension can be ommited
+
+//when a string doesn't look like a relative or absolute path is given
+//it will assume it refers to a built in module or a module installed in a node_modules directory
+
+//ex
+require("fs")
+//will give you nodes built in file system module
+
+//ex
+require("elife")
+//will try and load the library found in "node_modules/elife/"
+
+
+-
+
+ex
+--
+//A project contains two files
+//main.js which can be called from the command line to garble a string
+//garble.js which is a module for garbling strings, which can be used by the command line tool and other scripts that need access to a garbling function
+
+//main.js..
+require("./garble");
+var argument = process.argv[2];
+console.log(garble(argument));
+
+//garble.js..
+module.exports = function(string) {
+  return string.split("").map(function(ch) {
+    return String.fromCharCode(ch.charCodeAt(0) + 5);
+  }).join("");
+};
+
+//remember that replacing module.exports, rather than adding properties to it, allows us to export specific properties from it
+//In this case we make the result or requiring our garble file the function itself
+
+//command line..
+$ node main.js JavaScript
+Of{fXhwnuy
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+NPM
+---
+//npm is an interface for the repository of many many node packages
+
+//ex
+$ node
+npm GET https://registry.npmjs.org/figlet
+npm 200 https://registry.npmjs.org/figlet
+npm GET https://registry.npmjs.org/figlet/-/figlet-1.0.9.tgz
+npm 200 https://registry.npmjs.org/figlet/-/figlet-1.0.9.tgz
+figlet@1.0.9 node_modules/figlet
+
+//after running npm install, node will create a node_modules directory
+//inside node_modules there will be a figlet directory which contains the library
+
+
+$ node
+> var figlet = require("figlet");
+
+//when we call require, this library is loaded
+
+> figlet.text("Hello world!", function(error, data) {
+    if (error)
+      console.error(error);
+    else
+      console.log(data);
+  });
+
+  //it is common for function in node to take a callback function as an argument
+  //figlet.text() takes a callback function that it passes its results to (data)
+  //it also takes an error parameter which get's passed null if everything is okay
+  //rendering something with figlet requires reading a file from the disk (containing the big letters)
+  //this is asynchronous so figlet.text() can't immidiately return its results
+
+  _   _      _ _                            _     _ _
+ | | | | ___| | | ___   __      _____  _ __| | __| | |
+ | |_| |/ _ \ | |/ _ \  \ \ /\ / / _ \| '__| |/ _` | |
+ |  _  |  __/ | | (_) |  \ V  V / (_) | |  | | (_| |_|
+ |_| |_|\___|_|_|\___/    \_/\_/ \___/|_|  |_|\__,_(_)
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+HTTP module
+-----------
+//provides functionality for running HTTP servers and making HTTP requests
+
+//ex a simple server
+var http = require("http");
+
+var server = http.createServer(function(request, response) {
+  response.writeHead(200, {"Content-Type": "text/html"});
+  response.write("<h1>Hello!</h1><p>You asked for <code>" +
+                 request.url + "</code></p>");
+  response.end();
+});
+
+server.listen(8000);
+
+//if you run this and go to http://localhost:8000/hello you will see this basic site
+
+
+
+
+
+
+---------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

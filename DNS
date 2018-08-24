@@ -1,0 +1,90 @@
+DNS
+---
+--
+-
+
+Domain Name System
+
+
+
+
+
+Name server Levels
+------------------
+
+>
+Root Name Server
+>
+TLD Name Server
+>
+Authoritative Name Server
+>
+Resolving Name Server
+
+
+
+-------------------
+
+
+DNS
+---
+A: most common; map a hostnames to IP address (IPv4, 32-bit address)
+
+NS: Name Server that is responsible for a DNS zone
+
+MX: Mail Exchange record specifies where email gets sent to
+
+CNAME: Canonical Name, an alias for another hostname
+
+AAAA: similar to A, but uses IPv6, 128-bit address
+
+
+
+
+-------------------
+
+
+
+
+dig
+---
+
+//When tracing is enabled, dig makes iterative queries to resolve the name being looked up.
+//It will follow referrals from the root servers, showing the answer from each server that was used to resolve the lookup.
+
+//ex
+dig +trace google.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

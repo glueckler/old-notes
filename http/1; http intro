@@ -1,0 +1,235 @@
+http
+----
+-
+
+
+- hyper text transfer protocol
+- (TCP) transmission control protocol
+
+
+intro
+-----
+//if you type in your browser.. eloquentjavascript.net/17_http.html
+//the browser first looks up the address of the server corresponding to eloquentjavascript.net
+//and tries to open a TCP connection to it on port 80 (default for http)
+//if the server exists and accepts the connection the browser sends something like this
+
+GET /17_http.html HTTP/1.1
+Host: eloquentjavascript.net
+User-Agent: Your browser's name
+
+//this is called a request
+//the first word is the method of the request.. GET, POST, PUT, DELETE
+//after the resource path, the request mentions the version of http protocol it's using.. HTTP/1.1
+//the first line of a request or responce may be followed by any number of headers that specify extra information
+//these are in the form "name: value"
+//not all headers are required (the host header is required as the server with the same ip address may serve mulitple hosts)
+
+
+-----
+
+
+//then the server responds through the same connection with
+
+HTTP/1.1 200 OK
+Content-Length: 65585
+Content-Type: text/html
+Last-Modified: Wed, 09 Apr 2014 10:48:09 GMT
+
+-
+
+//the server also responds (like the request) with the http protocol version.. HTTP/1.1
+//then the numeric status code.. 200
+//then a human readable string.. OK
+
+<!doctype html>
+... the rest of the document
+
+-
+
+//both requests and responces may contain a blank line followed by a body which contains the data being sent
+//GET, and DELETE don't include data
+
+
+
+
+
+
+
+-------------------------------------------------------------------------------------
+
+
+
+
+from compass - https://web-compass.lighthouselabs.ca/days/w2d1/activities/153
+
+
+
+DNS Resolution
+---
+//Process of converting a domain name to an IP address.
+
+google.com -> IP address
+
+//Process starts locally.
+Local
+a. hosts file - /etc/hosts, C:\Windows\System32\Drivers\etc\hosts
+
+127.0.0.1 localhost
+
+
+-
+
+b. DNS cache
+
+domain_name: ip_address, ttl
+
+ttl = Time to live - expiration for ip address
+
+Network (Router/Switch)
+DNS cache
+
+//Cascade (Fail-over) - Requests will propagate up the network chain, ultimately ending at Internic.
+
+//Internic - Registrar of Registrars
+
+//They provide the canonical route for domain - IP Address, TTL
+
+
+
+
+---
+
+
+
+
+Address rewriting
+google.com -> 216.58.200.46
+
+http://216.58.200.46
+http://216.58.200.46:80
+http://216.58.200.46:80/ - URI
+
+Uniform Resource Indicator - Canonical location of a resource on the network
+
+Uniform Resource Locator - All URLs are URIs. Not all URIs are URLs.
+
+
+Resource-based protocol
+URI - http://216.58.200.46:80/ - Also a URL
+
+
+Protocol/Shemes
+---
+http - Protocol (Scheme)
+: - Separator
+// - Designates the beginning of a network address
+216.58.200.46 - IP Address
+:80 - Port
+/ - Path to resource (virtual, instruction to server software)
+
+Other Schemes
+http/https mailto git ftp telnet smtp imap
+
+Server
+Software, listening for incoming requests for resources. NOT HARDWARE
+
+
+HTTP Request
+---
+Header
+Protocol: HTTP/1.1
+URI: http://216.58.200.46:80/
+Verb: GET
+User-Agent: Browser/Client identifies itself
+Cookies: 4k of text in key-value syntax
+
+Body
+POST data
+PUT/PATCH data
+Attachments (multipart body)
+
+
+HTTP Verbs
+---
+GET - Requesting access to a resource
+POST - Submitting a new resource
+PUT - Editing an existing resource. Provides a full, revised copy.
+PATCH - Editing an existing resource. Provides only the delta.
+DELETE - Remove a resource.
+
+
+Route
+---
+Unique combination of an HTTP verb and a path
+GET  /login
+POST /login
+
+
+REST
+---
+Representational State Transfer - Setting expectations for the data that is going to be used
+
+
+Pattern:
+/nouns
+/nouns/:id
+/nouns/:id/verb
+
+GET /users
+GET /users/12 OR GET /users/slug
+GET /users/12/edit
+POST /users
+PUT/PATCH /users/12/edit
+DELETE /users/12
+
+GET /posts/1234/comments
+GET /posts/1234/comments/2345/edit
+
+
+Server software
+---
+MVC - Model-View-Controller (Router)
+Models represent data (User, Post, Transaction, CatGif)
+Views represent UI - They get data to render from the Controller
+Controllers are like traffic cops - Receive requests, get data from models, put data in views, build responses
+Determines how to fulfill request for resource
+Assemble an HTTP Response
+
+-
+
+
+HTTP Response
+---
+Header
+HTTP Status Code
+HTTP Status Message
+Cookies
+Content-type: text/html, application/json, image/jpeg, application/pdf, application/swf
+
+Body
+Resource
+
+
+-
+
+
+Status Codes
+---
+100-199: Informational
+200-299: Success
+300-399: Redirection / Resource Moved
+400-499: Client Error
+500-599: Server Error
+
+
+
+
+
+
+
+
+
+
+
+

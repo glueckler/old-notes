@@ -1,0 +1,157 @@
+jquery events
+-------------
+------
+-
+
+
+
+events - https://developer.mozilla.org/en-US/docs/Web/Events
+
+
+
+
+this
+---
+//inside event handler
+//this keyword refers to the node that triggered the event
+
+
+
+Event delegation
+---
+//Binding events to elements of a certain type
+
+//ex
+$( "ul" ).on( "click", "li", function() {
+    console.log( "Something inside a <ul> was clicked, specifically a <li>" );
+});
+
+//ex - or use a class name
+$('#filters').on('click', '.on-sale', function() {});
+
+
+.off()
+---
+//should be the opposite of on right?
+
+
+
+
+------------------------
+
+
+
+watcher methods
+---------------
+
+.on('load', function(){});
+//will call function whenever an element is loaded in (like an image from lazy load)
+
+.off()
+//cleans up that event binding when you don't need it anymore.
+$( "p" ).off( "click" );
+
+.click()
+//mouse click
+$('').click(function(){})
+
+
+.keyup()
+//it seems that a function called by keypress takes an argument which is the key the was press
+//27 is the escape key
+$(document).keyup(this.keyPressHandler.bind(this));
+this.keyPressHandler(e) {
+  if( e == 27 ) {
+    /*escape key function*/
+  }
+}
+
+.hover( handlerIn, handlerOut )
+//on hover
+
+
+.preventDefault()
+//the default action of the event will not be triggered
+
+.one()
+//ex - the function only runs once, but then attaches another event handler..
+$( "p" ).one( "click", function() {
+    console.log( "You just clicked this for the first time!" );
+    $( this ).click(function() {
+        console.log( "You have clicked this before!" );
+    });
+});
+
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+jquery  event object
+--------------------
+//In all DOM event callbacks, jQuery passes an event object argument which contains information about the event,
+//such as precisely when and where it occurred, what type of event it was, which element the event occurred on, and a plethora of other information
+
+//When a user clicks on a button to submit a form via Ajax, we'd want to cancel the button/form's default action (to submit it to the form's action attribute)
+
+//ex - Preventing a default action from occurring and stopping the event bubbling
+
+$( "form" ).on( "submit", function( event ) {
+
+    // Prevent the form's default submission.
+    event.preventDefault();
+
+    // Prevent event from bubbling up DOM tree, prohibiting delegation
+    event.stopPropagation();
+
+    // Make an AJAX request to submit the form data
+});
+
+-
+
+passing data
+---
+//you can pass your own data to the even object
+
+$( "p" ).on( "click", {
+    foo: "bar"
+}, function( event ) {
+    console.log( "event data: " + event.data.foo + " (should be 'bar')" );
+});
+
+
+-
+
+//ex - prevent the browser from following dead links with events.preventDefault()
+
+  $('.see-photos').on('click', function(event) {
+    event.stopPropagation();
+    event.preventDefault();
+    $(this).closest('.tour').find('.photos').slideToggle();
+  });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

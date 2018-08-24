@@ -1,0 +1,165 @@
+w4
+--
+
+d1
+
+// intro to erd and sql
+
+
+
+d2
+--
+
+/dt
+//displays tables and relations?..
+
+/d users
+
+//inserts data?
+/i tineapp.sql
+
+
+//postico is a nice gui app for databases
+
+
+
+//git
+git diff base...master
+
+
+
+---
+
+breakout
+
+cat package.json
+//in terminal to dislay the file
+
+
+
+d4
+--
+
+promises and errors
+------
+
+
+node fetch
+---
+// when a promise is no longer pending it will take in a callback from .then()
+
+ex
+--
+getWeatherFor('London') // ==> returns object
+  .then(res => console.log(res)) // ==> prints object, returns undefined, and passes it on
+  .then(res => console.log(res)) // ==> prints undefined, returns undefined
+
+
+
+errors
+-----
+
+try {
+  conssle.log('adsfsadf')
+} catch (err) {
+  console.log('canght an error but moving on', err)
+}
+
+
+---
+
+// try catch works with synchronus code
+
+function getFullName(fistName, lastName) {
+  throw new Error("Can't generate full name without either f or l name");
+  return `${firstName}` ${lastNmae}`;
+}
+
+try {
+  getFullNmae('', '');
+  //this line may not run..
+} catch(err) {
+  console.log('could not generate full name: ' err.message)
+}
+
+
+---
+
+// use promise catch to catch asynchronous errors
+
+
+
+-----------------------------------------------
+
+
+
+
+d5
+--
+
+if (ENV === 'development') {
+  // development logging middleware and shiiittt
+}
+
+
+----
+
+
+// make sure dependencies are in the dependincies object within package.json
+
+
+check for white no white spaces or something
+---
+/^\s$/gi.test('\n')
+
+
+
+form submission
+---
+post > redirect > get
+
+
+flash message
+---
+store a little message in a cookie
+like error message to be transfered through a redirect
+
+npm i connect-flash
+
+
+---
+
+if(inNaN(id)) {
+  // do stuff
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

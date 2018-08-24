@@ -1,0 +1,155 @@
+
+html responsive images
+----------------------
+-------------
+-------
+---
+
+
+//use picturefill to ensure browser support
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+-Full Browser Width, 
+-Single Crop, 
+-Multi Resolution 
+
+<img srcset="images/dog-resolution-small.jpg 570w, images/dog-resolution-medium/jpg 1200w, images/dog-resolution-large.jpg 1920w" alt="puppy in the sand">
+
+
+-
+
+-Full Browser Width, 
+-Multi Crop, 
+-Multi Resolution
+
+<picture>
+  <source srcset="assets/images/hero--large.jpg 1920w, assets/images/hero--large-hi-dpi.jpg 3840w" media="(min-width: 1380px)">
+  <source srcset="assets/images/hero--medium.jpg 1380w, assets/images/hero--medium-hi-dpi.jpg 2760w" media="(min-width: 990px)">
+  <source srcset="assets/images/hero--small.jpg 990w, assets/images/hero--small-hi-dpi.jpg 1980w" media="(min-width: 640px)">
+  <img srcset="assets/images/hero--smaller.jpg 640w, assets/images/hero--smaller-hi-dpi 1280w" alt="Coastal View Of ocean and mountains">
+</picture>
+
+
+-
+
+-Desktop Defined Width, 
+-Mobile Full-Width, 
+-Single Crop, 
+-Multi Resolution
+
+<img sizes="(min-width: 970px) 976px, 100vw" srcset="assets/images/first-trip-low-res.jpg 565w, assets/images/first-trip.jpg 976w, assets/images/first-trip-hi-dpi.jpg 1952w" alt="Couple walking down a street.">
+
+
+-
+
+-Defined Width Medium, 
+-Defined Width Large, 
+-Mobile Full Width, 
+-Multi Crop, 
+-Multi Resolution
+
+<picture>
+  <source sizes="404px" media="(min-width: 1020px)" srcset="assets/images/our-start.jpg 404w, assets/images/our-start-hi-dpi.jpg 808w">
+  <source sizes="320px" media="(min-width: 800px)" srcset="assets/images/our-start-portrait.jpg 382w, assets/images/our-start-portrait-hi-dpi.jpg 764w">
+  <img src="assets/images/our-start-landscape.jpg 800w, assets/images/our-start-landscape-hi-dpi.jpg 1600w" alt="Our founder Jane" >
+</picture>
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+1. for art direction, and cropping (if image would look better with different croppings on different devices)
+//use <picture> tags to send different images to different device users
+//use <img> tag to define the mobile first cropping
+
+<picture>
+  <source srcset="images/dog-crop-large.jpg" media="(min-width: 1200px)">
+  <source media="(min-width: 760px") srcset="images/dog-crop-medium.jpg">
+  <img src="images/dog-crop-small.jpg" alt="dog in sand">
+</picture>
+
+
+-
+
+2. for image resolution and file size situation (because the crop looks great on all devices)
+//use the <img> element
+//the browser will display the correct size image as long as the developer has given the browser the width (so the browser doesn't need to download all images to decide)
+
+<img srcset="images/dog-resolution-small.jpg 570w, images/dog-resolution-medium/jpg 1200w, images/dog-resolution-large.jpg 1920w" alt="puppy in the sand">
+
+
+-
+
+3. Do both, help people out that have high dpi screens like 4k
+
+<picture>
+  <source srcset="assets/images/hero--large.jpg 1920w, assets/images/hero--large-hi-dpi.jpg 3840w" media="(min-width: 1380px)">
+  <source srcset="assets/images/hero--medium.jpg 1380w, assets/images/hero--medium-hi-dpi.jpg 2760w" media="(min-width: 990px)">
+  <source srcset="assets/images/hero--small.jpg 990w, assets/images/hero--small-hi-dpi.jpg 1980w" media="(min-width: 640px)">
+  <img srcset="assets/images/hero--smaller.jpg 640w, assets/images/hero--smaller-hi-dpi 1280w" alt="Coastal View Of ocean and mountains">
+</picture>
+
+
+//NOTE
+//if the picture is not going to be full screen, ad the sizes="" data to the widest the picture ever needs to be
+//the mobile first img doesn't need the sizes attribute becaue it's full screen
+
+<picture>
+  <source sizes="404px" media="(min-width: 1020px)" srcset="assets/images/our-start.jpg 404w, assets/images/our-start-hi-dpi.jpg 808w">
+  <source sizes="320px" media="(min-width: 800px)" srcset="assets/images/our-start-portrait.jpg 382w, assets/images/our-start-portrait-hi-dpi.jpg 764w">
+  <img src="assets/images/our-start-landscape.jpg 800w, assets/images/our-start-landscape-hi-dpi.jpg 1600w" alt="Our founder Jane" >
+</picture>
+
+
+//when using the img tag and therefore one image cropping and different resolutions
+//smartphones will download a high res picture
+//use a media query inside the sizes attribute so that any screen narrower than 970px 
+//assumes the image will be displayed at screen width
+<img sizes="(min-width: 970px) 976px, 100vw" srcset="assets/images/first-trip-low-res.jpg 565w, assets/images/first-trip.jpg 976w, assets/images/first-trip-hi-dpi.jpg 1952w" alt="Couple walking down a street.">
+
+
+
+
+
+

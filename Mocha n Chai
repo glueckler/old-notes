@@ -1,0 +1,112 @@
+Javascript Testing
+------------------
+--------
+--
+-
+
+
+
+Mocha
+Chai
+-
+npm install --save-dev mocha && npm install --save-dev chai
+
+
+
+
+package.json test script
+------------------------
+
+//inside package.json
+//there is a property to set your testing package
+
+"scripts": {
+  "test": "mocha"
+}
+
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+test script
+-----------
+//ex
+
+var assert = require("chai").assert;
+var isPalindrome = require("../lib/palindromes");
+
+describe("Palindromes", function() {
+  it("should return true if a word is a palindrome", function() {
+    var word = "abba";
+    var result = isPalindrome(word);
+    assert.isTrue(result);
+  });
+
+  it("should return false if a word is NOT a palindrome", function() {
+    var word = "not";
+    assert.isFalse(isPalindrome(word));
+  });
+
+  it("should return true if a phrase is a palindrome", function() {
+    var phrase = "a man a plan a canal panama";
+    assert.isTrue(isPalindrome(phrase));
+  });
+});
+
+
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+running tests
+-------------
+
+
+npm test //executes test
+
+npm test test/test_palindromes.js //executes test on specific file
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

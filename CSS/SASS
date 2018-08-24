@@ -1,0 +1,402 @@
+SASS and Compass
+--------------
+-------
+-
+
+
+
+
+compass
+-------
+compass create test-1  //creates a project named test-1
+
+compass create --sass-dir "sass" --css-dir "css" --images-dir "img" --javascripts-dir "js"
+//creats a sass directory with the name "sass", css with name "css" etc
+
+compass watch //will live render changes to sass files
+
+
+
+-
+
+config.rb file
+--------------
+http_path = "../"  or  http_path = "/"
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+comments
+--------
+//Single Line
+/*
+Multi line
+*/
+/*! This is a loud comment which is guaranteed to show where you left it */
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+styles.scss
+-----------
+styles.scss //main styles sheet (save it in the sass directory)
+
+//write partials at the top
+@import "compass";
+@import "partials/variables";
+@import "partials/normalize";
+@import "partials/mixins";
+@import "partials/base";
+@import "compass/css3"; //if you want to use css 3 styles
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+partials folder
+---------------
+(partials folder inside the sass directory)
+
+_base.scss //sets some base css properties
+body{
+  font-family: arial;
+  font-size: 1em;
+  background: $gray;
+  @include default-text-color($black); //using a mixins
+}
+
+_variables.scss //assign variable such as colors
+$default-text-color: $black !default;  //sets the default text color
+
+_layout.scss
+
+_mixins.scss  //functions
+@mixin default-text-color($tc){
+  color: $tc;
+}
+@mixin default-text-color($tc: $black){ //if nothing is passed in the use $black
+  color: $tc;
+}
+
+_normalize.scss //will normalize html elements more consistantly across browsers
+https://github.com/JohnAlbin/normalize-scss
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+//sass variables
+----------------
+$almond: #EFDECD; //Defines a variable of that color
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+sass math sass equations
+------------------------
+//use these!
++, -, *, /, and %
+//ex
+width: 600px / 960px * 100%;
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+sass nesting
+------------
+#horzNav {
+  a{                      //Nest the anchor styles within horzNav
+    color: white;         //
+    &:hover{              //Nest the hover state of the anchor, in horzNav
+      color: $almond;
+    }
+  }
+}
+
+article p a {
+  color: $blue
+  &:hover, &:focus {      //styles both hover and focus
+    color: $duke-blue;    //
+  }
+  &:visited {             //and then the visited style
+    color: $gray;
+  }
+}
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Sass Extensions
+--------------
+//create styles just for extension use
+%dotted-box{
+  border: 2px dotted black;
+}
+
+#riddle {
+  padding: 20px;
+  margin-top: 20px;
+}
+#riddle-answer {
+  @extend #riddle;  //this will use all of #riddle styles
+  @extend %dotted-box; //use the %dotted-box styles
+}
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+Sass Colors
+-----------
+lighten($colorToLighten, 70%);
+
+darken($colorToLighten, 70%);
+
+complement($colorToComplement);
+
+adjust-hue($color, 90dg); //inverts color
+
+desaturate($color, 80%);
+
+saturate($color, 80%);
+
+fade-out($color, 50%); //opacity down 50%
+
+mix();
+
+grayscale();
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+SASS Mixins
+-----------
+
+// ex
+
+@mixin border-radius($radius) {
+  -webkit-border-radius: $radius;
+     -moz-border-radius: $radius;
+      -ms-border-radius: $radius;
+          border-radius: $radius;
+}
+
+.box { @include border-radius(10px); }
+
+
+-------------------
+
+
+#styleme {
+  @include border-radius(5px);
+  @include box-shadow("hrz offset" "ver offset" "blur" "spread" "color")
+  @include text-shadow(...)
+}
+
+%main-green-gradient {
+  @include backgroud-image(linear-gradient(left-top, $main-green 80%, white));
+}
+
+#logo {
+  @include scale(2,2);  //scales an image by 2
+  @include transform(translateX(700px) translateY(10px) scale(2,2) rotate(-45deg));
+}
+
+
+@include filter(drop-shadow($gray 1px 1px 0px));  //Add the compass drop shadow
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Compass Sass if statements
+--------------------------
+$riddle-color: gray;  //define variable only for this example
+@if $riddle-color == blue {
+  #riddle {
+    background-color: $alice-blue;
+  }
+} @else {
+  #riddle {
+    background-color: $ash-gray;
+  }
+}
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Compass Sass for loops
+----------------------
+$prct-yellow: 5%;
+
+@for $i from 1 through 14 {
+  #vert-nav ul li:nth-child(#{$i}){
+    background-color: mix($yellow, $white, $prct-yellow);
+  }
+  $prct-yellow: $prct-yellow + 5%
+}
+
+
+Sass Image target
+-----------------
+img[alt="Programming Frameworks"] {
+  content: image-url('featured-image.png');
+  /*
+  width: image-width('../images/featured-image.png');
+  //finds the width of that image and sets it as the width.. could maybe use different image width?
+  height: image-height('../images/featured-image.png');
+  */
+}
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+sass media query
+----------------
+.profile-pic {
+  float: left;
+  width: 250px;
+  @media screen and (max-width: $break-small) {
+    width: 100px;
+    float: none;
+  }
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+

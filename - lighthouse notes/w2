@@ -1,0 +1,329 @@
+w2d1
+----
+-
+
+
+
+
+
+#What happens when you type google.com into the browser's address bar and hit enter
+
+//a website loads soooo
+
+-
+
+google.com -> IP address (turn it into an IP address)
+
+DNS Resolution > Addresss rewriting > HTTP Request
+
+DNS Resolution
+---
+
+1. Local
+  a. hosts file /etc/hosts, or on Windows C:/Windows/System32/Drivers/etc/hosts
+
+  127.0.0.1 localhost
+  127.0.0.1 mcafee.com, norton.com, symantec.com
+
+  b. DNS cache
+
+  domain_name: ip_address, ttl
+  (ttl) = Time to live - expiration for ip address
+
+2. Network (Router/Switch)
+  DNS cache (if your home router doens't have it in cache, the request is relayed to the next)
+
+  Cascade (Fail-over) - Requests will propagate up the network chain, ultimately ending at Internic.
+
+  Canonical route for domain - IP Address, TTL
+
+  Dev Ops changes TTL to about 10mins maybe a week before changing a websites server
+
+
+Address rewriting
+---
+
+google.com -> 216.58.200.46
+
+http://216.58.200.46
+http://216.58.200.46:80
+http://216.58.200.46:80/ - URI - Uniform Resource Indicator - Canonical location of a resource on the network
+http://216.58.200.46:80/ - also a URL - All URLs are URIs.  Not all URIs are URLs
+
+HTTP - hypertext Transfer Protocol
+
+  - Resource-based protocol
+
+http - Protocol (Scheme) - (mailto) (https) (git) (imap) (ftp) (telnet) (smtp) etc..
+: - Seperator
+// - Designates the beginning of a network address
+216.58.200.46 - IP Address
+:80 - Port - communications gate, reserved by a listening server
+/ - Path (not always the same as a file path, but could be.  It's a virtual path, instruction to server software)
+
+Ports
+---
+65635 - (64k) ports in every OS
+1 - 1024 - Reserved ports (admin-only)
+
+Server
+---
+Software, listening for incoming requests for resources
+
+
+-
+
+
+HTTP Request
+---
+
+Header
+Protocol: HTTP/1.1
+URI: http://216.58.200.46:80/
+Verb: GET
+
+Body
+
+
+//HTTP Verbs..
+GET
+POST
+PUT
+PATCH
+DELETE
+
+
+
+----------------
+
+
+
+
+
+w2d2
+----
+
+es6 compatibility chart - https://kangax.github.io/compat-table/es6/
+
+
+browsers have js engines
++-------------+---------+-------------------+
+| Corporation | Browser | JavaScript Engine |
++-------------+---------+-------------------+
+| Mozilla     | Firefox | SpiderMonkey      |
+| Google      | Chrome  | V8                |
+| Microsoft   | Edge    | Chakra            |
+| Apple       | Safari  | JavaScriptCore    |
++-------------+---------+-------------------+
+
+
+
+use strict
+---
+Strict means, for example:
+
+Can no longer do variable assignment if the variable hasn't been defined with var. Without strict the variable would be created on the global scope.
+
+Usage of eval is restricted.
+
+The with(){} statement is no longer usable.
+
+
+//"use strict"; can also be used just at the function level..
+
+douglas crawford // dude knows lots of javascript
+
+
+const vs let
+---
+const obj = {
+  a: 'yeaaa'
+}
+
+obj = 'new string'; <==== Error
+
+obj.a = 'new string'; <==== All Good!
+
+
+
+
+iterable object
+---
+//you can iterate over them with a for(.. of ..)
+arrays..
+strings..
+maps..
+etc..
+
+
+use for( of ) in situations where you'd want to break the loop when you found a search you're looking for
+
+function search1(item) {
+  for(const item of list) {
+    if(term === item) return item;
+  }
+}
+
+
+//where as the forEach method will keep looping
+function serach2() {
+  list.forEach(item => ...)
+}
+
+
+
+Arrow functions =>
+---
+
+
+
+
+-------------------------------------------------
+
+
+
+
+
+w2d3
+----
+
+redirection is the browser seeing a 300 status code with location header set to new path
+
+//w3c - https://www.w3.org/Protocols/rfc2616/rfc2616.html
+
+http request messages
+//are made of three parts
+
+//the first line is the 'request line'
+//ex GET /asdfjl HTTP/1.1
+  //part 1: verb or 'method'
+  //part 2: path
+    // 1. path
+    // 2. query string (seperated by the path with a ?)
+  //http/1.1
+
+//the second part are called the 'headers'
+
+//the third part is the body, which is any abitrary data
+
+
+response message
+//Response Line
+  //http
+  //status code
+  //status message
+//headers
+//body
+
+
+
+
+CRUD apps
+//crud apps are just like a basic file system ut on another computer
+
+
+--
+
+Guard statement
+
+if(!(chairID in chairsOb)) {
+  res.sendStatus(404);
+  return;
+}
+
+--
+
+HTML forms
+--
+//Defaults
+GET request
+path starts a current file
+
+
+--
+
+number to string
+
+chairId = '' + 3
+
+
+---
+
+string > true
+!!('on') > true
+
+
+
+--
+
+do not use a GET request on form submissions
+
+use a redirect ( Post/Redirect/Get sequence)
+
+
+!!Always redirect when doing a redirect
+-you dont want the browser to send another post request on a form by clicking back or something
+
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+
+w2d4
+----
+
+`
+!!!
+Use touch dir/file.txt
+instead of going into the directory
+
+
+
+in ejs
+---
+<% if(locals.error) { %>   <===== use locals.error so the code won't break
+  <% %>
+<% } %>
+
+
+npm
+---
+npm i <package>
+
+
+
+
+--------------
+
+
+
+
+ask jeremy later
+---
+var counter = {};
+var word = "omgwtfbbqdeanisdope";
+
+for (let i in word) {
+  var letter = word[i];
+  counter[letter] = (counter[letter] || 0) + 1;
+}
+
+counter;
+
+
+
+
+
+
+
+
+
+
+
+
+

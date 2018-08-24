@@ -1,0 +1,278 @@
+Strings Arrays and Variables
+----------------------------
+-----------
+----
+-
+
+
+
+
+
+
+
+
+
+
+
+
+php constants
+-------------
+(values which cannot be changed)
+use uppercase with constants
+define('PI', 3.14);  
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+php variables
+-------------
+Variables begin with $
+Case sensitive yes 
+must begin with a letter
+$userName 
+
+
+php reference variables
+-----------------------
+$referenceToVariable = &$randNum //$referenceToVariable will change when $randNum changes
+
+// Get the data type for a variable
+            echo 'Data Type for $biggestNum is ' . gettype($biggestNum);
+
+/* You can check for other types of data with
+                is_array : is_bool : is_double : is_int : is_null :
+                is_numeric : is_string
+            */
+            // empty() returns true or false if a var has a non-zero value
+            echo 'Does $biggestNum exist ';
+            echo empty($biggestNum) ? 'false' : 'true';
+
+// isset() returns true or false if a variable exists
+            echo 'Does $biggestNum exist ';
+            echo isset($biggestNum) ? 'true' : 'false';
+
+
+php data types
+--------------
+a. Integer : Whole Numbers
+b. Float : Decimal Numbers
+c. String : Strings or characters
+d. Boolean : true or false
+e. Array : Multiple Items
+f. Object : A Object defined by a class
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+php strings
+-----------
+Multiline string 
+-
+$str = <<<EOD
+            The customers name is
+            $usersName and they
+            live at $streetAddress
+            in $cityAddress</br></br>
+EOD; //make sure there's no white space before this
+
+$randString = "         Random String       ";
+            // You can trim white space with ltrim, rtrim, or trim
+            echo strlen($randString) . "</br>";
+            echo strlen(ltrim($randString)) . "</br>";
+            echo strlen(rtrim($randString)) . "</br>";
+            echo strlen(trim($randString)) . "</br>";
+
+// printf allows you to print formatted Strings to the screen
+            echo "The randomString is $randString </br>";
+            printf ("The randomString is %s </br>", $randString);
+
+// Coversion codes are useful with decimals
+            $decimalNum = 2.3456;
+            printf ("decimal num = %.2f </br>", $decimalNum);
+
+// Other conversion codes
+// b : integer to binary
+// c : integer to character
+// d : integer to decimal
+// f : double to float
+// o : integer to octal
+// s : string to string
+// x : integer to hexadecimal
+
+printf ("10 to binary %b </br>", 10);
+
+// %s
+//ex from - http://stackoverflow.com/questions/11623224/what-does-s-mean-in-php-html-or-xml
+
+$str1 = 'best';
+$str2 = 'world';
+
+$say = sprintf('Tivie is the %s in the %s!', $str1, $str2);
+echo $say;
+
+//output: 
+Tivie is the best in the world!
+
+
+-
+
+// String case functions
+            echo strtoupper($randString) . "</br>";
+            echo strtolower($randString) . "</br>";
+            echo ucfirst($randString) . "</br>";
+
+
+ // Turning strings into arrays and vice versa
+            $arrayForString = explode(' ', $randString, 2);
+            $stringToArray = implode(' ', $arrayForString);
+
+// Get part of a string
+            $partOfString = substr("Random String", 0, 6);
+            echo "Part of String $partOfString </br>";
+
+// Comparing Strings
+            $man = "Man";
+            $manhole = "Manhole";
+            // Returns 0 is equal
+            // Returns positive if str1 is greater then str2
+            // Returns negative if str1 is less than then str2
+            // strcasecmp() isn't case sensitive
+            echo strcmp($man, $manhole) . "</br>";
+
+// strstr() returns every character after the sting to look for
+// stristr() isn't case sensitive
+            echo "The String " . strstr($randString, "String") . "</br>";
+
+// strpos() returns the location for the match
+            echo "Loc of String " . strpos($randString, "String") . "</br>";
+
+// str_replace() replaces a string with another
+            $newString = str_replace("String", "Stuff", $randString)  . "</br>";
+            echo "New string " . $newString . "</br>";
+
+// Escaping characters
+            $dbString = '"Random quotes"';
+            echo addslashes($dbString) . "</br>";
+            echo stripslashes($dbString) . "</br>";
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+php array
+---------
+// An array can store multiple values
+            $bestFriends = array('Joy', 'Willow', 'Ivy');
+            // You can access an item by index starting with 0
+            echo 'My wife ' . $bestFriends[0];
+            echo "</br></br>";
+            // You can add an item by storing in a unused index
+            $bestFriends[4] = 'Steve';
+            echo 'My friend ' . $bestFriends[4];
+            echo "</br></br>";
+
+ // You could cycle through the array with for or foreach
+            foreach($bestFriends as $friend){
+                echo $friend . ', ';
+            }
+
+// You can create key value pairs in arrays
+            $customer = array('Name'=>$usersName, 'Street'=>$streetAddress, 'City'=>$cityAddress);
+            foreach($customer as $key => $value){
+                echo $key . ' : ' . $value . '</br>';
+            }
+
+// You can combine arrays with +
+            $bestFriends = $bestFriends + $customer;
+            foreach($bestFriends as $friend){
+                echo $friend . ', ';
+            }
+
+// Other common array operators
+            // == : Returns true of false if arrays are equal
+            // != : Returns if not equal
+            // === : Returns if the same items, same order and data type
+
+ // Multidimensional arrays are arrays in arrays
+            $customers = array(array('Derek', '123 Main', '15212'),
+                               array('Sue', '124 Main', '15222'),
+                               array('Bob', '125 Main', '15212'));
+            for($row = 0; $row < 3; $row++){
+                for($col = 0; $col < 3; $col++){
+                    echo $customers[$row][$col] . ', ';
+                }
+
+// Common Array Functions
+            // sort($yourArray) : Sorts in ascending alphabetical order or
+            // if you add , SORT_NUMERIC or , SORT_STRING
+            // asort($yourArray) : sorts arrays with keys
+            // ksort($yourArray) : sorts by the key
+            // Put a r infront of the above to sort in reverse order
+
+
+
+
+
+
+
+

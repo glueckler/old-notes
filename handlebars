@@ -1,0 +1,55 @@
+handlebars
+----------
+----
+-
+
+
+
+
+
+Template
+--------
+//inside html..
+
+<script id="entry-template" type="text/x-handlebars-template">
+  <div class="entry">
+    <h1>{{title}}</h1>
+    <div class="body">
+      {{body}}
+    </div>
+  </div>
+</script>
+
+-
+
+compile the template
+---
+
+var source   = $("#entry-template").html();
+var template = Handlebars.compile(source);
+
+//Please note that this approach is not recommended for production applications.
+//A better way is to precompile your templates.
+//This will result in a smaller required runtime library and significant savings from not having to compile the template in the browser.
+
+-
+
+render to html
+---
+//Get the HTML result of evaluating a Handlebars template by executing the template with a context..
+
+var context = {title: "My New Post", body: "This is my first post!"};
+var html    = template(context);
+
+//you can then append the html to a node of your choice..
+
+
+
+
+
+
+
+
+
+
+

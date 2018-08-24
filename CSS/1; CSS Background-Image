@@ -1,0 +1,92 @@
+css backgrounds
+---------------
+---
+-
+
+
+
+
+//ex
+background-color: #000;
+background-image: url(image.gif); //url(is from root directory)
+background-repeat: no-repeat;
+background-position: top left;
+background-attachment: fixed;
+
+//shorthand 
+background: #000 url(image.gif) no-repeat top left fixed;
+
+//ex, positioned at the top, left, without repeat, and sized to cover the div..
+.page-section--testimonials {
+  background: url('/assets/images/testimonials-bg.jpg') top center no-repeat;
+  background-size: cover;
+}
+
+//css3 Notice the slash between top left and 50% 20%; it separates the values for background-position and background-size
+background: #000 url(image.gif); no-repeat top left / 50% 20% border-box content-box;
+
+
+
+//Multiple background images
+body {
+  background:
+    url(logo.png) bottom center no-repeat,
+    url(background-pattern.png) repeat;
+}
+
+
+
+//background position 
+//demo http://codepen.io/team/css-tricks/pen/yyKdPB
+Length values (e.g. 100px 5px)
+Percentages (e.g. 100% 5%)
+Keywords (e.g. top right)
+//One value, that value is the horizontal offset. The browser sets the vertical offset to center.
+//Two values, the first value is the horizontal offset and the second value is the vertical offset.
+//A three- or four-value syntax alternates between keywords and length or percentage units. You can use any of the keyword values except center
+#threevalues {
+  background-position: right 45px bottom;
+}
+#fourvalues {
+  background-position: right 45px bottom 20px;
+}
+
+
+//background-size
+//If you only provide one value (e.g. background-size: 400px) it counts for the width, and the height is set to auto
+//cover tells the browser to make sure the image always covers the entire container
+//contain says to always show the whole image, even if that leaves a little space to the sides or bottom.
+background-size: cover | contain | auto
+//wix site style background
+body {
+  height: 100vh;
+  width: 100vw;
+  background-image: url('../img/bg.png');
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+  background-position: center;
+}
+
+
+//background clip lets you control how far a background image or color extends beyond an element's padding or content
+background-clip: border-box | padding-box | content-box | inherit
+
+
+//background origin is similar to background clip however it resizes the image
+background-origin: border-box | padding-box | content-box | inherit
+
+
+//background-attachment specifies how to move the background relative to the viewport
+//demo  http://codepen.io/tjacobdesign/pen/wBeXZz
+background-attachment: scroll | fixed | local
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------

@@ -1,0 +1,462 @@
+w1d1 notes
+----------
+
+SUBLIME NOTES
+---
+sublimetutor.com
+
+command + t
+//find files quickly
+
+command + shift + p
+//write commands into sublime
+//ex
+setsyntax:javascript ***
+
+
+VERSION CONTROL NOTES
+---
+//put VCS and SCM on resume..
+
+???
+mkdir name && cd $_
+
+
+GIT
+---
+//you can commit changes without adding
+git commit -am "message"
+
+//checkout and older version of your repo
+git checkout jkh4534kjgkj5h345kjg345hjkg34k5j34h5
+
+git ad -a
+//
+git add .
+//adds everything to the commit and can add wayyy too many files
+
+//.keep files (0byte files) will allow git to track an empty directory
+
+
+
+GITHUB
+---
+git push -u origin master
+//the u tag remembers for the future.. use this!
+
+//merge conflicts
+//git won't let you push to github when two people change a line
+//but you can pull and then fix the merge conflict within the actual file
+
+
+TERMINAL
+--------
+???
+rm -rf
+
+
+IDEA
+----
+for my notes..
+put a very quick list of all commands at the top of note files.  Then more info on that later in the file to be searched..
+
+
+
+
+Persistant booting
+---
+//boot a computer with a harddrive
+
+
+!!!
+---
+Set up terminal to jump between words with alt key
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+w1d2
+----
+
+tip: slow down.  dude.  really.  slow down and think it through..
+
+
+Google
+---
+search context + keywords
+
+
+.wtf.js files
+---
+whats that for files..
+
+//ex
+argv.wtf.js
+
+
+???
+parseInt()
+
+???
+isNaN()
+
+Python Tutor
+---
+A great way to share code too with shortened URL
+
+
+###
+variables take room in memory before the code runs.  They are undefined in the beginning..
+
+
+!!!
+---
+use hjkl keys in sublime -
+https://www.sublimetext.com/docs/3/vintage.html
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+w1d3
+----
+
+objects
+---
+
+var funkyKeys = {
+  '': 'empty', //-->VALID
+  '': 'Overwrite', //--> VALID but will overwrite the first key named ''
+  : 'empty', //-->NOT VALID
+  'null' : 'empty', //--> VALID but not best practice
+  noQuotes : 'empty', //--> VALID and best practice
+  name w blankspaces: 'empty', //--> NOT VALID must be token or string
+  'name w blankspaces': 'empty' //--> VALID but must be accesed with bracket notation
+}
+
+
+TOKEN def
+---
+// a list of letters, numbers or underscores where the first one is a letter or an underscore
+
+
+objects,
+---
+an array
+---
+and array is a list of values, and we're associating a string key with each value
+
+dictionary
+---
+like a real world dictionary the keys are like words and the values are like definitions
+
+
+bracket notation
+---
+var propertyName = process.argv[2];
+var propertyValue = process.argv[3];
+//bracket notation is looking for a string representation
+//so you can set a property name with bracket notation, not with dot notation
+sockL[propertyName] = propertyValue;
+
+
+note on arrays
+---
+array's are great to use when all values represent the same thing, like colours, or names, or flavours..
+
+
+'array-like' objects
+--
+ var socks = {
+ '0' : 'color'
+ '1' : 'black',
+ '2' : 'yellow',
+ '3' : 'red',
+ length : 4
+ }
+
+console.log(socks[0b11]); //prints out 'red', gets resolved to number, and then to string
+
+
+arrays
+---
+var someThings = [];
+someThings[41] = 'thing 41';
+console.log(someThings.length) // prints 42, note all values under 42 index are undefined
+
+
+mutation
+---
+var instructor1 = {
+  name : 'Don',
+  coolness : 333
+}
+
+array = [];
+array.push(instructor1);
+
+//now if you change the object instructor1, the value changes, because objects are mutable.
+//so then array[0] would change as well
+//this is because array[0] points to the object
+//
+
+
+
+Function Side Effects
+---
+//it's best practice to not mutate objects outside of function
+//these are called function side effects
+
+//ex of function with side effects
+http://pythontutor.com/visualize.html#code=var%20object%20%3D%20%7B%0A%20%20%20%20val1%20%3A%20'value%201',%0A%20%20%20%20val2%20%3A%20'Value%202'%0A%20%20%7D%0A%20%20%0Aconsole.log%28object.val1%29%3B%20%20%0A//THIS%20FUNCTION%20MUTATES%20AN%20OBJECT%20OUTSIDE%20OF%20THE%20FUNCTION%0A//THIS%20IS%20KNOWN%20AS%20A%20FUNCTION%20WITH%20SIDE%20EFFECTS%0A//SOME%20PEOPLE%20DON'T%20LIKE%20FUNCTIONS%20WITH%20SIDE%20EFFECTS%20%20%0Afunction%20mutate%28obj%29%20%7B%0A%20%20%20%20var%20newObj%20%3D%20obj%3B%0A%20%20%20%20newObj.val1%20%3D%20'changed%20value'%3B%0A%20%20%20%20return%20newObj%3B%0A%20%20%7D%0A%20%20%0Avar%20newObj%20%3D%20mutate%28object%29%3B%0Aconsole.log%28newObj.val1%29%3B%0A%20%20%0Aconsole.log%28object.val1%29%3B&cumulative=false&heapPrimitives=false&mode=edit&origin=opt-frontend.js&py=js&rawInputLstJSON=%5B%5D&textReferences=false
+
+//ex of function without
+http://pythontutor.com/visualize.html#code=var%20object%20%3D%20%7B%0A%20%20%20%20val1%20%3A%20'value%201',%0A%20%20%20%20val2%20%3A%20'Value%202'%0A%20%20%7D%0A%20%20%0Aconsole.log%28object.val1%29%3B%20%20%0A//THIS%20FUNCTION%20COPIES%20THE%20DATA%20OF%20THE%20ORIGINAL%20OBJECT%20INTO%20THE%20NEW%20OBJ%0A//MUTATING%20THE%20NEW%20OBJECT%20DOES%20NOT%20MUTATE%20THE%20ORIGINAL%20OBJECT%0A//THIS%20FUNCTION%20DOESN'T%20HAVE%20SIDE%20EFFECTS%20%3A%29%0Afunction%20mutate%28obj%29%20%7B%0A%20%20%20%20var%20newObj%20%3D%20%7B%7D%3B%0A%20%20%20%20for%20%28var%20vals%20in%20obj%20%29%20%7B%0A%20%20%20%20%20%20%20%20newObj%5Bvals%5D%20%3D%20obj%5Bvals%5D%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20newObj.val1%20%3D%20'changed%20value'%3B%0A%20%20%20%20return%20newObj%3B%0A%20%20%7D%0A%20%20%0Avar%20newObj%20%3D%20mutate%28object%29%3B%0Aconsole.log%28newObj.val1%29%3B%0A%20%20%0Aconsole.log%28object.val1%29%3B&cumulative=false&heapPrimitives=false&mode=edit&origin=opt-frontend.js&py=js&rawInputLstJSON=%5B%5D&textReferences=false
+
+
+
+
+
+
+truthey and falsey
+---
+// (!falsey) === true
+// (!truthey) === false
+// (!!falsey) === false
+// (!!truthey) === true
+
+true && x = x
+false && x = false
+true || x = true
+false || x = x
+
+function(opts) {
+  opts = opts || [];
+  //so if opts is falsey, opts equals []
+}
+
+
+var a = a++ || 0;
+
+var a = undefined;
+a = a++ || 0;
+a = undefined++ || 0
+a = NaN || 0
+a = 0;
+
+
+
+-----------------------
+
+
+
+function printPlaylists(obj) {
+
+  this.playlists = obj.playlists;
+
+}
+
+
+
+//---------------- map -----------------
+
+
+function dMap(process, arr) {
+  var newArr = arr.reduce(function(a, b){
+    //console.log(a, b);
+    a.push(process(b));
+    return a;
+
+  }, [])
+
+  return newArr;
+}
+
+//benifits of for loop
+//skipping over a few elements at a time
+//can break out of for loops
+
+
+function sumReducer(acc, i){
+    //console.log(a, b);
+    return acc + i;
+}
+
+testArr = [2, 3, 5, 3];
+// console.log(dMap(function(a){ return a + 2; }, testArr));
+
+function reduce(reducer, initial, arr) {
+  var output = initial;
+  for( value of arr ) {
+    output = reducer(output, value);
+  }
+  return output;
+}
+
+
+
+console.log(reduce(sumReducer, 0, testArr));
+
+
+
+
+
+
+
+----------------------------------------------
+
+
+
+d4
+--
+
+callback functions
+---
+!!!
+function arguments
+---
+
+forEach(students, function(student){
+  console.log(arguments)
+});
+
+//now when the callback function is called, it will log the arguments it gets passed in when it is called within the forEach function
+
+
+----
+
+???
+how to past in line above?
+
+
+---
+
+
+.forEach(function(element index collection){})
+
+ELEMENT INDEX COLECTION!!
+
+
+foreach() on an object
+---
+
+Object.keys(obj).forEach(function(key){ var val = obj[key]; });
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+w1d5
+----
+
+
+Modules
+---
+
+module.exports...
+---
+
+//in file mathLib.js
+module.exports = {
+  range: range,
+  factorial: factorial
+};
+
+//exisits for all node files
+//can be defined to determine variables to share throughout the project
+
+
+require..
+---
+
+var math = require('./mathLib');
+
+
+different for npm modules
+var leftpad = require('left-pad');
+
+npm install
+---
+if there is a node_modules folder run npm install, if you watn ,i guess
+
+
+-g
+//global flag
+
+//global node_modules folder depends on where node is actually installed
+//not really that important tho really
+
+npm list -g
+//to see the modules installed globally
+
+
+things to look for
+---
+updates..
+stats.. (how many downloads lately)
+
+
+
+testing
+---
+
+tdd - test driven development
+bdd - behavior driven development - describes the behaviors an app should have, tests are given and need to eventually pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

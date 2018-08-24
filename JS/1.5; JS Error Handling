@@ -1,0 +1,123 @@
+Javascript Error Handling
+-------------------------
+
+
+
+
+
+
+Exceptions
+----------
+//Exceptions are a mechanism that make it possible for code that runs into a problem to raise (or throw) an exception
+//Raising an exception somewhat resembles a super-charged return from a function: it jumps out of not just the current function but also out of its callers
+//You can set “obstacles” along the stack to catch the exception as it is zooming down.
+//Then you can do something with it, after which the program continues running at the point where the exception was caught.
+
+//ex
+function promptDirection(question) {
+  var result = prompt(question, "");
+  if (result.toLowerCase() == "left") return "L";
+  if (result.toLowerCase() == "right") return "R";
+  throw new Error("Invalid direction: " + result);
+}
+
+function look() {
+  if (promptDirection("Which way?") == "L")
+    return "a house";
+  else
+    return "two angry bears";
+}
+
+try {
+  console.log("You see", look());
+} catch (error) {
+  console.log("Something went wrong: " + error);
+}
+
+//The Error function is a standard JavaScript constructor that creates an object with a message property
+
+//The throw keyword is used to raise an exception
+//Catching one is done by wrapping a piece of code in a try block, followed by the keyword catch
+//When the code in the try block causes an exception to be raised, the catch block is evaluated
+//The variable name (in parentheses) after catch will be bound to the exception value.
+//After the catch block finishes—or if the try block finishes without problems—control proceeds beneath the entire try/catch statement.
+
+
+-
+
+Cleaning up exceptions
+---
+//ex of code that changes the top level variable context and must change it back at the end
+var context = null;
+
+function withContext(newContext, body) {
+  var oldContext = context;
+  context = newContext;
+  var result = body();
+  context = oldContext;
+  return result;
+}
+
+//if body() raises and exception, then the call to withContext will be thrown off the stack by the exception and context will never have its value reset
+//After try (including or excluding catch) a finally block can be used, meaning “No matter what happens, run this code after trying to run the code in the try block”.
+
+function withContext(newContext, body) {
+  var oldContext = context;
+  context = newContext;
+  try {
+    return body();
+  } finally {
+    context = oldContext;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

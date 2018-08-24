@@ -1,0 +1,837 @@
+CSS
+---
+-
+
+
+"a font weight of 400 is considered normal"
+
+
+-----------
+
+
+
+// input bar example
+.chatbar-username {
+  text-align: center;
+  font-size: 1rem;
+  color: white;
+  caret-color: #aaa;
+  background: $footer-c;
+  -webkit-box-flex: 2;
+      -ms-flex: 2;
+          flex: 2;
+  &::-webkit-input-placeholder {
+    text-align: center;
+    color: white;
+  }
+  &:focus {
+    outline-color: #ccc;
+  }
+}
+
+
+
+--------------
+
+
+
+css url('')
+-----------
+//is relative to the stylesheet directory
+//ex
+body { background: url("yellow") }
+
+//is located in a style sheet designated by the URI:
+http://www.example.org/style/basic.css
+
+//The background of the source document's BODY will be tiled with whatever image is described by the resource designated by the URI:
+http://www.example.org/style/yellow
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+css text-shadow
+---------------
+text-shadow: h-shadow v-shadow blur-radius(optional) color|none|initial|inherit;
+
+ex
+--
+text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+css hamburger menu icon
+-----------------------
+html
+----
+<div class="site-header__menu-icon__middle"></div>
+
+css
+---
+&::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 20px;
+  height: 3px;
+  background-color: #fff;
+}
+
+&__middle {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 20px;
+  height: 3px;
+  background-color: #fff;
+}
+
+&::after {
+  content: "";
+  position: absolute;
+  bottom: 0px;
+  left: 0;
+  width: 20px;
+  height: 3px;
+  background-color: #fff;
+}
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Media Query - https://developer.mozilla.org/en-US/docs/Web/CSS/Media_Queries/Using_media_queries
+-----------
+@media (max-width: 600px)
+{
+}
+@media (min-width: 600px)
+{
+}
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Hover
+-----
+img:hover {
+    opacity: 0.5;
+    filter: alpha(opacity=50); /* For IE8 and earlier */
+}
+
+
+
+-
+
+
+//ex - using hover to fade child elements
+.tweet__actions img {
+  opacity: 0;
+  transition: all .5s ease-in-out
+}
+
+.tweet__footer:hover img {
+  opacity: 1;
+}
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+css transition
+--------------
+transition: opacity .5s ease-in-out;
+
+transition: all .5s;
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+css animation
+-------------
+@keyframes slide {
+  0% {
+  transform: translate3d(0px, 0px, 0px)
+  animation-timing-function(ease-in)
+  }
+  50% {
+  transform: translate3d(50px, 0px, 0px)
+  animation-timing-function(ease-out)
+  }
+  100% {
+  transform: translate3d(0px, 0px, 0px)
+  }
+}
+
+animation: @keyframesName(ex. slide) duration( 2s ) #ofLoops( infinite )
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+css calc css math
+-----------------
+calc(100% - 100px
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+css circular div
+----------------
+.circle {
+  border-radius: 50%;
+  width: 200px;
+  height: 200px;
+  /* width and height can be anything, as long as they're equal */
+}
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+css custom font font-face
+-------------------------
+@font-face {
+    font-family: myFirstFont;
+    src: url(sansation_light.woff);
+}
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+css float
+---------
+//float
+div {
+  float: right;
+  float: left;
+}
+
+//clear
+div2 {
+  clear: right;
+  clear: both;
+}
+
+
+
+
+-
+
+//when all elements of a div are floated, they are taken out of the flow of the page
+//the browser doesn't know the height of the div and it will assume 0, as if the div doesn't exist
+//elements below will then slide up and appear behind the floated elements
+
+//a sloppy clearfix
+//in html, below the floated elements (within the same container)
+<div class="clear-me"></div>
+//in css
+.clear-me {
+  clear: both;
+}
+//this will require a empty html element and that sucks (unsemantic)
+
+//a better way..
+//which also creates an element, using only css
+//in css
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table; /*for extra browser support*/
+}
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+css clearfix
+------------
+/* Clearfix */
+.clearfix:before, .clearfix:after { content: ""; display: table; }
+.clearfix:after { clear: both; }
+.clearfix { *zoom: 1; }
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+css input
+---------
+// insert background image into text input elements
+.search-div {
+  background-image: url('img/magnifyingGlass.png');
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+css transform
+-------------
+//when using scale, the center of the image or element is where it is scaled from
+//ie transform-origin: 50% 50%; (horizontal, vertical)
+
+//scale an image to be smaller scaled from the top
+.element {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(50%) scale(0.8);
+  transform-origin: 50% 0%;
+
+}
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+css flip image
+--------------
+img {
+        -moz-transform: scaleX(-1);
+        -o-transform: scaleX(-1);
+        -webkit-transform: scaleX(-1);
+        transform: scaleX(-1);
+        filter: FlipH;
+        -ms-filter: "FlipH";
+}
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+css nav menus
+-------------
+//from wordpress theme tutorial
+
+/* Standard Nav Menu */
+.site-nav ul {
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav ul:before, .site-nav ul:after { content: ""; display: table; }
+.site-nav ul:after { clear: both; }
+.site-nav ul { *zoom: 1; }
+
+.site-nav ul li {
+  list-style: none;
+  float: left;
+}
+
+.site-nav ul li a:link,
+.site-nav ul li a:visited {
+  display: block;
+}
+
+/* Header Nav Menu */
+.site-header nav {
+  margin-top: 30px;
+}
+
+.site-header nav ul li {
+  margin-right: 5px;
+}
+
+.site-header nav ul li a:link,
+.site-header nav ul li a:visited {
+  padding: 10px 17px;
+  text-decoration: none;
+  border: 1px solid #DDD;
+  border-bottom: none;
+}
+
+.site-header nav ul li a:hover {
+  background-color: #ECECEC;
+}
+
+.site-header nav ul li.current-menu-item a:link,
+.site-header nav ul li.current-menu-item a:visited {
+  font-weight: bold;
+  background-color: #006ec3;
+  color: #FFF;
+}
+
+/* Footer Nav Menu */
+.site-footer nav {
+  margin: 30px 0 10px 0;
+}
+
+.site-footer nav ul li {
+  margin-right: 10px;
+  padding-right: 10px;
+  border-right: 1px solid #DDD;
+}
+
+.site-footer nav ul li:last-of-type {
+  border-right: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Centering in css css centering
+-------------------------------
+
+.outer-div {
+  position: relative;
+}
+
+.inner-div {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  width:100%;
+  text-align: center;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Flexbox
+-------
+
+flexbox center content (horizontal and vertical)
+------------------------------------------------
+.center-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+flex wrap
+---------
+flex-wrap: nowrap | wrap | wrap-reverse;
+
+
+flex basis, flex grow
+---------------------
+// parent
+.item-grid {
+  display: flex;
+}
+
+// children
+.column {
+  background: #ddd;
+  flex-grow: 1;
+  flex-basis: 0;
+}
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+css custom fonts
+----------------
+
+// for all browser support..
+
+@font-face {
+  font-family: 'MyWebFont';
+  src: url('webfont.eot'); /* IE9 Compat Modes */
+  src: url('webfont.eot?#iefix') format('embedded-opentype'), /* IE6-IE8 */
+       url('webfont.woff2') format('woff2'), /* Super Modern Browsers */
+       url('webfont.woff') format('woff'), /* Pretty Modern Browsers */
+       url('webfont.ttf')  format('truetype'), /* Safari, Android, iOS */
+       url('webfont.svg#svgFontName') format('svg'); /* Legacy iOS */
+}
+
+
+---
+
+
+// I don't think most browsers support otf but anywayyyy...
+
+@font-face {
+  font-family: 'Memphis-med';
+  src:  url('/fonts/Memphis-Medium.otf') format("opentype")
+}
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+css em css rem css font-size
+----------------------------
+//em is relative to the parent, watch out for compounding
+//em can also be used for padding, it is relative to the font-size of the element
+//The following adjusts things so that 1em equals 10px, instead of the default 16px
+body { font-size:62.5%; }
+h1 { font-size: 2.4em; } /* =24px */
+p  { font-size: 1.4em; } /* =14px */
+
+//rem stands for root em and will always be relative to the <htmL> font size
+//the <html> font size is typically 16px 16px x 62.5% = 10px
+//(some people have browser text size set bigger or smaller, rem honors that layout choice)
+//for maximum browser support use fallback sizing as follows
+html { font-size: 62.5%; }
+body { font-size: 14px; font-size: 1.4rem; } /* =14px */
+h1   { font-size: 24px; font-size: 2.4rem; } /* =24px */
+
+//example for max-width..
+//assuming html font size is 16px, the desired max-width is 480px
+//480px / 16px = 30rem
+.element {
+  max-width: ;
+}
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+css outline
+-----------
+
+// doesn't respect border radius
+
+// always goes around all sides
+
+// it doesn't affect the box model and won't affect surrounding elements
+
+// syntax
+outline: [ <outline-width> || <outline-style> || <outline-color> ] | inherit
+
+// ex
+a:focus {
+  outline-width: 1px;
+  outline-style: dashed;
+  outline-color: red;
+}
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

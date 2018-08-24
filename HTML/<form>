@@ -1,0 +1,591 @@
+html forms
+----------
+------
+--
+-
+
+
+
+
+
+
+Templates
+---------
+
+registration
+---
+
+<form method="POST" action="/action_page.php">
+  <div class="container">
+    <label><b>Email</b></label>
+    <input type="email" placeholder="Enter Email" name="email" required>
+
+    <label><b>Password</b></label>
+    <input type="password" placeholder="Enter Password" name="password" required>
+
+    <label><b>Repeat Password</b></label>
+    <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+    <input type="checkbox" checked="checked"> Remember me
+    <p>By creating an account you agree to our <a href="#">Terms & Privacy</a>.</p>
+
+    <button type="button"  class="cancelbtn">Cancel</button>
+    <button type="submit" class="signupbtn">Sign Up</button>
+  </div>
+</form>
+
+
+
+---------------------------------------------------------
+
+
+
+
+
+
+<form>
+------
+
+//ex
+<form method="GET" action="example/message.html">
+  <p>Name: <input type="text" name="name"></p>
+  <p>Message:<br><textarea name="message"></textarea></p>
+  <p><button type="submit">Send</button></p>
+</form>
+
+//when you click the send button on this form the information will be encoded into a query string
+
+-
+
+
+
+method attribute
+---
+
+GET (method="GET")
+---
+//when the <form> element method attribute is GET (or is ommited) the query string is tacked into the URL and the browser makes a GET request to that URL
+//ex
+GET /example/message.html?name=Jean&message=Yes%3F HTTP/1.1
+
+-
+
+POST (method="POST")
+---
+//when a POST request is specified the query string will be put in the body of the request
+//rather than the URL
+//ex
+POST /example/message.html HTTP/1.1
+Content-length: 24
+Content-type: application/x-www-form-urlencoded
+
+name=Jean&message=Yes%3F
+
+-
+
+query string
+---
+//the start is indicated by a question mark followed by a pair of name and values
+? - (%3F) the start of the query string
+& - seperates the different name/value pairs
+
+-
+
+escape characters
+---
+//URL encoding escapes characters with a % sign followed by 2 hexidecimal digits representing the unicode character code
+
+//javascript provide encodeURIComponent and decodeURIComponent to manage URL encoding
+//ex
+console.log(encodeURIComponent("Hello & goodbye"));
+// → Hello%20%26%20goodbye
+console.log(decodeURIComponent("Hello%20%26%20goodbye"));
+// → Hello & goodbye
+
+
+-
+
+Other Attributes
+---
+
+accept
+
+accept-charset
+
+action
+
+autocomplete
+
+enctype
+
+method
+
+name
+
+novalidate
+
+target
+
+
+
+
+----------------------------------------------------------------
+
+
+
+<input> - https://www.w3schools.com/TAgs/tag_input.asp
+
+input attributes
+---
+
+
+accept
+---
+align
+---
+alt
+---
+autofocus
+---
+checked
+---
+dirname
+---
+disabled
+---
+form
+---
+formaction
+---
+formenctype
+---
+formmethod
+---
+formnovalidate
+---
+formtarget
+---
+height
+---
+list
+---
+max
+---
+maxlength
+---
+min
+---
+multiple
+---
+name
+---
+pattern
+---
+placeholder
+---
+readonly
+---
+required
+---
+size
+---
+src
+---
+step
+---
+type
+---
+value
+---
+width
+---
+
+
+
+
+
+
+----------
+
+
+
+more information...
+-------
+
+
+accept
+---
+//Specifies the types of files that the server accepts (only for type="file")
+
+file_extension
+audio/*
+video/*
+image/*
+media_type
+
+
+-
+
+
+align
+---
+//Not supported in HTML5.
+//Specifies the alignment of an image input (only for type="image")
+
+left
+right
+top
+middle
+bottom
+
+
+-
+
+
+alt
+---
+//Specifies an alternate text for images (only for type="image")
+
+text
+
+
+-
+
+
+
+autocomplete
+---
+//Specifies whether an <input> element should have autocomplete enabled
+
+on
+off
+
+
+
+-
+
+
+autofocus
+---
+//Specifies that an <input> element should automatically get focus when the page loads
+
+autofocus
+
+
+-
+
+
+checked
+---
+//Specifies that an <input> element should be pre-selected when the page loads (for type="checkbox" or type="radio")
+
+checked
+
+
+-
+
+dirname
+---
+//Specifies that the text direction will be submitted
+
+inputname.dir
+
+
+-
+
+disabled
+--
+//  Specifies that an <input> element should be disabled
+
+disabled
+
+
+-
+
+
+form
+---
+// Specifies one or more forms the <input> element belongs to
+
+form_id
+
+-
+
+
+formaction
+---
+//Specifies the URL of the file that will process the input control when the form is submitted (for type="submit" and type="image")
+
+URL
+
+-
+
+
+formenctype
+---
+//Specifies how the form-data should be encoded when submitting it to the server (for type="submit" and type="image")
+
+application/x-www-form-urlencoded
+multipart/form-data
+text/plain
+
+-
+
+
+formmethod
+---
+//Defines the HTTP method for sending data to the action URL (for type="submit" and type="image")
+
+get
+post
+
+formnovalidate
+---
+//Defines that form elements should not be validated when submitted
+
+formnovalidate
+
+
+-
+
+
+
+formtarget
+---
+//Specifies where to display the response that is received after submitting the form (for type="submit" and type="image")
+
+_blank
+_self
+_parent
+_top
+framename
+
+
+-
+
+
+height
+---
+//Specifies the height of an <input> element (only for type="image")
+
+pixels
+
+
+-
+
+
+list
+---
+//Refers to a <datalist> element that contains pre-defined options for an <input> element
+
+datalist_id
+
+
+
+-
+
+
+max
+---
+//Specifies the maximum value for an <input> element
+
+number
+date
+
+
+-
+
+
+maxlength
+---
+//Specifies the maximum number of characters allowed in an <input> element
+
+number
+
+
+-
+
+
+min
+---
+//Specifies a minimum value for an <input> element
+
+number
+date
+
+
+-
+
+
+multiple
+---
+//Specifies that a user can enter more than one value in an <input> element
+
+multiple
+
+
+
+-
+
+
+name
+---
+//Specifies the name of an <input> element
+
+text
+
+
+-
+
+
+pattern
+---
+//Specifies a regular expression that an <input> element's value is checked against
+
+regexp
+
+
+-
+
+placeholder
+---
+//Specifies a short hint that describes the expected value of an <input> element
+
+text
+
+
+-
+
+readonly
+---
+//Specifies that an input field is read-only
+
+readonly
+
+
+-
+
+required
+---
+//Specifies that an input field must be filled out before submitting the form
+
+required
+
+
+-
+
+size
+---
+//Specifies the width, in characters, of an <input> element
+
+number
+
+
+-
+
+src
+---
+//Specifies the URL of the image to use as a submit button (only for type="image")
+
+URL
+
+
+-
+
+step
+---
+//Specifies the legal number intervals for an input field
+
+number
+
+
+type
+---
+//Specifies the type <input> element to display
+
+button
+checkbox
+color
+date
+datetime-local
+email
+file
+hidden
+image
+month
+number
+password
+radio
+range
+reset
+search
+submit
+tel
+text
+time
+url
+week
+
+
+-
+
+value
+---
+//Specifies the value of an <input> element
+
+text
+
+
+-
+
+width
+---
+//Specifies the width of an <input> element (only for type="image")
+
+pixels
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+Other form tags
+---------------
+
+<textarea> - https://www.w3schools.com/TAgs/tag_textarea.asp
+<button> - https://www.w3schools.com/TAgs/tag_button.asp
+<select> - https://www.w3schools.com/TAgs/tag_select.asp
+<option> - https://www.w3schools.com/TAgs/tag_option.asp
+<optgroup> - https://www.w3schools.com/TAgs/tag_optgroup.asp
+<fieldset> - https://www.w3schools.com/TAgs/tag_fieldset.asp
+<label> - https://www.w3schools.com/TAgs/tag_label.asp
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

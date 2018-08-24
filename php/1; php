@@ -1,0 +1,443 @@
+PHP
+---
+-
+
+
+
+<?php
+?> //this code won't show
+
+
+
+Comments
+--------
+# single line comment
+// single line comment 
+/* */ multi line comment
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Directories
+-----------
+
+__FILE__
+__FILE__ is a magic constant that gives you the filesystem path to the current .php file (the one that __FILE__ is in, not the one it's included by if it's an include
+
+The dirname() function gives you just the directory, not the file within it
+
+__DIR__ === dirname(__FILE__)
+
+require_once( __DIR__ . '/functions.php' ) 
+//require will throw fatal error if it isn't found
+//include will execute the remaining script
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+php form (in html)
+------------------
+<form method="post" action="learn.php"> //calls learn.php script
+
+$userName = $_POST['username'];  //get username from html post request (name='username' in html form)
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+php native functions
+--------------------
+exit(); //will stop executing the php code
+
+echo "<p>Data Processed</p>"; //outputs to screen
+echo $userName . "<br>"  //concatenate output
+echo '$varible' //will NOT output the variable
+echo "$variable"//will output the variable
+//use printf for for conversion codes
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+php escape sequence
+-----------------
+Doesn't work with single quotes only double
+echo "<p>\"Data\"</p>" //outputs "Data"
+$dbString = '"Random quotes"';
+echo addslashes($dbString) . "</br>";
+echo stripslashes($dbString) . "</br>";
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+php functions
+-------------
+/*
+A function must begin with a letter, but can contain numbers and underscores
+*/
+            
+            function addNumbers($num1, $num2){
+                return $num1 + $num2;
+            }
+            echo "3 + 4 = " . addNumbers(3, 4);
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+php arithmetics
+---------------
+// Arithmetic operators
+echo "</br></br>5 + 2 = " . (5 + 2);
+echo "</br>5 - 2 = " . (5 - 2);
+echo "</br>5 * 2 = " . (5 * 2);
+
+// You can cast from 1 type to another like this
+echo "</br>5 / 2 = " . (integer) (5 / 2); //cuts off decimal place
+echo "</br>5 / 2 = " . (string) (5 / 2); //shows up as string
+echo "</br>5 % 2 = " . (5 % 2) . "</br></br>";
+
+// Use this shortcut when performing an operation using
+// the same variable +=, -=, *=, /=, %=, .=
+
+// You can increment and decrement with this shortcut
+echo "++randNum = " . ++$randNum . "</br>"; //increment before output
+echo "randNum++ = " . $randNum++;           //increment after output
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+php if statements
+-----------------
+// Comparison Operators : ==, !=, <, >, <=, >=
+// === (Equal & Same Type), !== (Not Equal or Same Type)
+// An if block will perform one action or another depending
+            if(5 == 10){ 
+            	echo '5 = 10';
+            } else {
+                echo '5 != 10';
+            }
+
+/*
+    elseif is used when you have more conditions to check
+*/
+$numOfOranges = 4;
+$numOfBananas = 36;
+if(($numOfOranges > 25) && ($numOfBananas > 30)){
+    echo '25% Discount';
+} elseif (($numOfOranges > 30) || ($numOfBananas > 35)){
+    echo '15% Discount';
+} elseif (!(($numOfOranges < 5)) || (!($numOfBananas < 5))){
+    echo '5% Discount';
+} else {
+    echo 'No Discount For You';
+}
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+php ternary operator
+--------------------
+// The ternary operator assigns one or another value
+// depending on the condition
+// condition ? value if true : value if false
+$biggestNum = (15 > 10) ? 15 : 10;
+echo 'Biggest Number is ' . $biggestNum;
+echo "</br></br>";
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+php switch 
+----------
+// Switch provides different actions depending upon values
+            switch($usersName) {
+                case "Derek" :
+                    echo "Hello Derek";
+                    break;
+                case "Sally" :
+                    echo "Hello Sally";
+                    break;
+                default :
+                    echo "Hello Valued Customer";
+                    break;
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+php Loops
+---------
+
+php while loop
+--------------
+// The while loop performs actions until a condition is met
+            $num = 0;
+            while($num < 20){
+                echo ++$num . ', ';
+            }
+            echo "</br></br>";
+
+php for loop
+------------
+// The for loop performs actions until a condition is met
+            // like the while, but it a compact way
+            for($num = 1; $num <= 20; $num++){
+                echo $num;
+                if($num != 20){
+                    echo ', ';
+                } else {
+                    break; // or exit() to leave the whole script
+                }
+            }
+
+
+
+
+
+
+
+
+
+
+
+
+-------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+php date
+--------
+// Define the time zone based on the coordinated universal time
+            date_default_timezone_set('UTC');
+            /* Echos the date
+                h : 12 hr format
+                H : 24 hr format
+                i : Minutes
+                s : Seconds
+                u : Microseconds
+                a : Lowercase am or pm
+                l : Full text for the day
+                F : Full text for the month
+                j : Day of the month
+                S : Suffix for the day st, nd, rd, etc.
+                Y : 4 digit year
+            */
+            echo date('h:i:s:u a, l F jS Y e');
+            echo "</p>";
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------

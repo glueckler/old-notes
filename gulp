@@ -1,0 +1,400 @@
+gulp
+----
+--
+-
+
+
+
+
+
+//install gulp in command line
+npm install gulp-cli --global
+
+//version
+gulp -v
+
+//install gulp in a project folder 
+//inside project directory in terminal
+npm install gulp --save-dev
+
+
+-
+
+gulp js
+-------
+//gulp expects js file in root directory of project
+
+//gulpfile.js
+
+var gulp = require("gulp");
+
+//gulp is task based
+//gulp.task('name of the task', what you want the task to do)
+
+//if you run "gulp" in terminal without any task, you get an error
+//you must at least have a default task
+
+gulp.task('default', function() {
+	console.log('hooray');
+});
+
+gulp.task('html', function() {
+	console.log('this is the html gulp task!')
+});
+
+
+-
+
+//inside terminal
+
+gulp //will run default gulp task
+
+gulp html //will run the html gulp task
+
+
+
+------------------------------------------------------------
+
+//gulpfile.js
+//basic gulp set up with watch
+//a messy one file..
+
+var gulp = require("gulp"),
+watch = require("gulp-watch"),
+postcss = require("gulp-postcss"),
+autoprefixer = require("autoprefixer"),
+cssvars = require("postcss-simple-vars"),
+nested =require("postcss-nested"),
+cssImport = require("postcss-import"),
+browserSync = require("browser-sync").create();
+
+gulp.task('default', function() {
+	console.log('hooray');
+});
+
+//this function is no longer used and should probably be deleted
+gulp.task('html', function() {
+	console.log('this is the html gulp task!')
+});
+
+//the styles task pipes all css modules, and base files, and all into postcss, 
+//and then to the final stylesheet inside the temp folder
+//(called from gulp cssInject dependancies)
+gulp.task('styles', function() {
+	return gulp.src('./app/assets/styles/styles.css')
+		.pipe(postcss([cssImport, nested, cssvars, autoprefixer]))
+		.pipe(gulp.dest('./app/temp/styles'));
+});
+
+
+gulp.task('watch', function(){
+	browserSync.init({
+		notify: false,
+		server: {
+			baseDir : "app" //the base folder
+		}
+	});
+
+	//syntax watch('file to be watched', what it will do)
+	//this watches the index file for saves and then refreshes browser
+	watch('./app/index.html', function (){
+		browserSync.reload();
+	});
+	//watches css files for reload and calls the gulp styles task above
+	watch('./app/assets/styles/**/*.css', function(){
+		gulp.start('cssInject');
+	});
+});
+
+
+gulp.task('cssInject', ['styles']/*<--dependencies*/, function() {
+	return gulp.src('./app/temp/styles/styles.css')
+	.pipe(browserSync.stream()); //injects the css directly into browser (without refresh)
+});
+
+
+
+
+---------------------------------------------------------------
+
+-
+
+//or a cleaner way of doing it
+//gulpfile.js
+require('./gulp/tasks/styles');
+require('./gulp/tasks/watch');
+
+//inside root of project > gulp > tasks >
+//watch.js
+var gulp = require("gulp"),
+watch = require("gulp-watch"),
+browserSync = require("browser-sync").create();
+
+gulp.task('watch', function(){
+	browserSync.init({
+		notify: false,
+		server: {
+			baseDir : "app" //the base folder
+		}
+	});
+
+	//syntax watch('file to be watched', what it will do)
+	//this watches the index file for saves and then refreshes browser
+	watch('./app/index.html', function (){
+		browserSync.reload();
+	});
+	//watches css files for reload and calls the gulp styles task above
+	watch('./app/assets/styles/**/*.css', function(){
+		gulp.start('cssInject');
+	});
+});
+
+
+gulp.task('cssInject', ['styles']/*<--dependencies*/, function() {
+	return gulp.src('./app/temp/styles/styles.css')
+	.pipe(browserSync.stream()); //injects the css directly into browser (without refresh)
+});
+
+
+
+-
+
+//styles.js
+var gulp = require("gulp"),
+postcss = require("gulp-postcss"),
+autoprefixer = require("autoprefixer"),
+cssvars = require("postcss-simple-vars"),
+nested =require("postcss-nested"),
+cssImport = require("postcss-import"),
+mixins = require("postcss-mixins");
+
+//the styles task pipes all css modules, and base files, and all into postcss, 
+//and then to the final stylesheet inside the temp folder
+//(called from gulp cssInject dependancies)
+gulp.task('styles', function() {
+	return gulp.src('./app/assets/styles/styles.css')
+		.pipe(postcss([cssImport, mixins, nested, cssvars, autoprefixer]))
+		.on('error', function(errorInfo){ //so that gulp tasks don't quit on accidental css error
+			console.log(errorInfo.toString());
+			this.emit('end');
+		})
+		.pipe(gulp.dest('./app/temp/styles'));
+});
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+gulp createSprite
+-----------------
+//remember when creating a sprite like this, you must run gulp icons, and then also trigger a css rebuild
+
+//using gulp-svg-sprite
+//inside "gulp > tasks > sprites.js"..
+//to be required within gulpfile.js
+//this will create a sprite image in ./app/temp/sprite/css/svg with all the svg icons
+
+var gulp = require('gulp'),
+svgSprite = require('gulp-svg-sprite'),
+rename = require('gulp-rename');
+
+var config = {
+	mode : {
+		css : {
+			render : {
+				css : {
+					template: './gulp/templates/sprite.css'
+				}
+			}
+		}
+	}
+}
+
+gulp.task('createSprite', function() {
+	return gulp.src('./app/assets/images/icons/**/*.svg')
+		.pipe(svgSprite(config))
+		.pipe(gulp.dest('./app/temp/sprite/'));
+});
+
+//seperate tesk to move the generated css file into our tidy css/modules folder
+//with a name _sprite.css
+gulp.task('copySpriteCSS', ['createSprite'], function() {
+	return gulp.src('./app/temp/sprite/css/*.css')
+		.pipe(rename('_sprite.css'))
+		.pipe(gulp.dest('./app/assets/styles/modules'));
+});
+
+gulp.task('icons', ['createSprite', 'copySpriteCSS']);
+
+
+-
+
+//note where the template file is
+//inside ./gulp/templates/sprite.css...
+{{#shapes}}
+	.icon--{{base}} {
+		width: {{width.outer}}px;;
+		height: {{height.outer}}px;
+		background-image: url{'/temp/sprite/css/{{{sprite}}}'};
+		background-position: {{position.relative.xy}};
+	}
+{{/shapes}}
+
+
+
+-
+
+//which generates something like this..
+//(sprite.css) inside ./app/temp/sprite/css/..
+.icon--clear-view-escapes {
+	width: 142.4px;;
+	height: 59.53px;
+	background-image: url{'/temp/sprite/css/svg/sprite.css-69f19c2e.svg'};
+	background-position: 0 0;
+}
+.icon--comment {
+	width: 64px;;
+	height: 64px;
+	background-image: url{'/temp/sprite/css/svg/sprite.css-69f19c2e.svg'};
+	background-position: 99.70443349753694% 0;
+}
+.icon--facebook {
+	width: 21.23px;;
+	height: 42.01px;
+	background-image: url{'/temp/sprite/css/svg/sprite.css-69f19c2e.svg'};
+	background-position: 26.040607071652357% 45.795830448496034%;
+}
+.icon--fire {
+	width: 56px;;
+	height: 64px;
+	background-image: url{'/temp/sprite/css/svg/sprite.css-69f19c2e.svg'};
+	background-position: 0 99.56481481481481%;
+}
+.icon--globe {
+	width: 64px;;
+	height: 64px;
+	background-image: url{'/temp/sprite/css/svg/sprite.css-69f19c2e.svg'};
+	background-position: 27.586206896551722% 99.56481481481481%;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//gulp build
+//inside build.js
+
+var gulp = require('gulp'),
+imagemin = require('gulp-imagemin'),
+del = require('del'),
+usemin = require('gulp-usemin'),
+rev = require('gulp-rev'),
+cssnano = require('gulp-cssnano'),
+uglify = require('gulp-uglify');
+
+
+//task to delete the dist folder before running
+gulp.task('deleteDistFolder', function(){
+	return del("./dist");
+});
+
+//copy all images to dist folder and compress the images
+gulp.task('optimizeImages', ['deleteDistFolder'], function() {
+	//use square brackets to add multiple paths
+	//use ! to exclude 
+	return gulp.src(['./app/assets/images/**/*', '!./app/assets/images/icons', '!./app/assets/images/icons/**/*'])
+		//pipe to compress filesize
+		.pipe(imagemin({
+			progressive: true,
+			interlaced: true,
+			multipass: true
+		}))
+		.pipe(gulp.dest("./dist/assets/images"));
+});
+
+gulp.task('usemin',['deleteDistFolder'], function() {
+	return gulp.src("./app/index.html")
+		.pipe(usemin({
+			css: [function(){
+				//the first function is where we perfrom the revesion on the file
+				//return rev fil so that gulp knows when it completes
+				return rev();
+			}, function() {
+				//this is where we will compress the css file
+				return cssnano();
+			}],
+			js: [function(){
+				return rev();
+			}, function(){
+				return uglify();
+			}]
+		}))
+		.pipe(gulp.dest("./dist"));
+});
+
+//this task will be called and won't do anything, just run other tasks
+gulp.task('build', ['deleteDistFolder', 'optimizeImages', 'usemin']);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+

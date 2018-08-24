@@ -1,0 +1,415 @@
+javascript values
+-----------------
+----------
+----
+-
+
+
+(primitive data types)
+
+
+
+//note that strings, numbers, and booleans are not like objects.
+//they are immutable and cannot be changed
+//but they do have properties like slice which can return a diffferent value
+
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+Numbers
+-------
+//use e to represent big numbers
+2.998e8
+
+arithmetic
+-
++, -, /, *
+
+% //remainder operator
+144 % 12 = 0
+
+NaN //not a number, is still a value of number type
+//produced from operations that don't yield precise mathematical numbers
+0 / 0 = NaN
+
+
+-
+
+Converting a String to Number
+---
+//Do so with the Number constructor function
+Number('123')     // 123
+Number('12.3')    // 12.3
+Number('')        // 0
+Number('0x11')    // 17
+Number('0b11')    // 3
+Number('0o11')    // 9
+Number('foo')     // NaN
+Number('100a')    // NaN
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+Strings
+-------
+//First just note that unlike objects, you cannot add properties to strings..
+var myString = "Fido";
+myString.myProperty = "value";
+console.log(myString.myProperty);
+// → undefined
+
+
+-
+
+//use the + to concatenate strings
+"con" + "cat" + "e" + "nate"
+
+-
+
+Escape Characters
+----
+var sampleStr = "Alan said, \"Peter is learning JavaScript\".";
+
+//console..
+//Alan said, "Peter is learning JavaScript".
+
+
+Other Escapes
+-------------
+\'  single quote
+\"  double quote
+\\  backslash
+\n  newline
+\r  carriage return
+\t  tab
+\b  backspace
+\f  form feed
+
+-
+
+Multiline strings
+---
+var myString =
+   ['<div id="someId">',
+    'some content<br />',
+    '<a href="#someRef">someRefTxt</a>',
+    '</div>'
+   ].join('\n');
+
+var myString =
+       '<div id="someId"> \
+some content<br /> \
+<a href="#someRef">someRefTxt</a> \
+</div>';
+
+var myString = ' REPLACE ' +
+      ' REPLACE ' +
+      ' REPLACE ' +
+      ' REPLACE ' +
+      ' REPLACE ' +
+      ' Replace ';
+
+
+-
+
+Template Literals
+---
+//SYNTAX
+`string text`
+
+`string text line 1
+ string text line 2`
+
+`string text ${expression} string text`
+
+tag `string text ${expression} string text`
+
+
+//ex - Multi Line Strings
+console.log(`string text line 1
+string text line 2`);
+// "string text line 1
+// string text line 2"
+
+//ex - expression interpolation
+var a = 5;
+var b = 10;
+console.log(`Fifteen is ${a + b} and
+not ${2 * a + b}.`);
+// "Fifteen is 15 and
+// not 20."
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+Unary Operators vs Binary Operators
+-----------------------------------
+typeof //is a unary operator as it requires only one value to operate on
+
++, *, !!, etc //are all binary operators as they operate on two values
+
+- //can be thought of as both
+console.log(- (10 - 2))
+// → -8
+
+-
+
+typof (unary operator)
+---
+
+console.log(typeof 4.5)
+// → number
+
+console.log(typeof "x")
+// → string
+
+
+
+
+
+------------------------------------------------
+
+
+
+
+
+Boolean
+-------
+
+//one way of producing a boolean operator
+console.log(3 > 2)
+// → true
+console.log(3 < 2)
+// → false
+
+//When comparing strings, JavaScript goes over them from left to right, comparing the numeric codes of the characters one by one (based on the Unicode standard)
+console.log("Aardvark" < "Zoroaster")
+// → true
+
+//NaN is the only value in Javascript that is not equal to itself
+console.log(NaN == NaN)
+// → false
+
+//&& operator represents logical 'and'
+console.log(true && false)
+// → false
+console.log(true && true)
+// → true
+
+//|| operator denotes logical 'or'
+console.log(false || true)
+// → true
+console.log(false || false)
+// → false
+
+
+-
+
+precedence
+---
+
+|| //lowest
+
+&&
+
+<, >, ==, !=, etc
+
+*, /, +, - //highest
+
+//which makes this possible
+1 + 1 == 2 && 10 * 10 > 50
+
+
+-
+
+Conditional Operator (or Ternary Operator)
+---
+
+var ToBeAssigned = condition ? IfconditionIsTrue : IfconditionIsFalse;
+
+console.log(true ? 1 : 2);
+// → 1
+console.log(false ? 1 : 2);
+// → 2
+
+//The value on the left of the question mark “picks” which of the other two values will come out.
+//When it is true, the middle value is chosen, and when it is false, the value on the right comes out
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+Undefined Values
+----------------
+//these two values are used to represent the absence of a meaningful value
+//they are themselves values but carry no information
+null
+undefined
+
+//the difference between the two is usually negligable
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+Automatic Type Conversion (type coercion)
+-----------------------------------------
+//When an operator is applied to the “wrong” type of value, JavaScript will quietly convert that value to the type it wants
+
+//here null is converted to 0
+console.log(8 * null)
+// → 0
+
+//"5" gets converted into the number 5
+console.log("5" - 1)
+// → 4
+
+//here 1 get converted to "1" for string concatonation
+console.log("5" + 1)
+// → 51
+
+//here "five" is converted to NaN as it doesn't map to a number in an obvious way
+console.log("five" * 2)
+// → NaN
+
+//The rules for converting strings and numbers to Boolean values state that 0, NaN, and the empty string ("") count as false, while all the other values count as true
+console.log(false == 0)
+// → true
+
+//=== and !== will prevent javascript from doing any auto type conversion
+//So "" === false is false as expected
+
+//when null or undefined occurs on either side of the operator, it produces true only if both sides are one of null or undefined
+console.log(null == undefined);
+// → true
+console.log(null == 0);
+// → false
+
+-
+
+Type test
+---
+Null Test:
+if(variable === null && typeof variable === "object")
+
+Empty String Test:
+if(variable === "" && typeof variable === "string")
+
+Undefined Test:
+if(variable === undefined && typeof variable === "undefined")
+
+False Test:
+if(variable === false && typeof variable === "boolean")
+
+Zero Test:
+if(variable === 0 && typeof variable === "number")
+
+NaN Test:
+if(!parseFloat(variable) && variable != 0 && typeof variable === "number")
+
+
+
+-
+
+Short-circuiting of logical operators
+---
+
+console.log(null || "user")
+// → user
+console.log("Karl" || "user")
+// → Karl
+
+//first the value on the left side is converted to a Boolean
+//the || logical operator will return the original value on the left if it evaluates to true
+//or it will return the value on the right if it is false
+
+//the && operator will return the original value on the left if it converts to false
+//otherwise it returns the original value on the right
+
+//note that the value on the right is never evaluated if the value on the left evaluates to true (with ||) or false (with &&)
+
+-
+
+true && x = x
+false && x = false
+true || x = true
+false || x = x
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+Date type
+---------
+//If you simply create a date object using new, you get the current date and time.
+//ex
+console.log(new Date());
+// → Wed Dec 04 2013 14:24:57 GMT+0100 (CET)
+
+
+
+-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

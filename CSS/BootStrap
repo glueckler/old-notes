@@ -1,0 +1,108 @@
+BootStrap
+---------
+------
+--
+-
+
+
+
+
+
+-
+
+Containers
+----------
+col-* - - - none
+--------
+col-sm-* - - - ≥576px
+--------
+col-md-* - - - ≥768px
+--------
+col-lg-* - - - ≥992px
+--------
+col-xl-* - - - ≥1200px
+
+<div class="container"> 
+  <!-- fixed width -->
+</div>
+
+<div class="container-fluid"> 
+  <!-- full width -->
+</div>
+
+
+
+-
+
+Bootstrap Grid
+--------------
+.col //auto size 
+
+.w-100 //container break
+
+
+
+-
+
+bootstrap horizontal alignment //with the row class
+--------------------
+justify-content-start
+
+justify-content-center //center align
+
+justify-content-end //right align
+
+justify-content-around  //equal align
+
+justify-content-between  //side align
+
+
+
+-
+
+bootstrap vertical alignment
+------------------
+align-items-start 
+
+align-items-center
+
+align-items-end
+
+
+
+-
+
+bootstrap Text Alignment
+---------------
+<p class="text-left">Left aligned text.</p>
+<p class="text-center">Center aligned text.</p>
+<p class="text-right">Right aligned text.</p>
+<p class="text-justify">Justified text.</p>
+<p class="text-nowrap">No wrap text.</p>
+
+
+
+-
+
+bootstrap button alignment
+--------------------------
+text-center //put buttons in this div to align buttons in center 
+
+
+
+
+-
+
+bootstrap utilities
+-------------------
+.hidden-*-up 
+.hidden-*-down
+
+
+
+
+
+
+
+
+

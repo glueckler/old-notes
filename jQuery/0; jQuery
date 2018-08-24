@@ -1,0 +1,113 @@
+jQuery
+------
+
+
+
+
+
+
+
+
+jQuery DOM Creation
+-------------------
+//There are multiple ways to do this
+//The following is an example using template strings and isn't completely secure
+//imagine:
+//hello, world <script>window.location.href = 'http://example.com/';</script>
+
+function getSqueakHTML2(squeak) {
+  return `
+    <article class="squeak">
+      <header>
+        <h3>${squeak.squeaker.username}</h3>
+      </header>
+      <main>
+        <p>${squeak.squeakText}</p>
+      </main>
+    </article>
+  `;
+}
+
+
+//next is defining a jQuery object which can be appended to the DOM
+//the text nodes display text, not html, which is more secure
+
+function getSqueakHTML(squeak) {
+return $('<article>', {
+  'class': 'squeak',
+  html: [
+    $('<header>', {
+      html: [
+        $('<h3>', {
+          text: squeak.squeaker.username
+        })
+      ]
+    }),
+    $('<main>', {
+      html: [
+        $('<p>', {
+          text: squeak.squeakText
+        })
+      ]
+    })
+  ]
+});
+}
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+
+.get()
+$.get( "myhtmlpage.html", myCallBack );
+//When $.get() finishes getting the page myhtmlpage.html, it executes the myCallBack() function.
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+jquery radio buttons
+--------------------
+//event listener
+$('input[type="radio"]').on('click',function(){
+    console.log('hey');
+  })
+
+if($('input:radio:checked').length > 0){
+// go on with script
+ }else{
+    // NOTHING IS CHECKED
+ }
+
+//or try this
+ if ($('[name="test"]').is(':checked'))
+//and the opposite NOTE it will not work if you just clicked on the button
+ if (!$(this).is(':checked')) console.log($(this));
+
+//set checked
+$('.myCheckbox').prop('checked', true);
+$('.myCheckbox').prop('checked', false);
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+

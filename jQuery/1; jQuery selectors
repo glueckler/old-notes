@@ -1,0 +1,170 @@
+jQuery DOM Selectors
+--------------------
+--------------
+------
+--
+-
+
+
+
+
+
+$('*') //all elements
+
+$('li') //all li's on pages
+
+$('.classOne, .classTwo')  // all elements with classOne or classTwo
+
+$(this) //this element
+// within this anonymous function $(this) refers to the jQuery object
+// so you can use that as a source to traverse the DOM, add or remove objects, etc.
+
+$("#submitButton").on('click', function() {
+    $(this).addClass("submittingForm");
+});
+
+
+-----------
+
+
+$("tr:even") // all even <tr> tags (can also use odd)
+
+$("tr:odd")
+
+$("p:first") // the first <p> element (can also use last)
+
+$("p:first-child") // all <p> tags which are first elements of their parent
+
+$("p:last-child")
+
+$("p:first-of-type") // all <p> which are the first of their type withing their parent
+
+$("p:last-of-type")
+
+$("p:nth-child(2)") // all p elements which are the second of their parent
+
+$("p:nth-last-child(2)")
+
+$("p:nth-of-type(2)")  // all <p> elements that are the second <p> element of their parent
+
+$("p:nth-last-of-type(2)")
+
+$("p:only-child") //all <p> elements that are the only child of their parent
+
+$("p:only-of-type")  // all <p> elements that are the only child of its type whithing it's parent
+
+
+----------
+
+
+$("div > p")  // all <p> elements that are a direct child of a <div>
+
+$("div p") // all <p> elements that are descendants of a <div> element
+
+$("div + p") // all <p> elements that are next to each <div> element
+
+$("div ~ p")  // all <p> elements that are siblings of a <div> element
+
+
+----------
+
+
+$("[href]")  // all elements with an href attribute
+
+$("[href='default.htm']")  //  All elements with a href attribute value equal to "default.htm"
+
+$("[href!='default.htm']")  // All elements with a href attribute value not equal to "default.htm"
+
+$("[href$='.jpg']")  // All elements with a href attribute value ending with ".jpg"
+
+$("[title|='Tomorrow']")  // All elements with a title attribute value equal to 'Tomorrow', or starting with 'Tomorrow' followed by a hyphen
+
+$("[title^='Tom']")  // All elements with a title attribute value starting with "Tom"
+
+$("[title~='hello']")  // All elements with a title attribute value containing the specific word "hello"
+
+$("[title*='hello']")  // All elements with a title attribute value containing the word "hello"
+
+
+----------
+
+
+$("ul li:eq(3)") // The fourth element in a list (index starts at 0)
+
+$("ul li:gt(3)")  // List elements with an index greater than 3
+
+$("ul li:lt(3)")  //  List elements with an index less than 3
+
+$("input:not(:empty)")  // All input elements that are not empty
+
+
+----------
+
+
+$(":header") // All header elements <h1>, <h2> ...
+
+$(":animated")  // All animated elements
+
+$(":focus")  // The element that currently has focus
+
+$(":contains('Hello')")  // All elements which contains the text "Hello"
+
+$("div:has(p)")  // All <div> elements that have a <p> element
+
+$(":empty")  // All elements that are empty
+
+$(":parent")  // All elements that are a parent of another element
+
+$("p:hidden")  // All hidden <p> elements
+
+$("table:visible")  // All visible tables
+
+$(":root")  // The document's root element
+
+$("p:lang(de)")  // All <p> elements with a lang attribute value starting with "de"
+
+
+----------
+
+
+$(":input")  // All input elements
+
+$(":text")  //  All input elements with type="text"
+
+$(":password")  //  All input elements with type="password"
+
+$(":radio")  // All input elements with type="radio"
+
+$(":checkbox")  //  All input elements with type="checkbox"
+
+$(":submit")  //  All input elements with type="submit"
+
+$(":reset") // All input elements with type="reset"
+
+$(":button")  //  All input elements with type="button"
+
+$(":image") //  All input elements with type="image"
+
+$(":file") // All input elements with type="file"
+
+$(":enabled") // All enabled input elements
+
+$(":disabled")  // All disabled input elements
+
+$(":selected")  // All selected input elements
+
+$(":checked") // All checked input elements
+
+
+
+
+
+
+
+
+
+
+
+
+
+

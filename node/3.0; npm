@@ -1,0 +1,112 @@
+npm
+---
+-
+
+
+
+
+how to set up npm global install without sudo
+https://johnpapa.net/how-to-use-npm-global-without-sudo-on-osx/
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+syntax
+------
+
+echo $(npm root -g) // show where node packages are installed
+
+npm init // will start a new npm json
+
+npm init -y (or --yes) // will use only defaults and not prompt you for any options
+
+npm install //looks through package dependencies and downloads all
+
+npm install ... --save (or -S)  // saves to dependencies in packages.json
+
+npm install ... --save-dev  // saves to developer dependencies in packages.json
+
+npm install -g //installs global
+
+npm install --save-dev package1 package2 package3 //you can install multiple packages in one command
+
+npm list -g --depth=0 //will list the npm installed globally
+
+npm bin  // Independent of what your working directory is, you can get the path of locally installed binaries
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+package.json
+------------
+//created with npm init
+
+--save //after install will include the name of the package in the dependencies
+--save is meant for files that the site is dependant on to run in web browser
+
+--save-dev is meant for files that the developer uses to develop
+
+//all packages can be recovered with "npm install"
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+npm directory commands
+----------------------
+npm link <package-name>  //link a from a project to a global npm package
+
+cd /usr/local/lib/node_modules
+//node modules global
+
+npm root -g  //list npm global root folder
+
+echo $NODE_PATH
+
+which npm
+
+which node
+
+
+
+
+
+
+
+
+
+
+
+
+
+

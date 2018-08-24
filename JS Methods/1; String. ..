@@ -1,0 +1,45 @@
+String. ...
+-----------
+---
+-
+
+
+
+
+.fromCharCode()
+//Syntax
+String.fromCharCode(num1[, ...[, numN]])
+
+//num1, ..., numN
+//A sequence of numbers that are Unicode values.
+
+//Return value
+//A string containing the characters corresponding to the sequence of Unicode values.
+
+//ex
+String.fromCharCode(65, 66, 67);  // returns "ABC"
+
+
+
+-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

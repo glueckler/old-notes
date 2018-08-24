@@ -1,0 +1,288 @@
+http / https
+------------
+----
+---
+-
+
+var https = require('https');
+
+//Trying to access an HTTPS resource using http results in an error from the server
+//(you can always try it with http to see what happens).
+
+
+
+https.get()
+-----------
+//ex
+https.get(requestOptions, function (response) { ... });
+
+
+
+--------------------
+
+
+
+Streams
+-------
+//Streams can be readable, writable, duplex (read/write), and transform (a version of duplex where the readable data is modified as it is written)
+
+//Streams generally have in common several handler functions, that are invoked when certain events happen
+
+stream.on('data', callback)
+// Invoked when a chunk of data becomes available
+
+stream.on('error', callback)
+// Invoked if there is an error reading or writing data
+
+stream.on('end', callback)
+// Invoked when no more data is available (the end of the
+readable stream)
+
+stream.on('finish', callback)
+// Invoked when all of the data has been written (the end of the writable stream).
+
+.pipe()
+//to convert a readable stream from a source (such as a website) to a writable stream that writes to a target (such as a file)
+
+
+
+
+---
+
+
+
+//ex
+// while https is built-in to Node, it is a module, so it must be required
+var https = require('https');
+
+// the host can be thought of as the domain name you want to read from,
+// and the path is the resource - '/' is the root path, but if you wanted to read a
+// particular resource (like '/login/index.html'), that would be defined in the path
+var requestOptions = {
+  host: 'example.com',
+  path: '/'
+};
+
+// notice that https.get takes a callback with one parameter -
+// response, which is a Stream that represents the HTTP response
+https.get(requestOptions, function (response) {
+
+  // set encoding of received data to UTF-8
+  response.setEncoding('utf8');
+
+  // the callback is invoked when a `data` chunk is received
+  response.on('data', function (data) {
+    console.log('Chunk Received. Length:', data.length);
+  });
+
+  // the callback is invoked when all of the data has been received
+  // (the `end` of the stream)
+  response.on('end', function() {
+    console.log('Response stream complete.');
+  });
+
+});
+
+
+
+
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+Servers
+-------
+- https://nodejs.org/en/docs/guides/anatomy-of-an-http-transaction/
+
+
+.createServer()
+---
+//The function that's passed in to createServer is called once for every HTTP request that's made against that server, so it's called the request handler
+
+//ex
+const server = http.createServer((request, response) => {
+  // magic happens here!
+});
+
+-
+
+//In fact, the Server object returned by createServer is an EventEmitter, and what we have here is just shorthand for creating a server object and then adding the listener later
+
+const server = http.createServer();
+server.on('request', (request, response) => {
+  // the same kind of magic happens here!
+});
+
+
+-
+
+request
+---
+//the first thing you'll probably want to do is look at the method and URL, so that appropriate actions can be taken.
+
+const { method, url } = request;
+
+
+-
+
+body
+---
+//The request object that's passed in to a handler implements the ReadableStream interface. This stream can be listened to or piped elsewhere just like any other stream.
+//We can grab the data right out of the stream by listening to the stream's 'data' and 'end' events
+
+//ex
+let body = [];
+request.on('data', (chunk) => {
+  body.push(chunk);
+}).on('end', () => {
+  body = Buffer.concat(body).toString();
+  // at this point, `body` has the entire request body stored in it as a string
+});
+
+
+-
+
+//ex - so far
+const http = require('http');
+
+http.createServer((request, response) => {
+  const { headers, method, url } = request;
+  let body = [];
+  request.on('error', (err) => {
+    console.error(err);
+  }).on('data', (chunk) => {
+    body.push(chunk);
+  }).on('end', () => {
+    body = Buffer.concat(body).toString();
+    // At this point, we have the headers, method, url and body, and can now
+    // do whatever we need to in order to respond to this request.
+  });
+}).listen(8080); // Activates this server, listening on port 8080.
+
+
+
+
+----------
+
+
+
+response
+--------
+
+HTTP Status Code
+---
+response.statusCode = 404; // Tell the client that the resource wasn't found.
+
+
+-
+
+
+headers
+---
+response.setHeader('Content-Type', 'application/json');
+response.setHeader('X-Powered-By', 'bacon');
+
+
+-
+
+
+Explicitly Sending Header Data
+---
+response.writeHead(200, {
+  'Content-Type': 'application/json',
+  'X-Powered-By': 'bacon'
+});
+
+
+
+-
+
+
+Responce Body
+---
+response.write('<html>');
+response.write('<body>');
+response.write('<h1>Hello, World!</h1>');
+response.write('</body>');
+response.write('</html>');
+response.end();
+
+or
+response.end('<html><body><h1>Hello, World!</h1></body></html>');
+
+//Note: It's important to set the status and headers before you start writing chunks of data to the body. This makes sense, since headers come before the body in HTTP responses.
+
+
+-
+
+
+Putting it all together
+---
+
+const http = require('http');
+
+http.createServer((request, response) => {
+  const { headers, method, url } = request;
+  let body = [];
+  request.on('error', (err) => {
+    console.error(err);
+  }).on('data', (chunk) => {
+    body.push(chunk);
+  }).on('end', () => {
+    body = Buffer.concat(body).toString();
+    // BEGINNING OF NEW STUFF
+
+    response.on('error', (err) => {
+      console.error(err);
+    });
+
+    response.statusCode = 200;
+    response.setHeader('Content-Type', 'application/json');
+    // Note: the 2 lines above could be replaced with this next one:
+    // response.writeHead(200, {'Content-Type': 'application/json'})
+
+    const responseBody = { headers, method, url, body };
+
+    response.write(JSON.stringify(responseBody));
+    response.end();
+    // Note: the 2 lines above could be replaced with this next one:
+    // response.end(JSON.stringify(responseBody))
+
+    // END OF NEW STUFF
+  });
+}).listen(8080);
+
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

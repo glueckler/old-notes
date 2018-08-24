@@ -1,0 +1,484 @@
+Data Structures
+---------------
+-----
+--
+
+
+
+
+Arrays
+------
+
+//An Array is written as a list of values between square brackets, separated by commas
+
+//If you evaluate typeof [1, 2], this produces "object"
+//so imagine an array as an octopus with all it's arms in a row labelled with numbers
+
+//ex
+var listOfNumbers = [2, 3, 5, 7, 11];
+console.log(listOfNumbers[2]);
+// → 5
+console.log(listOfNumbers[2 - 1]);
+// → 3
+
+
+-
+
+getting elements in arrays
+---
+//A pair of square brackets immediately after an expression, with another expression inside of them, will look up the element in the left-hand expression that corresponds to the index given by the expression in the brackets.
+
+//the first element can be read with listOfNumbers[0] as javascript uses zero based indexes
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+Properties
+----------
+//ex
+myString.length
+//here we access the length property of the value in myString
+
+//the only values without properties are null and undefined
+null.length;
+// → TypeError: Cannot read property 'length' of null
+
+
+-
+
+dot notation
+---
+//ex
+value.x
+//When using a dot, the part after the dot must be a valid variable name, and it directly names the property.
+
+
+-
+
+bracket notation
+---
+//ex
+value[x]
+//When using square brackets, the expression between the brackets is evaluated to get the property name.
+
+//sometimes, even when you know the exact property name (such as "2" or "John Doe") you will have to use brackets because they aren't valid variable names and cannot be accessed by dot notation
+
+//ex
+value.length //which is valid and easy to type out
+//is the same as value["length"]
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+methods
+-------
+//ex of methods that an array object has..
+
+var mack = [];
+mack.push("Mack");
+mack.push("the", "Knife");
+console.log(mack);
+// → ["Mack", "the", "Knife"]
+console.log(mack.join(" "));
+// → Mack the Knife
+console.log(mack.pop());
+// → Knife
+console.log(mack);
+// → ["Mack", "the"]
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+Objects
+-------
+//also known as: Associative Array, Map, Hash, Dictionary, Table
+
+//One way to create an object is by using a curly brace notation.
+//Properties whose names are not valid variable names or valid numbers have to be quoted
+//Inside the curly braces, we can give a list of properties separated by commas.
+//Each property is written as a name, followed by a colon, followed by an expression that provides a value for the property.
+
+var day1 = {
+  squirrel: false,
+  events: ["work", "touched tree", "pizza", "running",
+           "television"]
+};
+console.log(day1.squirrel);
+// → false
+console.log(day1.wolf);
+// → undefined
+day1.wolf = false;
+console.log(day1.wolf);
+// → false
+
+-
+
+
+Valid vs Not
+---
+var funkyKeys = {
+  '': 'empty', //-->VALID
+  '': 'Overwrite', //--> VALID but will overwrite the first key named ''
+  : 'empty', //-->NOT VALID
+  'null' : 'empty', //--> VALID but not best practice
+  noQuotes : 'empty', //--> VALID and best practice
+  name w blankspaces: 'empty', //--> NOT VALID must be token or string
+  'name w blankspaces': 'empty' //--> VALID but must be accesed with bracket notation
+}
+
+
+-
+
+//It is possible to assign a value to a property expression with the = operator
+//This will replace the property’s value if it already existed or create a new property on the object if it didn’t
+
+
+-
+
+delete operator
+---
+//ex
+var anObject = {left: 1, right: 2};
+console.log(anObject.left);
+// → 1
+delete anObject.left;
+console.log(anObject.left);
+// → undefined
+
+
+
+-
+
+in operator
+---
+//The binary in operator, when applied to a string and an object, returns a Boolean value that indicates whether that object has that property
+//if a property in an object is set to undefined, the in operator will still declare true
+
+var anObject = {left: 1, right: 2};
+console.log(anObject.left);
+// → 1
+console.log("left" in anObject);
+// → false
+console.log("right" in anObject);
+// → true
+
+
+-
+
+Mutability
+---
+//ex
+var object1 = {value: 10};
+var object2 = object1;
+var object3 = {value: 10};
+
+console.log(object1 == object2);
+// → true
+console.log(object1 == object3);
+// → false
+
+object1.value = 15;
+console.log(object2.value);
+// → 15
+console.log(object3.value);
+// → 10
+
+//The object1 and object2 variables grasp the same object, which is why changing object1 also changes the value of object2.
+//The variable object3 points to a different object, which initially contains the same properties as object1 but lives a separate life
+//JavaScript’s == operator, when comparing objects, will return true only if both objects are precisely the same value
+//There is no “deep” comparison operation built into JavaScript
+
+
+-
+
+Prototypes
+---
+//A prototype is another object that is used as a fallback source of properties.
+//When an object gets a request for a property that it does not have, its prototype will be searched for the property, then the prototype’s prototype, and so on.
+
+Object.prototype //is the great ancestral object prototype
+
+console.log(Object.getPrototypeOf({}) ==
+            Object.prototype);
+// → true
+console.log(Object.getPrototypeOf(Object.prototype));
+// → null
+
+//Functions derive from Function.prototype
+console.log(Object.getPrototypeOf(isNaN) ==
+            Function.prototype);
+// → true
+
+//Arrays derive from Array.prototype
+console.log(Object.getPrototypeOf([]) ==
+            Array.prototype);
+// → true
+
+-
+
+//You can use Object.create to create an object with a specific prototype
+var protoRabbit = {
+  speak: function(line) {
+    console.log("The " + this.type + " rabbit says '" +
+                line + "'");
+  }
+};
+var killerRabbit = Object.create(protoRabbit);
+killerRabbit.type = "killer";
+killerRabbit.speak("SKREEEE!");
+// → The killer rabbit says 'SKREEEE!'
+
+//A more convinient way is to use a constructor function!
+
+
+
+-
+
+Prototype Interference
+----------------------
+//ex
+var map = {};
+function storePhi(event, phi) {
+  map[event] = phi;
+}
+
+storePhi("pizza", 0.069);
+storePhi("touched tree", -0.081);
+
+//We can iterate over all phi values in the object using a for/in loop and test whether a name is in there using the regular in operator.
+//But unfortunately, the object’s prototype gets in the way..
+
+Object.prototype.nonsense = "hi";
+for (var name in map)
+  console.log(name);
+// → pizza
+// → touched tree
+// → nonsense
+console.log("nonsense" in map);
+// → true
+console.log("toString" in map);
+// → true
+
+// Delete the problematic property again
+delete Object.prototype.nonsense;
+
+//There is no event called “nonsense” in our data set. And there definitely is no event called “toString”
+//Oddly, toString did not show up in the for/in loop, but the in operator did return true for it.
+
+//All properties that we create by simply assigning to them are enumerable.
+//The standard properties in Object.prototype are all nonenumerable, which is why they do not show up in such a for/in loop
+
+//ex, define properties using Object.defineProperty
+Object.defineProperty(Object.prototype, "hiddenNonsense",
+                      {enumerable: false, value: "hi"});
+for (var name in map)
+  console.log(name);
+// → pizza
+// → touched tree
+console.log(map.hiddenNonsense);
+// → hi
+
+//But we still have the problem with the regular in operator claiming that the Object.prototype properties exist in our object
+
+//ex using the hasOwnProperty method
+console.log(map.hasOwnProperty("toString"));
+// → false
+
+
+-
+
+Prototypeless Objects
+---------------------
+//for some objects, like 'map' in the previous section, the properties that are set could be anything and could therefore overwrite given properties from prototypes (such as hasOwnProperty)
+//pass null as an argument in Object.create to generate an object without any prototype
+//ex
+var map = Object.create(null);
+map["pizza"] = 0.069;
+console.log("toString" in map);
+// → false
+console.log("pizza" in map);
+// → true
+
+//Now we can safely use for/in loops, no matter what people have been doing to Object.prototype
+
+
+-
+
+binary operator instanceof
+--------------------------
+//quickly find if an object was derived from a specific constructor
+//ex
+console.log([1] instanceof Array);
+// → true
+
+
+-
+
+getters and setters
+-------------------
+//In an object literal, the get or set notation for properties allows you to specify a function to be run when the property is read or written.
+//When a getter but no setter is defined, writing to the property is simply ignored.
+
+//ex
+var pile = {
+  elements: ["eggshell", "orange peel", "worm"],
+  get height() {
+    return this.elements.length;
+  },
+  set height(value) {
+    console.log("Ignoring attempt to set height to", value);
+  }
+};
+
+console.log(pile.height);
+// → 3
+pile.height = 100;
+// → Ignoring attempt to set height to 100
+
+//You can also add such a property to an existing object, for example a prototype, using the Object.defineProperty function
+
+//ex
+Object.defineProperty(TextCell.prototype, "heightProp", {
+  get: function() { return this.text.length; }
+});
+
+var cell = new TextCell("no\nway");
+console.log(cell.heightProp);
+// → 2
+cell.heightProp = 100;
+console.log(cell.heightProp);
+// → 2
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+window properties (global variables)
+------------------------------------
+
+//The global scope, the space in which global variables live, can also be approached as an object in JavaScript. Each global variable is present as a property of this object.
+//In browsers, the global scope object is stored in the window variable.
+
+var myVar = 10;
+console.log("myVar" in window);
+// → true
+console.log(window.myVar);
+// → 10
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+JSON
+----
+
+//ex
+[
+  {"name": "Emma de Milliano", "sex": "f",
+   "born": 1876, "died": 1956,
+   "father": "Petrus de Milliano",
+   "mother": "Sophia van Damme"},
+  {"name": "Carolus Haverbeke", "sex": "m",
+   "born": 1832, "died": 1905,
+   "father": "Carel Haverbeke",
+   "mother": "Maria van Brussel"},
+  … and so on
+]
+
+//All property names have to be surrounded by double quotes
+//Only simple data expressions are allowed—no function calls, variables, or anything that involves actual computation
+//Comments are not allowed in JSON
+
+
+-
+
+JSON.stringify and JSON.parse
+-----------------------------
+
+var string = JSON.stringify({name: "X", born: 1980});
+console.log(string);
+// → {"name":"X","born":1980}
+console.log(JSON.parse(string).born);
+// → 1980
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,376 @@
+javascript Statements
+--------------------
+----------
+---
+-
+
+
+
+
+
+
+
+Updating variables succinctly
+-----------------------------
+counter += 1;
+//is the same as counter = counter + 1;
+//which can also be written like so
+counter++;
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+if statements
+-------------
+
+//this is also valid javascript since single statements don't need {}
+var theNumber = Number(prompt("Pick a number", ""));
+if (!isNaN(theNumber))
+  alert("Your number is the square root of " +
+        theNumber * theNumber);
+else
+  alert("Hey. Why didn't you give me a number?");
+
+
+-
+
+//ex
+var num = Number(prompt("Pick a number", "0"));
+
+if (num < 10)
+  alert("Small");
+else if (num < 100)
+  alert("Medium");
+else
+  alert("Large");
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+while loop
+----------
+//ex
+var number = 0;
+while (number <= 12) {
+  console.log(number);
+  number = number + 2;
+}
+// → 0
+// → 2
+//   … etcetera
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+do loop
+-------
+//a do loop is like a while loop, only it will run through the code at least once
+
+do {
+  var yourName = prompt("Who are you?");
+} while (!yourName);
+console.log(yourName);
+
+//This program will force you to enter a name. It will ask again and again until it gets something that is not an empty string. Applying the ! operator will convert a value to Boolean type before negating it, and all strings except "" convert to true
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+for loop
+--------
+
+for (var number = 0; number <= 12; number = number + 2)
+  console.log(number);
+// → 0
+// → 2
+//   … etcetera
+
+//This program is exactly equivalent to the earlier even-number-printing example. The only change is that all the statements that are related to the “state” of the loop are now grouped together
+
+
+break;
+---
+break will exit the loop
+
+
+-
+
+
+continue;
+---
+continue will go on to the next loop execution
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+for in loop
+-----------
+//ex
+//this will loop through the properties in the map object which will be refered to by the event variable
+for (var event in map)
+  console.log("The correlation for '" + event +
+              "' is " + map[event]);
+// → The correlation for 'pizza' is 0.069
+// → The correlation for 'touched tree' is -0.081
+
+
+-
+
+limitations
+---
+//for in loops will iterate over prototype properties as well
+//this can be a problem and produce unexpected results
+
+//ex
+for (var planet in planetMoons) {
+  // additional filter for object properties:
+  if (planetMoons.hasOwnProperty(planet)) {
+    //  ...
+  }
+}
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+for of loop
+-----------
+//The for...of statement creates a loop iterating over iterable objects (including Array, Map, Set, String, TypedArray, arguments object and so on)
+
+//Syntax
+for (variable of iterable) {
+  statement
+}
+variable
+//On each iteration a value of a different property is assigned to variable.
+iterable
+//Object whose enumerable properties are iterated.
+
+
+-
+
+//ex - iterating over an array
+let iterable = [10, 20, 30];
+
+for (let value of iterable) {
+  value += 1;
+  console.log(value);
+}
+// 11
+// 21
+// 31
+
+-
+
+//you can use const instead of let if you don't reassign the value
+//ex
+let iterable = [10, 20, 30];
+
+for (const value of iterable) {
+  console.log(value);
+}
+// 10
+// 20
+// 30
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+javascript forEach
+------------------
+//imagine it like this
+function forEach(array, action) {
+  for (var i = 0; i < array.length; i++)
+    action(array[i]);
+}
+
+forEach(["Wampeter", "Foma", "Granfalloon"], console.log);
+// → Wampeter
+// → Foma
+// → Granfalloon
+
+//however in this is a property on all arrays in Javascript and the array argument doesn't exist
+
+-
+
+//example
+var a = ['a', 'b', 'c'];
+
+a.forEach(function(element) {
+    console.log(element);
+});
+//logs out
+a
+b
+c
+
+-
+
+//callback simulator
+var ctr = 0;
+posts.forEach(function(element, index, array){
+    asynchronous(function(data){   //THIS IS IMPORTANT, ctr++ must be inside asynchronous
+         ctr++;
+         if (ctr === array.length) {
+             functionAfterForEach();
+         }
+    })
+});
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+breaking a loop
+---------------
+//This program illustrates the break statement. It finds the first number that is both greater than or equal to 20 and divisible by 7.
+
+for (var current = 20; ; current++) {
+  if (current % 7 == 0)
+    break;
+}
+console.log(current);
+// → 21
+
+
+-
+
+continue
+---
+//continue is similar to break, it will jump out of the loop body and continue with the next iteration
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+switch
+------
+
+switch (prompt("What is the weather like?")) {
+  case "rainy":
+    console.log("Remember to bring an umbrella.");
+    break;
+  case "sunny":
+    console.log("Dress lightly.");
+  case "cloudy":
+    console.log("Go outside.");
+    break;
+  default:
+    console.log("Unknown weather type!");
+    break;
+}
+
+
+//Code begins to execute once the case matches the input, and continues, even if the code is under another label, until it reaches a break statement.
+
+//In some cases, such as the "sunny" case in the example, this can be used to share some code between cases (it recommends going outside for both sunny and cloudy weather).
+//ie, typing in "sunny" to the prompt will result:
+Dress lightly.
+Go outside.
+
+//But beware: it is easy to forget such a break, which will cause the program to execute code you do not want executed.
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------

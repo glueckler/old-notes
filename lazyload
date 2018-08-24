@@ -1,0 +1,108 @@
+lazyload
+--------
+-----
+---
+--
+-
+
+
+lazysizes
+---------
+npm install lazesizes --save
+
+//it's best practice to use Vendor.js for packages that are independant and doen't require any code
+Vendor.js
+-
+
+Vendor.js..
+
+import 'lazysizes';
+
+
+-
+
+//then update webpack setup to create a bundled version of the file to feed the browser
+//Vendor.js was added as an entry and the output filename was changed to [name].js
+webpack.config.js
+-
+
+const path = require('path');
+module.exports = {
+  entry: {
+    App: "./app/assets/scripts/App.js",
+    Vendor: "./app/assets/scripts/Vendor.js"
+  },
+  output: {
+    path: path.resolve(__dirname, "./app/temp/scripts"),
+    filename: "[name].js"
+  },
+  module: {
+    loaders: [
+      {
+        loader: 'babel-loader',
+        query: {
+          presets: ['es2015']
+        },
+        test: /\.js$/,
+        exclude: /node_modules/
+      }
+    ]
+  }
+
+}
+
+
+-
+
+
+-html
+//include the script tag inside the HTML
+//at the top below the stylesheet!!
+
+<script src="/temp/scripts/Vendor.js"></script>
+
+//to give an image lazy loading
+//add class="lazyload"
+//AND!
+//switch srcset="" to data-srcset=""
+
+//ex
+<img class="lazyload" sizes='160px' data-srcset="assets/images/testimonial-jane.jpg 160w, assets/images/testimonial-jane-hi-dpi.jpg 320w" alt="jane Doe">
+
+
+-
+
+-background images..
+//find the div containing the background image and add class="lazyload"
+//lazysizes will change that class name to lazyloaded at the perfect time
+
+//ex
+&.lazyloaded {
+  background: url('/assets/images/testimonials-bg.jpg') top center no-repeat;
+  background-size: cover;
+}
+
+
+-
+
+-waypoints
+//note that if using waypoints they will get fucked up
+//use a refreshWaypoints Functions
+
+refreshWaypoints() {
+  $('.lazyload').load(function(){
+    Waypoint.refreshAll();
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------------------

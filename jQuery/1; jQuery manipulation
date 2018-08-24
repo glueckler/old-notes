@@ -1,0 +1,342 @@
+jQuery manipulation
+-------------------
+------
+-
+
+
+
+
+classes
+-------
+
+
+
+.removeClass("myClass yourClass")
+//removes myClass and yourClass
+
+.addClass()
+//adds a class
+
+.hide()
+//hides an element
+
+.remove()
+//removes an element
+
+
+
+---------------------------------------------------
+
+
+Jquery Animation
+----------------
+
+.wait()
+
+
+.animate()
+.animate({ top: '-=100px' }, 600, 'easing name', function () { … })
+
+
+.delay()
+//works with fade, toggle etc.
+//DOESN'T WORK WITH ADDCLASS
+//To use removeClass
+$("#div").addClass("error").delay(1000).queue(function(next){
+    $(this).removeClass("error");
+    next();
+});
+
+
+.fadeIn()
+// fades in element
+
+.fade()
+//example fade
+$( "li.fade" ).hover(function() {
+  $( this ).fadeOut( 100 );
+  $( this ).fadeIn( 500 );
+});
+
+
+.animate()
+//animate font size
+srText.animate({fontSize: textSize + "px" }, 100 );
+
+// ex - JQuery Scroll
+
+$("html, body").animate({ scrollTop: $('.ELEMENT').offset().top }, 1000);
+
+//with offset
+
+var offset = -20; //Offset of 20px
+  $("html, body").animate({ scrollTop: $('.articles').offset().top + offset}, 1000);
+
+
+--------------------------------------------------------------------
+
+
+
+
+Appending
+--------
+
+.append()
+//add to end of selector
+//ex
+$(<element>).append(price)
+
+.prepend()
+//adds to beginning of seletor
+
+.after()
+//puts after selector
+
+.before()
+//puts before seletor
+
+
+-
+
+//for a slightly different syntax use
+
+.appendTo()
+//ex
+price.appendTo(<element>)
+
+.prependTo()
+
+.insertAfter()
+
+.insertBefore()
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+Manipulating HTML
+-----------------
+
+.empty()
+//Remove all child nodes of the set of matched elements from the DOM
+//Does not accept arguments
+
+.text()
+//Sets or returns the text content of selected elements
+
+.html()
+//Sets or returns the content of selected elements (including HTML markup)
+
+.val()
+//Sets or returns the value of form fields
+//ex
+$(selector).val()  // Return the value attribute
+
+$(selector).val(value) // Sets the value
+
+$(selector).val(function(indexOfItem ,currentvalue)) // Set the value attribute using a function
+
+//** this is a javascript method not jQuery
+.reset()
+//resets form fields
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+Text Inputs
+-----------
+
+.focus() //brings the element into focus
+
+.select() // Select the contents of a text field
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+urls
+----
+//ex - given the following anchor
+
+<a href="tab-04"></a>
+
+this.href ===> returns, http://example.com/abc/tab-04
+(the whole url)
+
+$(this).attr('href') ===> returns, tab-04
+
+this.getAttribute('href') ===> returns, tab-04
+
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+JQuery css
+----------
+$("p").css("background-color"); //this will return the background color
+
+$("p").css("background-color", "yellow");
+
+$("p").css({"background-color": "yellow", "font-size": "200%"});
+
+//example change background
+$(".aQli").hover(function(){
+        $(this).css("background", "#F00");
+    },
+    function(){
+        $(this).css("background", "#FFF");
+    });
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+properties
+----------
+
+.prop()
+
+.prop( propertyName, value )
+
+.prop( properties )
+
+.prop( propertyName, function )
+
+//ex <input disabled>
+//To retrieve and change DOM properties such as the checked, selected, or disabled state of form elements, use the .prop() method
+
+//Examples include the value property of input elements, the disabled property of inputs and buttons, or the checked property of a checkbox.
+//The .prop() method should be used to set disabled and checked instead of the .attr() method.
+//The .val() method should be used for getting and setting value
+
+//ex
+
+$( "input" ).prop( "disabled", false );
+$( "input" ).prop( "checked", true );
+$( "input" ).val( "someValue" );
+
+//ex
+
+$("input").prop('disabled', true);
+$("input").prop('disabled', false);
+
+
+
+-------------------------------------------------------------
+
+
+
+
+attributes
+----------
+
+.attr()
+
+.attr( attributes )
+//An object of attribute-value pairs to set
+
+.attr( attributeName, value )
+//value - A value to set for the attribute.
+//If null, the specified attribute will be removed (as in .removeAttr())
+
+.attr( attributeName, function )
+
+
+.removeAttr()
+
+
+//ex
+<img id="greatphoto" src="brush-seller.jpg" alt="brush seller">
+
+$( "#greatphoto" ).attr({
+  alt: "Beijing Brush Seller",
+  title: "photo by Kelly Clark"
+});
+
+
+//ex
+
+//onClick data attribute
+$('.div').on('click', function(){
+  var dataAttr = $(this).attr('data-WhatEverYouNamed')
+})
+
+
+
+
+
+
+-------------------------------------------------------------
+
+
+
+
+
+data attributes
+---------------
+
+
+.data()
+//.data(<name>, <value>)
+
+//The data- attributes are pulled in the first time the data property is accessed and then are no longer accessed or mutated
+//(all data values are then stored internally in jQuery)
+//this is barely related to the DOM, and you can't update DOM data attributes
+
+-
+
+//ex
+<li class='vacation onsale' data-price='300.00'>Hawai</li>
+
+var amount = $('.vacation').first().data('price');
+//300.00
+
+
+-
+
+
+//ex - select data attributes
+
+<ul data-group="Companies">
+  <li data-company="Microsoft"></li>
+  <li data-company="Google"></li>
+  <li data-company ="Facebook"></li>
+</ul>
+
+$("ul[data-group='Companies'] li[data-company='Microsoft']")
+//Get all elements with data-company="Microsoft" below "Companies"
+
+$("ul[data-group='Companies'] li:not([data-company='Microsoft'])")
+//get all elements with data-company!="Microsoft" below "Companies"
+
+
+

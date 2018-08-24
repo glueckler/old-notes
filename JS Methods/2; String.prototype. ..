@@ -1,0 +1,264 @@
+String.prototype. ...
+---------------------
+-------
+--
+
+
+
+
+
+.concat()
+newStr = str1.concat(str2);
+
+
+---
+
+
+.slice()
+//The slice() method extracts a section of a string and returns it as a new string
+
+//Syntax
+string.slice(start, stop);
+//stop: Optional, The position (up to, but not including) where to end the extraction
+
+//If start equals stop: returns an empty string
+//If stop is omitted: extracts characters to the end of the string
+//If either argument is greater than the string's length, the string's length will be used instead
+
+//If start > stop, slice() will NOT swap the 2 arguments.  Will Not perform
+//If start is negative: sets char from the end of string
+//If stop is negative: sets stop to: string.length – Math.abs(stop)
+
+//ex
+console.log("coconuts".slice(4, 7));
+// → nut
+
+
+---
+
+
+.startsWith()
+// The startsWith() method determines whether a string begins with the characters of a specified string, returning true or false as appropriate.
+
+// ex
+for (let key in obj) {
+  if (key.startsWith('date')) {
+    console.log(key, obj[key]);
+  }
+}
+
+
+---
+
+
+
+.substring() // returns a subset of a string between one index and another, or through the end of the string
+//Syntax
+string.substring(start, stop);
+
+//If start equals stop: returns an empty string
+//If stop is omitted: extracts characters to the end of the string
+//If either argument is greater than the string's length, the string's length will be used instead
+
+//If start > stop, then substring will swap those 2 arguments.
+//If either argument is negative or is NaN, it is treated as if it were 0.
+
+//ex
+var str = "Hello world!";
+var res = str.substring(1, 4); //res = "ell"
+
+
+---
+
+
+
+.substr()
+//The substr() method returns the characters in a string beginning at the specified location through the specified number of characters.
+//Syntax
+str.substr(start, [length])
+//start
+//Location at which to begin extracting characters.
+//If a negative number is given, it is treated as strLength - start where strLength is the length of the string.
+
+
+---
+
+
+
+.indexOf()
+//The indexOf() method returns the index within the calling String object of the first occurrence of the specified value, starting the search at fromIndex.
+//Returns -1 if the value is not found
+
+//Syntax
+str.indexOf(searchValue[, fromIndex])
+//searchValue
+//A string representing the value to search for.
+//fromIndex Optional
+//An integer representing the index at which to start the search; the default value is 0.
+//If fromIndex <= 0 the entire string is searched.
+//If fromIndex >= str.length, the string is not searched and -1 is returned.
+//If searchValue is an empty string, the behaviour is as follows — if fromIndex < str.length, fromIndex is returned; if fromIndex >= str.length, str.length is returned.
+
+//ex
+console.log("coconut".indexOf("u"));
+// → 5
+
+//it is possible to give a string of more than one character with strings
+console.log("one two three".indexOf("ee"));
+// → 11
+
+
+---
+
+
+
+.split()
+//The split() method splits a String object into an array of strings by separating the string into substrings, using a specified separator string to determine where to make each split
+//Syntax
+str.split([separator[, limit]])
+//seperator Optional
+//Specifies the string which denotes the points at which each split should occur.
+//The separator is treated as a string or as a regular expression.
+//If separator is omitted or does not occur in str, the array returned contains one element consisting of the entire string.
+//If separator is an empty string, str is converted to an array of characters.
+
+//limit Optional
+//Integer specifying a limit on the number of splits to be found.
+//When this parameter is provided, the split() method splits the string at each occurence of the specified separator but stops when limit entries have been placed into the array.
+//It may still contain fewer entries than limit if the end of the string is reached before the specified limit is reached.
+//The left-over text is not returned in the new array.
+
+//ex
+var str = "goodbye";
+var res = str.split("");
+-> [ 'g', 'o', 'o', 'd', 'b', 'y', 'e' ]
+
+
+
+---
+
+
+
+.trim()
+//removes whitespace (spaces, newlines, tabs, and similar characters) from the start and end of a string
+console.log("  okay \n ".trim());
+// → okay
+
+
+---
+
+
+
+.charAt() // Returns a string representing the character at the specified index
+var string = "abc";
+console.log(string.charAt(0));
+// → a
+
+//Note that you can also read characters in a string like an array
+console.log(string[1]);
+// → b
+
+
+---
+
+
+
+.charCodeAt()
+//The charCodeAt() method returns an integer between 0 and 65535 representing the UTF-16 code unit at the given index
+//(the UTF-16 code unit matches the Unicode code point for code points representable in a single UTF-16 code unit, but might also be the first code unit of a surrogate pair for code points not representable in a single UTF-16 code unit, e.g. Unicode code points > 0x10000).
+
+//Syntax
+str.charCodeAt(index)
+//index
+//An integer greater than or equal to 0 and less than the length of the string; if it is not a number, it defaults to 0.
+//Return value
+//A number representing the UTF-16 code unit value of the character at the given index; NaN if index is out of range.
+
+//ex
+'ABC'.charCodeAt(0); // returns 65
+
+
+---
+
+
+
+.join()
+var salad = veggies.join(" and "); //joins array elements and seperates them by the string " and "
+
+
+---
+
+
+
+.toLowerCase()
+console.log('ALPHABET'.toLowerCase()); // 'alphabet'
+//toLowerCase() does not affect the value of the string str itself
+
+
+---
+
+
+
+.replace()
+//The replace() method returns a new string with some or all matches of a pattern replaced by a replacement.
+//The pattern can be a string or a RegExp, and the replacement can be a string or a function to be called for each match
+
+//Syntax
+str.replace(regexp|substr, newSubstr|function)
+
+//ex
+input.replace(/[^0-9a-z]/gi, '') // This will strip a string of any non alpha-numeric chars
+
+//ex
+str.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();}); //this will convert the string to title case
+
+
+---
+
+
+
+.match()
+//ex
+console.log("one two 100".match(/\d+/));
+// → ["100"]
+
+
+---
+
+
+
+.search()
+//The search() method executes a search for a match between a regular expression and this String object.
+
+//Return value
+//The index of the first match between the regular expression and the given string; if not found, -1.
+
+//ex
+var str = "hey JudE";
+var re = /[A-Z]/g;
+var re2 = /[.]/g;
+console.log(str.search(re)); // returns 4, which is the index of the first capital letter "J"
+console.log(str.search(re2)); // returns -1 cannot find '.' dot punctuation
+
+//ex search case insensitive
+var result= string.search(new RegExp(searchstring, "i"));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

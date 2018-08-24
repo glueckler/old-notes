@@ -1,0 +1,290 @@
+Sublime Text
+------------
+------
+---
+-
+
+
+
+
+
+
+
+
+
+
+
+
+Open/Goto
+---------
+command + t  // go to file
+-
+command + ctrl + p  // go to project
+-
+command + r  // go to methods
+-
+command + shift + p  // command prompt
+-
+ctrl + g  // go to line
+- 
+ctrl + `  // Python console
+-
+
+---
+
+
+Focus on Sidebar
+----------------
+
+ctrl + 0 // focus on the browser sidebar
+
+---
+
+
+View commands and set key bindings
+----------------------------------
+Hit Ctrl` (backtick) to open the console, then enter
+
+sublime.log_commands(True)
+to turn on command logging. Go through the menus and click your target, and
+
+command: insert_snippet {"name": "Packages/XML/long-tag.sublime-snippet"}
+comes up. Enter the following into your Preferences -> Key Bindings - User file:
+
+{ "keys": ["ctrl+alt+shift+w"], "command": "insert_snippet", "args": { "name": "Packages/XML/long-tag.sublime-snippet" } }
+(changing the key combo if you wish) and you should be all set. Once you're done, go back to the console and enter
+
+sublime.log_commands(False)
+to turn off logging of every single action.
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+Editing
+-------
+command + l  // select line (repeat select next lines)
+-
+command + ctrl + up/down //switches line of text up or down with line above or below
+-
+command + d  // select word (repeat select others occurrences in context for multiple editing)
+-
+ctrl + shift + m  // select content in brackets
+-
+command + shift + enter  // insert line before
+-
+command + enter  // enter line after
+-
+ctrl + shift + k  // delete line
+-
+command + k-k  // delete from cursor to end of line
+-
+command + k-backspace  // delete from cursor to start of line
+-
+command + shift + d  // duplicate line(s)
+-
+command + j  // join lines
+-
+command + /  // comment
+-
+command + alt + /  // Block comment
+-
+command + y  // redo or repeat
+-
+command + shift + z  // past and ident
+-
+ctrl + space  // autocomplete (repeat to select next suggestion)
+-
+ctrl + m  // jump to matching brackets
+-
+command + k-u  // upper case
+-
+command + k-l  // lower case
+-
+' with a selection  // surround selection with apostrophe
+" with a selection  // surround selection with quote
+[ with a selection  // surround with square brackets
+{ with a selection  // surround selection with curly brace
+( with a selection  // surround selection with brackets ctrl+shft+j  // prettyJson plugin
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+XML/HTML
+--------
+command + shift + a  // select content into tag
+-
+command + alt + .  // close tag
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+Find/Replace
+------------
+command + f  // find
+-
+command + alt + f  // replace
+-
+command + alt + g  // find next occurrence of current word
+-
+command + ctrl + g  // select all occurrences of current word for multiple editing
+-
+command + shift + f  // find in files
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+sublime search shortcuts
+------------------------
+command + p // to find a file to open
+
+command + p > @ // to quickly find a function in any file
+
+command + p (filename) > @ // to search a specific function, selector etc
+//ex .class-name
+
+command + p (filename) > # // to search and jump to a specific result
+
+command + p (filename) > : line number // to jump to specific line of code
+
+
+command + shift + r // search entire project for a function
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+Package Control
+---------------
+
+control + ` // to access console
+
+//the link to the package control installation folder code is here..
+https://packagecontrol.io/installation
+
+command + shift + p //to access the command pallette
+
+package control: install //will allow you to search packages available for install
+
+EditorConfig //as an example
+
+
+
+
+
+-----------------
+
+
+
+
+
+Packages
+--------
+sidebarenhancer // sublime sidebar
+
+sublimelinter // for linting
+// to toggle linting on and off > package control > toggle linter > jshint
+
+emmet // for faster html writing
+// emmet cheat sheet - https://docs.emmet.io/cheat-sheet/
+
+
+
+
+
+
+-----------------
+
+
+
+
+snippets
+--------
+
+//all available scopes - https://gist.github.com/lankypete/44a950305198310e6e604578ccce1aa7
+_
+
+// snippets are saved here
+preferences > Browse Packages... > user
+
+_
+
+//ex html
+<snippet>
+  <content><![CDATA[
+Hello World!
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>hell</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope>text.html</scope>
+</snippet>
+
+_
+
+//save as sublime-snippet..
+
+myHelloWorldTest.sublime-snippet
+
+_
+
+// $ .. is a field, if you want cursor to be placed somewhere
+// ${..: .. } for placeholder text (hit tab to switch)
+// ${1/\*//} hacks to maintain only 1 cursor
+
+<snippet>
+  <content><![CDATA[
+<div class="$1">
+  <p>The ${2:cat} was ${3:fast}.</p>
+</div> <!-- /${1/\*//} -->
+]]></content>
+  <!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+  <tabTrigger>hell</tabTrigger>
+  <!-- Optional: Set a scope to limit where the snippet will trigger -->
+  <scope>text.html</scope>
+</snippet>
+
+
+
+
+
+
+
+
+
+
+

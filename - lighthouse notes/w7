@@ -1,0 +1,37 @@
+w7
+--
+
+
+
+
+Environments
+------------
+
+Development
+---
+multiple git repos
+
+Test
+---
+one git branch
+
+Production
+---
+one git branch
+
+
+
+rails environments
+---
+
+RAILS_ENV=production bundle exec rails s
+
+
+gems for testing
+
+thought bot something forget the name
+faker
+database-cleaner
+
+
+

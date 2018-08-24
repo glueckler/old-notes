@@ -1,0 +1,168 @@
+w5
+--
+
+
+React
+-----
+
+
+// it's important that jsx element s are wrapper in enclosing tag
+
+class App extends Component {
+  render() {
+    return (
+      <div>
+        ...
+      </div>
+    )
+  }
+}
+
+
+
+// use className instead of html class
+
+
+
+w5 d3
+-----
+learning about web sockets
+
+TCP
+---
+Guarantees all data gets sent to other side
+
+web sockets
+---
+
+// the messageEvent is the event you'll be seeing a lot
+
+const socket = new WebSocked('ws://localhost:8080')
+// will attempt to establish a socket connection to 
+
+// there are security precautions to prevent nobodies from establishing a websocket
+
+// express by itself doesn't know how to upgrade a default http request to a websocket
+
+// socket.send('test string')
+// to test that it sent, use the netword tab
+// make sure that the view is dragged down 
+
+// in server code..
+// to send data to the server
+wss.on('connection', (socket) => {
+  socket.on('message', (data) => {
+    console.log(data)
+  })
+})
+
+
+
+d4
+--
+
+socke stuff
+
+var io = require('socke.io')(server)
+d4
+--
+
+socke stuff
+
+var io = require('socke.io')(server)
+d4
+--
+
+socke stuff
+
+var io = require('socke.io')(server)
+d4
+--
+
+socke stuff
+-----------
+var io = require('socke.io')(server)
+
+
+
+create-react-app
+--------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

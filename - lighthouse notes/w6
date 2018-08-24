@@ -1,0 +1,138 @@
+w6
+
+d1 - ruby
+
+# comment in ruby
+
+dean # make a variable named dean
+
+dean = 3
+
+dean.class # gives type
+
+dean.methods
+
+dean.nil?
+
+varibles
+--------
+
+# ruby is a dynamic language
+
+# reflective methods show what type a variable is and stuff like where it came from
+
+dean.class # the type of dean? i think
+
+dean.superclass
+
+
+stings
+------
+
+dean = 'a/nb' # single quotes restricts the use of escape characters and much else..
+
+dean = "a/nb" # a little more cpu intensive
+
+puts "hello #{finn}"
+
+
+symbol type
+-----------
+
+greg = :greg # like a string but see it as for coding purposes only
+
+# faster to use
+
+enumerable type
+---------------
+
+# array kinda stuff
+
+
+methods
+-------
+
+def method
+  3
+end
+# 3 gets returned (because it's the last line)
+
+# return is not assumed
+
+ternary
+-------
+true ? 6 : 4
+
+Arity
+-----
+
+def method_with_one_param(param))
+  param
+end
+
+# ruby expects the correct number of arguments input into this function
+
+# the above is a unary function (takes one argument)
+
+method_with_hash_param(num, hash)
+  puts num
+  p hash
+end
+
+method_with_hash_param 3, name: 'Dean', caffeination_level: :low
+
+block
+-----
+
+run_block do |n|
+  puts "i'm doin a think"
+  puts n
+end
+
+
+
+
+
+
+d2
+--
+
+
+Active record
+
+// google active record callbacks
+
+ie before_save :lowercase_email
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

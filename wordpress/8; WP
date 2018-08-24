@@ -1,0 +1,2681 @@
+WordPress
+---------
+
+-
+
+--
+
+-
+
+
+Basic Wordpress files 
+---------------------
+inside root/wp-content/themes/YOURTHEME
+
+index.php 
+-
+<?php
+get_header();
+?>
+
+<?php
+ 
+    if (have_posts()) : 
+        // The Loop
+        while (have_posts()) : the_post();
+
+        get_template_part('content', get_post_format());     
+
+    endwhile;
+    else : echo '<p> No Content Found </p>';
+
+    endif;
+
+?>
+
+<?php
+get_footer();
+?>
+
+
+
+
+
+
+style.css
+-
+/*
+Theme Name:
+Author:
+Author URI: (your woutube channel or whatever)
+Version: 
+*/
+
+/*body*/
+body {
+    font-family: arial, sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+/*header*/
+.site-header {
+    border-bottom: 2px solid #999;
+}
+
+/*general layout*/
+div.container {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 20px 0;
+}
+
+article.post {
+    border-bottom: solid #bbbbbb;
+}
+
+article.post:last-of-type {
+    border-bottom: none;
+}
+
+/*footer*/
+.site-footer {
+    border-top: 2px solid #999;
+}
+
+/* Current Page class automatically added by WordPress */
+.children-links .current_page_item a:link,
+.children-links .current_page_item a:visited {
+    border-bottom: 1px solid #DDD;
+    color: #333;
+    cursor: default;
+}
+
+/*Main menu style with Current Page Ancestor Class auto added by WP*/
+.site-header nav ul li.current-menu-item a:link,
+.site-header nav ul li.current-menu-item a:visited,
+.site-header nav ul li.current-page-ancestor a:link,
+.site-header nav ul li.current-page-ancestor a:visited {
+  font-weight: bold;
+  background-color: #006ec3;
+  color: #FFF;
+}
+
+
+
+
+
+header.php
+-
+<!DOCTYPE html>
+<html <?php language_attributes(); ?>>
+<head>
+
+    <meta charset="<?php bloginfo('charset'); ?>">
+    <meta name="viewport" content="width=device-width"> 
+    <title><?php bloginfo('name'); ?></title> 
+
+    <?php wp_head(); // LAST, this lets Wordpress or plugins add final code to the head section?> 
+
+</head>
+<body <?php body_class(); ?>>
+    <div class="container">
+       <!--siteheader-->
+       <header class="site-header">
+           <h1><a href="<?php echo home_url(); ?>"><?php bloginfo('name'); ?></a></h1>
+           <h5><?php bloginfo('description'); ?></h5>
+
+           <nav class="site-nav">
+               <?php
+               $args = array(
+                   'theme_location' => 'primary'
+               );
+               ?>
+               <?php wp_nav_menu( $args ); ?>
+           </nav>
+
+       </header>
+       <!--/siteheader--> 
+
+
+
+
+
+
+
+
+
+
+footer.php
+-
+    <footer class="site-footer">
+
+        <nav class="site-nav">
+            <?php
+            $args = array(
+                'theme_location' => 'footer'
+            );
+            ?>
+            <?php wp_nav_menu( $args ); ?>
+        </nav>
+        
+        <p><?php bloginfo('name'); ?> - &copy; <?php echo date('Y'); ?> </p>
+
+    </footer>
+</div> <!-- /container -->
+<?php wp_footer(); //last say for wordpress plugins and shit?>
+</body>
+</html>
+
+
+
+
+
+
+
+
+functions.php
+-
+<?php  //function to get resources like css sheets
+    
+function wordpress_resources() {
+    wp_enqueue_style('style', get_stylesheet_uri());//get the main style.css going on
+}
+
+add_action('wp_enqueue_scripts', 'wordpress_resources');//call the function above
+
+
+//Theme support setup
+function wordpressTEMP_setup() {
+
+    //Add Featured Image Support
+    add_theme_support('post-thumbnails');
+
+    //Register Navigation Menus  
+    register_nav_menus( array (
+        'primary' => __( 'Primary Menu'),
+        'footer' => __('Footer Menu'),
+    )); 
+}
+
+add_action('after_setup_theme', 'wordpressTEMP_setup');
+
+
+?>//do not inclde this line
+
+
+
+
+
+
+
+Wordpress Posts
+---------------
+//The Loop
+//include between get_header() and get_footer()
+//in single.php
+//and index.php
+//
+
+<?php
+ 
+    if (have_posts()) : 
+        while (have_posts()) : the_post();  ?>
+
+        <article class="post">
+            <h2><a href="<?php the_permalink()?>"> <?php the_title(); ?> </a></h2>
+
+            <p class="post-info"><?php the_time('F jS, Y'); ?> | by <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a> | Posted in
+
+            <?php 
+                $categories = get_the_category();
+                $separator = ', ';
+                $output = '';
+
+                if ($categories) {
+
+                    foreach ($categories as $category) {
+                        $output .= '<a href="'. get_category_link($category->term_id) .'">' . $category->cat_name . '</a>' . $separator;
+                    }
+                    echo trim($output, $separator);
+                }
+             ?>
+
+            </p>
+
+            <p><?php the_content(); ?></p>
+        </article>     
+
+    <?php endwhile;
+
+    previous_posts_link();
+    next_posts_link();
+
+    else : echo '<p> No Content Found </p>';
+
+    endif;
+
+?>
+
+
+
+
+
+-
+
+//the_content();
+//edit the show more link
+the_content('Continue Reading &raquo;');
+
+
+
+-
+
+//the_excerpt();
+//show via screen options and edit within a post
+//otherwise wordpress automatically generates an excerpt based on the first 55words
+
+//inside functions.php
+//Customize Excerpt Word Length
+function custom_excerpt_length() {
+    return 25;
+}
+
+add_filter('excerpt_length', 'custom_excerpt_length');
+
+
+-
+
+//get_the_excerpt();
+//ex, will generate something similar to the_excerpt(); and include a link
+<p>
+    <?php echo get_the_excerpt(); ?>
+    <a href="<?php the_permalink(); ?>">Read More</a>
+</p>
+
+
+
+-
+
+//or use the best of both worlds
+//(the_excerpt() only if it exists)
+
+<?php
+
+    if ($post->post_excerpt) { ?>
+
+        <p>
+            <?php echo get_the_excerpt(); ?>
+            <a href="<?php the_permalink(); ?>">Read More</a>
+        </p>
+
+    <?php } else {
+
+        the_content();
+
+    }
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+WordPress WP_Query()
+--------------------
+//take control of the loop!
+new WP_Query()
+
+<?php //zippy category post loop
+    
+    $zippyPosts = new WP_Query( array( 'cat' => 7,
+    'posts_per_page' => 2 ) );  
+    //when this run the wp_query will return an object with 3 posts from category with ID 7
+
+    if ($zippyPosts->have_posts()) : 
+        while ($zippyPosts->have_posts()) : $zippyPosts->the_post(); ?>
+
+          <h2><a href="<?php the_permalink();?>"><?php the_title() ?></a></h2> 
+          <?php the_excerpt() ?>
+
+    <?php endwhile;
+    else : echo '<p> No Content Found </p>';
+
+    endif;
+    wp_reset_postdata(); //Important to not disturb natural wordpress loops
+?>    
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Wordpress Post Format
+---------------------
+//available posts formats
+aside
+gallery
+link
+image
+quote
+status
+video
+audio
+chat
+
+//First enable post formats in your theme
+//in functions.php
+//in theme setup function
+
+//Add Post Format Support
+add_theme_support('post-formats', array('aside', 'gallery', 'link'));
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Wordpress Nav menu
+------------------
+//will output an <ul> with an <li> for each site page
+<nav class="site-nav">
+    <?php wp_nav_menu(); ?>
+</nav>
+
+-
+
+//Primary Menu
+<nav class="site-nav">
+    <?php
+    $args = array(
+        'theme_location' => 'primary'
+    );
+    ?>
+    <?php wp_nav_menu( $args ); ?>
+</nav>
+
+-
+
+//Footer Menu
+<nav class="site-nav">
+    <?php
+    $args = array(
+        'theme_location' => 'footer'
+    );
+    ?>
+    <?php wp_nav_menu( $args ); ?>
+</nav>
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+Wordpress Pages
+---------------
+page.php
+-
+<?php
+get_header();
+?>
+
+<?php
+ 
+    if (have_posts()) : 
+        while (have_posts()) : the_post();  ?>
+
+        <article class="post page">
+            <h2><?php the_title(); ?></h2>
+            <p><?php the_content(); ?></p>
+        </article>     
+
+    <?php endwhile;
+    else : echo '<p> No Content Found </p>';
+
+    endif;
+
+?>
+
+<?php
+get_footer();
+?>
+
+
+
+-
+
+
+//is_page() 
+//conditional function to run code on certain pages
+//use this anywhere
+//page id used
+<?php if (is_page(14)) { ?>
+
+<?php } ?>
+
+//page slug used
+<?php if (is_page('portfolio')) { ?>
+
+<?php } ?>
+
+
+
+-
+
+//front-page.php
+//wordpress searches for this file when a custom front page is used
+//ex
+<?php
+get_header();
+?>
+
+<?php
+ 
+    if (have_posts()) : 
+        while (have_posts()) : the_post();
+
+        the_content();   
+
+    endwhile;
+    else : echo '<p> No Content Found </p>';
+
+    endif;
+
+?>
+
+<?php
+get_footer();
+?>
+
+
+
+-
+
+//page-portfolio.php
+//page-14.php
+//these specific pages can be used to power targeted site pages
+
+
+
+
+-
+
+//special-template.php
+//Identify the template name in a comment at the top and it will become available to choose from the page editor in the wordpress dashboard
+<?php
+/* 
+Template Name: Special Layout 
+*/
+//insert the page code
+?>
+
+
+-
+
+
+//child parent pages
+//to display menu of child pages available..
+
+<?php 
+//has_children() is not a WP function!!
+if ( has_children() OR $post->post_parent > 0) {
+?>
+    <nav class="site-nav children-links clearfix">
+        <!--Parent link-->
+        <span class="parent-link"><a href="<?php echo get_the_permalink(get_top_ancestor_id())?>"><?php echo get_the_title(get_top_ancestor_id()); ?></a></span>
+        <ul>
+            <?php
+            //below is the ul of child links
+            $args = array (
+                'child_of' => get_top_ancestor_id(), //THIS IS NOT A WP FUNCTION add this function to functions.php to identify the children pages
+                'title_li' => '' //to clear the automatic 'pages' ul title
+            );
+            ?>
+            <?php
+            wp_list_pages($args);
+            ?>
+        </ul>
+    </nav>
+<?php } //end of if statement ?>
+
+...
+
+//inside functions.php..
+// Get to ancestor
+function get_top_ancestor_id() {
+
+    global $post;
+
+    if ($post->post_parent) { //if the page does have a parent
+        $ancestors = array_reverse(get_post_ancestors($post->ID)); // will return an array of parent, grandparent.. etc.
+        return $ancestors[0];
+    }
+
+    return $post->ID; //if the page doesn't have a parent
+
+}
+
+// Does page have children
+function has_children() {
+
+    global $post;
+
+    $pages = get_pages('child_of=' . $post->ID ); //returns an array of child pages
+    return count($pages);
+}
+
+
+
+
+
+
+-
+
+
+
+
+
+
+archive.php
+-
+//Use the_excerpt(); instead of the_content() if you'd like
+//ex add a title to the specific archive page ie 'Monthly Archive: May 2017'
+
+<?php
+get_header();
+?>
+
+<?php
+ 
+    if (have_posts()) : 
+
+        ?>
+
+       <h2><?php 
+
+           if ( is_category() ) {
+               single_cat_title();
+           }
+
+           elseif ( is_tag() ) {
+               single_tag_title();
+           }
+
+           elseif ( is_author() ) {
+               the_post(); //will initialize the first post that is being queried in this archieve so the following line will always work
+               echo 'Author Archive: '. get_the_author();
+               rewind_posts(); //So the loop can go on unaffected, since we ran the_post()
+           }
+
+           elseif ( is_day() ) {
+               echo 'Daily Archive '. get_the_date();
+           }
+
+           elseif ( is_month() ) {
+               echo 'Monthly Archive '. get_the_date('F Y');
+           }
+
+           elseif ( is_year() ) {
+               echo 'Yearly Archive '. get_the_date('Y');    }
+
+           else {
+               echo 'Archive:';
+           }
+
+       ?></h2>
+
+        <?php
+
+        while (have_posts()) : the_post();
+
+        get_template_part('content');
+
+    endwhile;
+    else : echo '<p> No Content Found </p>';
+
+    endif;
+
+?>
+
+<?php
+get_footer();
+?>
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Wordpress get_template_part()
+-----------------------------
+get_template_part('slug'); //content.php
+get_template_part('content', 'home'); //content-home.php
+get_template_part('content', get_post_format()); // content-aside.php (or video or whatever)
+
+content.php
+//ex
+
+<article class="post <?php if (has_post_thumbnail()) { ?>has-thumbnail<?php } ?>">
+
+            <!-- Thumbnail -->
+            <div class="post-thumbnail">
+                <a href="<?php the_permalink() ?>"><?php the_post_thumbnail('small-thumbnail'); ?></a>  
+            </div>
+            
+            <!-- Title -->
+            <h2><a href="<?php the_permalink()?>"> <?php the_title(); ?> </a></h2>
+
+            <!-- Post Info -->
+            <p class="post-info"><?php the_time('F jS, Y'); ?> | by <a href="<?php echo get_author_posts_url(get_the_author_meta('ID')); ?>"><?php the_author(); ?></a> | Posted in
+
+            <?php 
+                $categories = get_the_category();
+                $separator = ', ';
+                $output = '';
+
+                if ($categories) {
+
+                    foreach ($categories as $category) {
+                        $output .= '<a href="'. get_category_link($category->term_id) .'">' . $category->cat_name . '</a>' . $separator;
+                    }
+                    echo trim($output, $separator);
+                }
+             ?>
+
+            </p>
+
+            <!-- Post Excerpt or Content (Search Results are only excerpt) -->
+            <?php
+
+                if ( is_search() ) { ?> <!-- excerpt only for search -->
+
+                    <p>
+                        <?php echo get_the_excerpt(); ?>
+                        <a href="<?php the_permalink(); ?>">Read More</a>
+                    </p>
+
+                <?php }   else { //excerpt only if it exists
+
+                    if ($post->post_excerpt) { ?>
+
+                        <p>
+                            <?php echo get_the_excerpt(); ?>
+                            <a href="<?php the_permalink(); ?>">Read More</a>
+                        </p>
+
+                    <?php } else {
+
+                        the_content();
+
+                    }
+
+                }
+
+            ?>
+
+        </article>
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Wordpress Featured Image
+------------------------
+//in html
+<?php the_post_thumbnail(); ?>
+
+//or 
+<?php the_post_thumbnail('small-thumbnail'); ?>
+
+-
+
+//add_image_size('NAME', 'WIDTH', 'HEIGHT', 'HARDCROPPING (true/false)')
+
+//in functions.php > Theme Setup Function
+//to enable featured image thumbnails add it in the setup function..
+//and then register a few image sizes.. 
+
+//Theme support setup
+function wordpressTEMP_setup() {
+
+    //Add Featured Image Support
+    add_theme_support('post-thumbnails');
+    add_image_size('small-thumbnail', 180, 120, true);
+    add_image_size('banner-image', 920, 210, array('left','top'));
+}
+
+add_action('after_setup_theme', 'wordpressTEMP_setup');
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Wordpress Search
+----------------
+//Wordpress built in search form...
+<div class="hd-search">
+  <?php get_search_form(); ?>
+</div>
+
+
+-
+
+//or build custom search form with 
+searchform.php
+
+//default from wordpress
+<form role="search" method="get" id="searchform" action="<?php echo home_url( '/' ); ?>">
+    <div><label class="screen-reader-text" for="s">Search for:</label>
+        <input type="text" value="" name="s" id="s" placeholder="<?php the_search_query(); ?>" />
+        <input type="submit" id="searchsubmit" value="Search" />
+    </div>
+</form>
+
+
+
+-
+
+//output specific search results
+//Otherwise the theme will use index.php
+search.php
+//same as index pretty much
+
+<?php
+get_header();
+?>
+
+<?php
+ 
+    if (have_posts()) : ?>
+
+        <h2>Search results for: <?php the_search_query(); ?></h2>
+
+        <?php
+        while (have_posts()) : the_post();
+
+        get_template_part('content');      
+
+    endwhile;
+    else : echo '<p> No Content Found </p>';
+
+    endif;
+
+?>
+
+<?php
+get_footer();
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Wordpress Widgets
+-----------------
+//html
+<!-- Sidebar Content -->
+<div class="secondary-column">
+    <?php dynamic_sidebar('sidebar1'); ?>
+</div>
+
+<!-- Footer Widget -->
+<?php if (is_active_sidebar('footer1')) : ?>
+    <div class="footer-widgets">
+        <?php dynamic_sidebar('footer1')?>
+    </div>
+<?php endif; ?>
+
+
+-
+
+//add widget locations
+//in functions.php
+
+//Add Out Widget Locations
+function ourWidgetsInit() {
+    
+    register_sidebar( array(
+        'name' => 'Sidebar', //name for end user
+        'id' => 'sidebar1',
+        'before_widget' => '<div class="widget-item">', //optional to specify widget output, default is an li
+        'after_widget' => '</div>',
+        'before_title' => '<h3 class="widget-title">', //default is h2
+        'after_title' => '</h3>'
+    ) );
+
+    register_sidebar( array(
+        'name' => 'Footer Area 1', //name for end user
+        'id' => 'footer1'
+    ) );
+
+}
+
+add_action('widgets_init', 'ourWidgetsInit');
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Wordpress Custom Colours
+------------------------
+//terms
+//Controls - UI - form interactive tools for users
+//Settings - Database - how we save the user's choice
+//Sections - a group of options for sections of the site
+
+//in functions.php
+<?php
+
+//Customize appearance options
+function theme_customize_register( $wp_customize ) {
+
+    //creat a setting
+    $wp_customize->add_setting('theme_link_color', array(
+        'default'=> '#006ec3',
+        'transport'=>'refresh' //how wordpress will update preview website while editing
+    ));
+
+    //creat a section
+    $wp_customize->add_section('theme_standard_colours', array(
+        'title' => __('Standard Colours', 'wordpressTEMP'), //for the user to see, use the name of wordpress theme in translator function
+        'priority' => 30 //controls where the setting will sit in the menu
+    ));
+
+    //create a control
+    $wp_customize->add_control( new WP_Customize_Color_Control( $wp_customize, 'theme_link_colour_control', array(
+        'label' => __('Link Color', 'wordpressTEMP'),
+        'section' => 'theme_standard_colours',
+        'settings' => 'theme_link_color'
+    ) ) );
+
+}
+
+add_action('customize_register', 'theme_customize_register');
+
+//Output customized CSS
+function theme_customize_css() {
+    ?>
+
+    <style type="text/css">
+        a:link,
+        a:visited {
+            color: <?php echo get_theme_mod('theme_link_color'); ?>;
+        }
+    </style>
+
+<?php }
+
+add_action('wp_head','theme_customize_css');
+
+
+
+
+?>//dont copy
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Wordepress Custom Editable Content
+----------------------------------
+
+//ex in footer.php
+
+<?php if (get_theme_mod('theme-footer-callout-display') == "Yes") { ?>
+
+    <div class="footer-callout clearfix">
+        <div class="footer-callout-image">
+            <img src="<?php echo wp_get_attachment_url(get_theme_mod('theme-footer-callout-image')); //use wp_get_attachment_url to retunr a proper permalink?>">
+        </div>
+        <div class="footer-callout-text">
+            <h2><a href="<?php echo get_permalink(get_theme_mod('theme-footer-callout-link'));//use get_permalink otherwise the page id will be returned ?>"><?php echo get_theme_mod('theme-footer-callout-headline'); ?></a></h2>
+            <?php echo wpautop(get_theme_mod('theme-footer-callout-text'));//use wpautop to preserve linebreaks to insert p tags ?>
+        </div>
+    </div>
+
+<?php } ?>
+
+
+
+-
+
+//footer.php <?php
+
+//Add custom footer callout section to customize screen
+function wTEMP_add_footer_callout( $wp_customize ) {
+    //Section for the callout
+    $wp_customize->add_section('theme-footer-callout', array(
+        'title'=>'Footer Callout'
+    ));
+
+    //Setting and control for display
+    $wp_customize->add_setting('theme-footer-callout-display', array(
+        'default'=>'No'
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Control($wp_customize, 'theme-footer-callout-display-control', array(
+        'label'=>'Display Callout?',
+        'section'=>'theme-footer-callout',
+        'settings'=>'theme-footer-callout-display',
+        'type'=> 'select',
+        'choices'=>array('No'=>'No','Yes'=>'Yes')//label and output kvp for choices
+     ) ) );
+
+    //Setting and control for heading
+    $wp_customize->add_setting('theme-footer-callout-headline', array(
+        'default'=>'Example Headline'
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Control($wp_customize, 'theme-footer-callout-headline-control', array(
+        'label'=>'Headline',
+        'section'=>'theme-footer-callout',
+        'settings'=>'theme-footer-callout-headline'
+     ) ) );
+
+    //Setting and control for text
+    $wp_customize->add_setting('theme-footer-callout-text', array(
+        'default'=>'Example Text'
+    ));
+
+    $wp_customize->add_control( new WP_Customize_Control($wp_customize, 'theme-footer-callout-text-control', array(
+        'label'=>'Text',
+        'section'=>'theme-footer-callout',
+        'settings'=>'theme-footer-callout-text',
+        'type'=>'textarea' //default is single line
+     ) ) );
+
+     //Setting and control for link
+    $wp_customize->add_setting('theme-footer-callout-link');
+
+    $wp_customize->add_control( new WP_Customize_Control($wp_customize, 'theme-footer-callout-link-control', array(
+        'label'=>'Link',
+        'section'=>'theme-footer-callout',
+        'settings'=>'theme-footer-callout-link',
+        'type'=>'dropdown-pages' // displays all the sites links
+     ) ) );
+
+    //Setting and control for link
+    $wp_customize->add_setting('theme-footer-callout-image');
+
+    $wp_customize->add_control( new WP_Customize_Cropped_Image_Control($wp_customize, 'theme-footer-callout-image-control', array(
+        'label'=>'Image',
+        'section'=>'theme-footer-callout',
+        'settings'=>'theme-footer-callout-image',
+        'width'=> '750',
+        'height'=>'500'
+     ) ) );
+
+
+}
+
+add_action('customize_register', 'wTEMP_add_footer_callout');
+
+
+
+
+
+?> DON"T COPY
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Wordpress about the author
+--------------------------
+//ex in content-single.php
+
+<div class="about-author clearfix">
+    <div class="about-author-image">
+        <?php echo get_avatar(get_the_author_meta('ID'), 512); ?>
+        <p><?php echo get_the_author_meta('nickname') ?></p>
+    </div>
+
+    <!-- Get the query of 3 posts frome the author not including current post -->
+    <?php $otherAuthorPosts = new WP_Query(array( 
+        'author' => get_the_author_meta('ID'),
+        'posts_per_page' => 3,
+        'post__not_in' => array(get_the_ID())
+    )); ?>
+
+    <div class="about-author-text">
+        <h3>About the Author</h3>
+        <?php echo wpautop(get_the_author_meta('description')); ?>
+    </div>
+
+    <!-- display other posts only in author has posts -->
+    <?php if ($otherAuthorPosts->have_posts()) { ?>
+        <div class="other-posts-by">
+            <h4>Other posts by <?php echo get_the_author_meta('nickname') ?></h4>
+            <ul>
+                <?php while ($otherAuthorPosts->have_posts()) {
+                    $otherAuthorPosts->the_post(); ?>
+                    <li><a href="<?php the_permalink();?>"><?php the_title();?></a></li>
+                    <?php } ?>
+            </ul>
+        </div>
+    <?php } ?>
+    <?php wp_reset_postdata() ?>
+
+    <!-- Display option for all posts if they have more than 3-->
+    <?php if (count_user_posts(get_the_author_meta('ID')) > 3) { ?>
+        <a href="<?php echo get_author_posts_url(get_the_author_meta('ID'))?>">View All Posts By: <?php echo get_the_author_meta('nickname'); ?></a>
+    <?php } ?>
+</div>
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+Wordpress Pagination
+--------------------
+//easy with pages defining the posts loop, like blog page, category pages, date pages etc
+
+previous_posts_link();
+next_posts_link();
+
+or
+
+echo paginate_links();
+
+
+-
+
+//wordpress custom query with pagination
+page-about.php
+
+<h1>Blog Posts About Us</h1>
+
+<?php
+    //to make the query dynamic we must use the page number from the url
+    $ourCurrentPage = get_query_var('paged');//Use page instead of paged for static front page 
+
+    $aboutPosts = new WP_Query(array(
+        'category_name' => 'about',
+        'posts_per_page' => 3,
+        'paged' => $ourCurrentPage //'paged');//Use page instead of paged for static front page
+    ));
+
+    if ($aboutPosts->have_posts()) :
+        while ($aboutPosts->have_posts()) :
+            $aboutPosts->the_post(); 
+            ?>
+            <li><a href="<?php the_permalink();?>"><?php the_title(); ?></a></li>
+            <?php 
+
+        endwhile;
+
+        //previous_posts_link(); //does work with custom queries out of the box
+        //next_posts_link('Next Page', $aboutPosts->max_num_pages); //doesn't work with custom queries
+
+        //or use the paginate_links() function
+        echo paginate_links( array(
+            'total' => $aboutPosts->max_num_pages
+        ) );
+
+    endif;
+
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+wordpress plugins
+-----------------
+async
+-----
+//css
+WP async css
+//js
+Async JavaScript
+
+//other similar that didn't work the first time
+Autoptimize
+Above the Fold Optimization
+
+
+
+
+
+wordpress errors debug
+----------------------
+//in wp-config.php right above line that says /* That's all, stop editing! Happy blogging. */
+@ini_set('display_errors','On'); // enable or disable public display of errors (use 'On' or 'Off')
+
+
+
+
+
+
+wordpress to localhost - https://skillcrush.com/2015/04/14/install-wordpress-mac/
+-------------------
+1. Create database on php myadmin - http://localhost:8888/phpMyAdmin
+
+2. Rename wordpress dl to project name and set it to MAMP project folder
+
+3. Open wp-config-sample.php
+
+4. Replace 'database_name_here' with database name 
+
+5. In lines 22 and 25, replace ‘username_here’ and ‘password_here’ with ‘root’ //which is the default for the database you created before in phpMyAdmin
+
+6. Save and exit
+
+7. Rename the file from wp-config-sample.php to wp-config.php
+
+8. Go to localhost:8888/ 
+// or localhost:8888/wpDoc (whereever you put it)
+
+9. Enter Initial wp information
+
+10. Now you can log into http://localhost:8888/wp-admin/ 
+
+
+
+
+
+  
+-
+
+wordpress layout
+----------------
+appearance > editor
+
+//based off the blank 2.0 theme
+Theme Header (header.php)
+-
+<!Doctype html>
+<head></head>
+<body>
+
+Single Page (page.php)
+-
+<?php get_header(); ?>
+<div id='content'>
+</div>
+<?php get_sidebar(); ?>
+<?php get_footer(); ?>
+
+Theme Footer (footer.php)
+-
+<div class='footer'>
+</div>
+<?php wp_footer(); ?>
+</body>
+</html>
+
+
+
+-
+
+
+
+
+wordpress Settings
+------------------
+//Change the site's homepage from 'your latest posts'
+Settings > Reading
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+Wordpress URL URI functions
+---------------------------
+
+//WordPress URL and Directory functions
+base_url()
+
+//this one actually worked without an unidentified function error..
+bloginfo('template_url')
+//ex 
+<img src="'. bloginfo('template_url').'social-img/twitter.png">
+
+//WARNING this will echo use get_bloginfo() instead
+
+//get_bloginfo()
+get_bloginfo( string $show = '', string $filter = 'raw' )
+//ex
+<img src="'.get_bloginfo('url','raw').'/social-img/twitter.png">
+
+//get_template_directory_uri()
+//Retrieve theme directory URI.
+//ex get_template_directory_uri() . 'js/main.js'
+//This function returns the URL to the root theme. If a child theme is used and you want to return the URL to the current child theme, use get_stylesheet_directory_uri() instead
+
+//get_stylesheet_directory_uri()
+//get_stylesheet_directory_uri() tells WordPress to go look up the folder of our active theme directory
+
+//The following doesn't work with img src..
+//get path to home directory
+<?php $path = get_home_path(); ?> 
+
+or use
+
+ABSPATH
+
+//also have seen this one which might be php specific
+require($_SERVER['DOCUMENT_ROOT'].'/wp-load.php');
+
+-
+
+
+
+//Adding CSS font-face
+@font-face {
+    font-family: FontName;  
+    src: url(/fonts/FontName-Regular.ttf);  
+    font-weight: normal;  
+}
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+Enqueuing Scripts and Styles
+----------------------------
+Enqueuing Stylesheets - https://code.tutsplus.com/articles/how-to-include-javascript-and-css-in-your-wordpress-themes-and-plugins--wp-24321
+-----------------------------
+//if the style will be used in multiple places on the site register it first
+<?php
+wp_register_style( $handle, $src, $deps, $ver, $media );
+?>
+<?php
+ 
+// wp_register_style() example
+wp_register_style(
+    'my-bootstrap-extension', // handle name
+    get_template_directory_uri() . '/css/my-bootstrap-extension.css', // the URL of the stylesheet
+    array( 'bootstrap-main' ), // an array of dependent styles
+    '1.2', // version number
+    'screen' // CSS media type
+);
+ 
+?>
+
+$handle (string, required) is unique name for your stylesheet. Other functions will use this "handle" to enqueue and print your stylesheet.
+
+$src (string, required) refers to the URL of the stylesheet. You can use functions like get_template_directory_uri() to get the style files inside your theme's directory. Don't ever think about hard-coding it!
+
+$deps (array, optional) handles names for dependent styles. If your stylesheet won't work if some other style file is missing, use this parameter to set the "dependencies".
+
+$ver (string or boolean, optional) is the version number. You can use your theme's version number or make up one, if you want. If you don't want to use a version number, set it to null. It defaults to false, which makes WordPress add its own version number.
+
+$media (string, optional) is the CSS media types like "screen" or "handheld" or "print". If you're not sure you need to use this, don't use it. It defaults to "all".
+
+
+//ex place this in functions.php
+//watch out for the right path, if your using a theme then get_template_directory_uri() won't take you to the root
+//ex of a child theme path (kinda sketchy if parent theme gets deleted or something weird)
+get_template_directory_uri() . '/../lightpress-child/style.php' 
+
+
+function wptuts_styles_with_the_lot()
+{
+    // Register the style like this for a plugin:
+    wp_register_style( 'custom-style', plugins_url( '/css/custom-style.css', __FILE__ ), array(), '20120208', 'all' );
+    // or
+    // Register the style like this for a theme:
+    wp_register_style( 'custom-style', get_template_directory_uri() . '/css/custom-style.css', array(), '20120208', 'all' );
+ 
+    // For either a plugin or a theme, you can then enqueue the style:
+    wp_enqueue_style( 'custom-style' );
+}
+//this will call the function above when wp_enqueue_scripts is called
+//maybe not the best way to do it if you just need a stylesheet
+add_action( 'wp_enqueue_scripts', 'wptuts_styles_with_the_lot' );
+
+
+//and then you must include this script in your <head> tag inthe header.php
+//actually this may already be included in your template
+<?php wp_head();?>
+
+
+
+
+
+-
+
+Enqueuing Scripts
+-----------------
+//ex full
+function wptuts_scripts_with_the_lot()
+{
+    // Register the script like this for a plugin:
+    wp_register_script( 'custom-script', plugins_url( '/js/custom-script.js', __FILE__ ), array( 'jquery', 'jquery-ui-core' ), '20120208', true );
+    // or
+    // Register the script like this for a theme:
+    wp_register_script( 'custom-script', get_template_directory_uri() . '/js/custom-script.js', array( 'jquery', 'jquery-ui-core' ), '20120208', true );
+ 
+    // For either a plugin or a theme, you can then enqueue the script:
+    wp_enqueue_script( 'custom-script' );
+}
+
+add_action( 'wp_enqueue_scripts', 'wptuts_scripts_with_the_lot' );
+
+
+
+-
+
+//simple example
+//notice in this example that null was used in the version number
+//if you leave the version number blank it will default to the current wordpress version
+//use NULL if no dependancies or no version number
+
+function scripts_for_the_pop()
+{
+    wp_register_script( 'pop-script', get_stylesheet_directory_uri() . '/homepagePopup.js', array( 'jquery', 'jquery-ui-core' ), null, true );
+ 
+    wp_enqueue_script( 'pop-script' );
+}
+
+add_action( 'wp_enqueue_scripts', 'scripts_for_the_pop' );
+
+
+//the wp_register_script() function takes the same inputs as wp_register_style() except for the last argument..
+//$in_footer
+//(bool) (Optional) Whether to enqueue the script before </body> instead of in the <head>. Default 'false'.
+//Default value: false
+
+
+-
+
+
+//for specific page scripts 
+function enqueue_files() {
+  if ( is_page( 'your-page' ) ) {
+    // enqueue specific page script files here
+  } else {
+    // enqueue common scripts here
+  }
+}
+add_action( 'wp_enqueue_scripts', 'enqueue_files' );
+
+
+
+
+
+
+
+
+-
+
+Wordpress Child Theme
+---------------------
+1 Download 1-click-child-theme
+//Or create a folder in the theme folder named wpb-child, and create a css file with this code at the top
+/*
+ Theme Name:   WPB Child Theme
+ Theme URI:    http://www.wpbeginner.com/
+ Description:  A Twenty Thirteen child theme 
+ Author:       WPBeginner
+ Author URI:   http://www.wpbeginner.com
+ Template:     twentythirteen
+ Version:      1.0.0
+*/
+
+@import url("../twentythirteen/style.css");
+
+
+2 Appearance > Click Child Theme (of the desired parent theme)
+//Child theme will now be selected as the active theme
+//Child them MUST have the parent theme available in the themes list
+//Parent theme is determined by the "Template: .." in the shild them styles.css file
+
+3 To use a seperate header.php file (or other .php file) simply copy the header.php file from the them folder into the child-them folder.  
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+WordPress Posts
+---------------
+//here are some useful functions for the html
+
+the_excerpt()  //Filters the displayed post excerpt.
+
+-
+
+//esc_html
+$html = esc_html( '<a href="http://www.example.com/">A link</a>' );
+
+$html now contains this:
+&lt;a href=&quot;http://www.example.com/&quot;&gt;A link&lt;/a&gt;
+
+//esc_html__( string $text, string $domain = 'default' )
+//it looks like it just uses esc_html 
+function esc_html__( $text, $domain = 'default' ) {
+    return esc_html( translate( $text, $domain ) );
+}
+
+
+//esc_html_x
+//Translate string with gettext context, and escapes it for safe use in HTML output.
+esc_html_x( string $text, string $context, string $domain = 'default' )
+
+//ex
+esc_html_x( 'by %s', 'post author', 'lightpress' )
+//output:
+by pete
+
+
+//esc_url
+//Checks and cleans a URL.
+esc_url( string $url, array $protocols = null, string $_context = 'display' )
+//ex
+$avatarURL = esc_URL(get_user_meta(get_the_author_meta( 'ID' ), 'yourprefix_user_avatar', true));
+
+
+-
+
+//the_field
+//This is for Advanced Custom Fields Plugin
+//Displays the value of the specified field. This function is the same as..
+echo get_field($field_name);
+//ex
+echo 'Genre: '; the_field( 'genre' );
+
+
+-
+
+if statements
+-------------
+//check if twitter metadata is empty
+ if ( !empty( $user_twitter ) ) {
+        
+    }
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+Wordpress custom posts
+----------------------
+//all posts are stored in mySQL database un wp_posts
+//this includes posts, pages, nav_menu_item, etc
+
+//in functions.php
+
+
+//example from - http://www.wpbeginner.com/wp-tutorials/how-to-create-custom-post-types-in-wordpress/
+
+//this is a very simple example
+// Our custom post type function
+function create_posttype() {
+
+    register_post_type( 'movies',
+    // CPT Options
+        array(
+            'labels' => array(
+                'name' => __( 'Movies' ),
+                'singular_name' => __( 'Movie' )
+            ),
+            'public' => true,
+            'has_archive' => true,
+            'rewrite' => array('slug' => 'movies'),
+        )
+    );
+}
+// Hooking up our function to theme setup
+add_action( 'init', 'create_posttype' );
+
+
+
+
+//here's a full example
+//textDomain -  If your theme is translation ready and you want your custom post types to be translated, then you will need to mention text domain used by your theme. You can find your theme’s text domain inside style.css file in your theme directory. Text domain will be mentioned in the header of the file.
+//We have also associated this custom post type with a custom taxonomy called genres. Also notice the part where we have set the hierarchical value to be false. If you would like your custom post type to behave like Pages, then you can set this value to true.
+
+/*
+* Creating a function to create our CPT
+*/
+
+function custom_post_type() {
+
+// Set UI labels for Custom Post Type
+    $labels = array(
+        'name'                => _x( 'Movies', 'Post Type General Name', 'textDomain' ),
+        'singular_name'       => _x( 'Movie', 'Post Type Singular Name', 'textDomain' ),
+        'menu_name'           => __( 'Movies', 'textDomain' ),
+        'parent_item_colon'   => __( 'Parent Movie', 'textDomain' ),
+        'all_items'           => __( 'All Movies', 'textDomain' ),
+        'view_item'           => __( 'View Movie', 'textDomain' ),
+        'add_new_item'        => __( 'Add New Movie', 'textDomain' ),
+        'add_new'             => __( 'Add New', 'textDomain' ),
+        'edit_item'           => __( 'Edit Movie', 'textDomain' ),
+        'update_item'         => __( 'Update Movie', 'textDomain' ),
+        'search_items'        => __( 'Search Movie', 'textDomain' ),
+        'not_found'           => __( 'Not Found', 'textDomain' ),
+        'not_found_in_trash'  => __( 'Not found in Trash', 'textDomain' ),
+    );
+    
+// Set other options for Custom Post Type
+    
+    $args = array(
+        'label'               => __( 'movies', 'textDomain' ),
+        'description'         => __( 'Movie news and reviews', 'textDomain' ),
+        'labels'              => $labels,
+        // Features this CPT supports in Post Editor
+        'supports'            => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'comments', 'revisions', 'custom-fields', ),
+        // You can associate this CPT with a taxonomy or custom taxonomy. 
+        'taxonomies'          => array( 'genres' ),
+        /* A hierarchical CPT is like Pages and can have
+        * Parent and child items. A non-hierarchical CPT
+        * is like Posts.
+        */  
+        'hierarchical'        => false,
+        'public'              => true,
+        'show_ui'             => true,
+        'show_in_menu'        => true,
+        'show_in_nav_menus'   => true,
+        'show_in_admin_bar'   => true,
+        'menu_position'       => 5,
+        'can_export'          => true,
+        'has_archive'         => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'capability_type'     => 'page',
+    );
+    
+    // Registering your Custom Post Type
+    register_post_type( 'movies', $args );
+
+}
+
+/* Hook into the 'init' action so that the function
+* Containing our post type registration is not 
+* unnecessarily executed. 
+*/
+
+add_action( 'init', 'custom_post_type', 0 );
+
+
+//Display custom posts
+//Warning about 404 page errors 
+//you might need to refresh permalinks 
+//see this vide https://youtu.be/vVgr1YTQiLY?list=PLriKzYyLb28nUFbe0Y9d-19uVkOnhYxFE&t=474
+
+//your custom posts page will be here
+http://example.com/movies
+//listed using the archive.php file as a template
+
+//if you don't like the archive.php style of things
+//you can use a custom php file for this specific page
+//just name in like so
+
+archive-movies.php
+//you can copy the contents of your theme’s archive.php file into archive-movies.php template and then start modifying it to meet your needs
+
+//and you can do the same for single posts
+single-movies.php
+
+//one advantage to using custom posts is that they are kept out of your regular posts
+//to include you custom posts within all regular posts add something like this to your function.php file
+
+add_action( 'pre_get_posts', 'add_my_post_types_to_query' );
+
+function add_my_post_types_to_query( $query ) {
+    if ( is_home() && $query->is_main_query() )
+        $query->set( 'post_type', array( 'post', 'movies' ) );
+    return $query;
+}
+
+
+
+ 
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wordpress custom meta box
+-------------------------
+Post metadata is data that’s saved in the wp_postmeta table in the database. Each entry is saved as four fields in this table:
+meta_id: A unique ID for this specific metadata.
+post_id: The post ID this metadata is attached to.
+meta_key: A key used to identify the data (you’ll work with this often).
+meta_value: The value of the metadata.
+
+//and these are the function you'll use to handle these datas
+add_post_meta(): Adds post metadata.
+update_post_meta(): Updates post metadata.
+delete_post_meta(): Deletes post metadata.
+get_post_meta(): Retrieves post metadata.
+
+
+//ex - https://www.smashingmagazine.com/2011/10/create-custom-post-meta-boxes-wordpress/
+//This example is about adding a custom css class to a post hence all the Post Class variables
+
+
+1 /* Fire our meta box setup function on the post editor screen. */
+add_action( 'load-post.php', 'smashing_post_meta_boxes_setup' );
+add_action( 'load-post-new.php', 'smashing_post_meta_boxes_setup' );
+
+
+2 /* Meta box setup function. */
+function smashing_post_meta_boxes_setup() {
+
+  /* Add meta boxes on the 'add_meta_boxes' hook. */
+  add_action( 'add_meta_boxes', 'smashing_add_post_meta_boxes' );
+}
+
+//you can add as many metaboxes as you like inside your smashing_post_meta_boxes_setup() function
+//use this function
+//add_meta_box( $id, $title, $callback, $page, $context = 'advanced', $priority = 'default', $callback_args = null );
+
+$id: This is a unique ID assigned to your meta box. It should have a unique prefix and be valid HTML.
+$title: The title of the meta box. Remember to internationalize this for translators.
+$callback: The callback function that displays the output of your meta box.
+$screen: The screen or screens on which to show the box (such as a post type, link, or comment). Accepts a single screen ID, WP_Screen object, or array of screen IDs. Default is the current screen.
+$context: Where on the page the meta box should be shown. The available options are normal, advanced, and side.
+$priority: How high/low the meta box should be prioritized. The available options are default, core, high, and low.
+$callback_args: An array of custom arguments you can pass to your $callback function as the second parameter.
+
+
+3 /* Create one or more meta boxes to be displayed on the post editor screen. */
+function smashing_add_post_meta_boxes() {
+
+  add_meta_box(
+    'smashing-post-class',      // Unique ID
+    esc_html__( 'Post Class', 'example' ),    // Title
+    'smashing_post_class_meta_box',   // Callback function
+    'post',         // Admin page (or post type)
+    'side',         // Context
+    'default'         // Priority
+  );
+}
+
+
+4 /* Display the post meta box.  Not on the site but in the administrators section, where you edit posts*/
+function smashing_post_class_meta_box( $post ) { ?>
+
+  <?php wp_nonce_field( basename( __FILE__ ), 'smashing_post_class_nonce' ); ?>
+
+  <p>
+    <label for="smashing-post-class"><?php _e( "Add a custom CSS class, which will be applied to WordPress' post class.", 'example' ); ?></label>
+    <br />
+    <input class="widefat" type="text" name="smashing-post-class" id="smashing-post-class" value="<?php echo esc_attr( get_post_meta( $post->ID, 'smashing_post_class', true ) ); ?>" size="30" />
+  </p>
+<?php }
+
+//Now the Metabox will show up in Admin Post section, but it doesn't do anything
+
+
+5 //Add this to the smashing_post_meta_boxes_setup() function
+/* Save post meta on the 'save_post' hook. */
+add_action( 'save_post', 'smashing_save_post_class_meta', 10, 2 );
+
+//it should now look like this
+/* Meta box setup function. */
+function smashing_post_meta_boxes_setup() {
+
+  /* Add meta boxes on the 'add_meta_boxes' hook. */
+  add_action( 'add_meta_boxes', 'smashing_add_post_meta_boxes' );
+
+  /* Save post meta on the 'save_post' hook. */
+  add_action( 'save_post', 'smashing_save_post_class_meta', 10, 2 );
+}
+
+
+6 //This function will save, update, or delete your custom post meta.
+//When saving post meta, your function needs to run through a number of processes:
+-Verify the nonce set in the meta box function.
+-Check that the current user has permission to edit the post.
+-Grab the posted input value from $_POST.
+-Decide whether the meta should be added, updated, or deleted based on the posted value and the old value.
+
+//I’ve left the following function somewhat generic so that you’ll have a little flexibility when developing your own meta boxes.
+
+/* Save the meta box's post metadata. */
+function smashing_save_post_class_meta( $post_id, $post ) {
+
+  /* Verify the nonce before proceeding. */
+  if ( !isset( $_POST['smashing_post_class_nonce'] ) || !wp_verify_nonce( $_POST['smashing_post_class_nonce'], basename( __FILE__ ) ) )
+    return $post_id;
+
+  /* Get the post type object. */
+  $post_type = get_post_type_object( $post->post_type );
+
+  /* Check if the current user has permission to edit the post. */
+  if ( !current_user_can( $post_type->cap->edit_post, $post_id ) )
+    return $post_id;
+
+  /* Get the posted data and sanitize it for use as an HTML class. */
+  $new_meta_value = ( isset( $_POST['smashing-post-class'] ) ? sanitize_html_class( $_POST['smashing-post-class'] ) : '' );
+
+  /* Get the meta key. */
+  $meta_key = 'smashing_post_class';
+
+  /* Get the meta value of the custom field key. */
+  $meta_value = get_post_meta( $post_id, $meta_key, true );
+
+  /* If a new meta value was added and there was no previous value, add it. */
+  if ( $new_meta_value && '' == $meta_value )
+    add_post_meta( $post_id, $meta_key, $new_meta_value, true );
+
+  /* If the new meta value does not match the old value, update it. */
+  elseif ( $new_meta_value && $new_meta_value != $meta_value )
+    update_post_meta( $post_id, $meta_key, $new_meta_value );
+
+  /* If there is no new meta value but an old value exists, delete it. */
+  elseif ( '' == $new_meta_value && $meta_value )
+    delete_post_meta( $post_id, $meta_key, $meta_value );
+}
+
+
+//Congratulations
+//Now to use that metadata
+
+//Since you’ve been building a meta box that allows a user to input a custom post class, you’ll need to filter WordPress’ post_class hook so that the custom class appears alongside the other post classes.
+/* Filter the post class hook with our custom post class function. */
+add_filter( 'post_class', 'smashing_post_class' );
+
+function smashing_post_class( $classes ) {
+
+  /* Get the current post ID. */
+  $post_id = get_the_ID();
+
+  /* If we have a post ID, proceed. */
+  if ( !empty( $post_id ) ) {
+
+    /* Get the custom post class. */
+    $post_class = get_post_meta( $post_id, 'smashing_post_class', true );
+
+    /* If a post class was input, sanitize it and add it to the post class array. */
+    if ( !empty( $post_class ) )
+      $classes[] = sanitize_html_class( $post_class );
+  }
+
+  return $classes;
+}
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+wordpress custom post format
+----------------------------
+
+1 //add theme support hook in functions.php
+//wordpress has nine post formats to select from 
+add_theme_support('post-formats', array('aside', 'gallery', 'link', 'image', 'quote', 'status', 'video', 'audio', 'chat'));
+
+2 //create a file with the standard custom post format
+content.php 
+//or specific content templates
+content-page.php
+content-single.php
+etc..
+//then write the standard post format inside
+<?php 
+<h1>the_title</h1>
+?>
+...
+
+3 //Now in post you can access the post format
+//if get_post_format() is 'aside' then get_template_part will look for content-aside.php
+get_template_part( 'template-parts/content', get_post_format() );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Wordpress User meta boxes user meta data
+----------------------------------------
+//use plug in cmb2 (custom meta boxes 2) 
+//would be great to use for the post meta boxes as well
+//see the cmb2 example-functions.php file to copy some useful metabox code
+//profit
+
+//copied from wp_include > plug-ins > example-functions.php 
+add_action( 'cmb2_admin_init', 'yourprefix_register_user_profile_metabox' );
+/**
+ * Hook in and add a metabox to add fields to the user profile pages
+ */
+function yourprefix_register_user_profile_metabox() {
+    $prefix = 'yourprefix_user_';
+
+    /**
+     * Metabox for the user profile screen
+     */
+    $cmb_user = new_cmb2_box( array(
+        'id'               => $prefix . 'edit',
+        'title'            => esc_html__( 'User Profile Metabox', 'cmb2' ), // Doesn't output for user boxes
+        'object_types'     => array( 'user' ), // Tells CMB2 to use user_meta vs post_meta
+        'show_names'       => true,
+        'new_user_section' => 'add-new-user', // where form will show on new user page. 'add-existing-user' is only other valid option.
+    ) );
+
+    $cmb_user->add_field( array(
+        'name'     => esc_html__( 'Extra Info', 'cmb2' ),
+        'desc'     => esc_html__( 'field description (optional)', 'cmb2' ),
+        'id'       => $prefix . 'extra_info',
+        'type'     => 'title',
+        'on_front' => false,
+    ) );
+
+    $cmb_user->add_field( array(
+        'name'    => esc_html__( 'Avatar', 'cmb2' ),
+        'desc'    => esc_html__( 'field description (optional)', 'cmb2' ),
+        'id'      => $prefix . 'avatar',
+        'type'    => 'file',
+    ) );
+
+    $cmb_user->add_field( array(
+        'name' => esc_html__( 'Facebook URL', 'cmb2' ),
+        'desc' => esc_html__( '(optional)', 'cmb2' ),
+        'id'   => $prefix . 'facebookurl',
+        'type' => 'text_url',
+    ) );
+
+    $cmb_user->add_field( array(
+        'name' => esc_html__( 'Twitter URL', 'cmb2' ),
+        'desc' => esc_html__( '(optional)', 'cmb2' ),
+        'id'   => $prefix . 'twitterurl',
+        'type' => 'text_url',
+    ) );
+
+    $cmb_user->add_field( array(
+        'name' => esc_html__( 'Post Color Hex', 'cmb2' ),
+        'desc' => esc_html__( 'ex. #f7hh4k (optional)', 'cmb2' ),
+        'id'   => $prefix . 'googleplusurl',
+        'type' => 'text_url',
+    ) );
+
+
+}
+
+
+
+-
+
+Displaying Meta Data
+--------------------
+//start by getting the author id for the post
+get_the_author_meta( string $field = '', int $user_id = false )
+
+//then get user meta to find the meta data you'd like
+get_user_meta( int $user_id, string $key = '', bool $single = false )
+
+//my code looks like this 
+$user_id = get_the_author_meta( $field = 'ID');
+$key = 'yourprefix_user_userHexCode';
+$single = true;
+$user_last = get_user_meta( $user_id, $key, $single ); 
+echo '<p>The '. $key . ' value for user id ' . $user_id . ' is: ' . $user_last . '</p>'; 
+
+
+
+
+
+
+
+------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Wordpress pages
+---------------
+//create a page for a custom slug like wordpress.com/portfolio
+// video on pages - https://www.youtube.com/watch?v=vVgr1YTQiLY#t=1189.395865
+//make sure to refresh the permalink structure if you still see 404 (see that video)
+
+//for a single page 
+single-portfolio.php
+
+//for an archive
+archive-portfolio.php
+
+//create a custom page template
+
+//save this it withing the theme's folder with all the others
+page-TemplateName-template.php
+
+//MUST include the Template Name at the top
+<?php
+/*
+  Template Name: templateTest
+*/
+
+
+
+
+
+
+
+
+
+-
+
+wordpress post loops
+--------------------
+//wordpress codex - https://codex.wordpress.org/The_Loop
+<?php
+    if( have_posts() ): //returns true is content is saved within database
+
+        while( have_posts() ): the_post(); ?>
+
+            <h2><?php the_title() ?></h2> <!--prints title of each post-->
+            <p><?php the_content() ?></p> <!--prints content-->
+            <p><?php the_time() ?></p> <!--prints time of post-->
+            <p><?php the_category() ?></p> <!--prints category of post-->
+
+        <?php endwhile;
+
+    endif;
+?>
+
+
+
+
+
+
+-
+
+wordpress body class
+--------------------
+//in the index.php file
+
+//this will insert an array of custom classes into each page
+<body <?php body_class(array('my-custom-class', 'and-another')); ?>> 
+
+//or just for the home page
+<?php
+    if( is_home() ): //is_home is always the blog post page is_front_page() is the landing page if not blog posts
+        $arrayOfClasses = array('my-custom-class', 'and-another');
+    else:
+        $arrayOfClasses = array('not-home-classes');
+    endif;
+?>
+<body <?php body_class($arrayOfClasses); ?>>
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+wordpress php css
+-----------------
+
+//style.php
+//must include at the top of style.php header("Content-type: text/css; charset: UTF-8");
+//ex
+<?php 
+header("Content-type: text/css; charset: UTF-8");
+
+echo ".social-images { background: orange; }";
+
+
+-
+
+//Enqueing is like normal
+//ex
+wp_register_style(
+    'my-php-styles', // handle name
+    get_template_directory_uri() . '/../lightpress-child/style.php' // the URL of the stylesheet
+);
+
+wp_enqueue_style( 'my-php-styles' );
+
+
+
+-
+
+//if you want to include functions from wordpress make sure to include this..
+require($_SERVER['DOCUMENT_ROOT'].'/wp-load.php');
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+export wordpress to online
+--------------------------
+1 go to phpmyadmin and download the database (firstwp.sql)
+
+2 change http://localhost:8888/ to http://funq.peteprogr.zone/
+//or leave it and change the 'siteurl', and 'home' values in wp-options to the right new url after importing the database to your server 
+
+3 create new mySQL database on cpanel
+//ex
+database: mebsntcc_firstwp
+user: mebsntcc_firstwp_user
+Pass: KJ=xmnWFK0B@
+
+4 go to phpmyadmin on cpanel and import the firstwp.sql file into the new database
+
+5 change the wp-config.php file to new settings, here's what you need to change
+
+define(‘DB_NAME’, ‘mebsntcc_firstwp’);
+define(‘DB_USER’, ‘mebsntcc_firstwp_user’);
+define(‘DB_PASSWORD’, ‘KJ=xmnWFK0B@’);
+define(‘DB_HOST’, ‘localhost’); //on namecheap The MySQL hostname should be localhost
+
+6 if it's fucked up (error connecting to database) try this test.php at yoursite.com/test.php
+<?php
+$servername = "localhost";
+$username = "mebsntcc_firstwp_user";
+$password = "KJ=xmnWFK0B@";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+echo "Connected successfully";
+?>
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+.htaccess
+----------
+//the following should be included in your htaccess file especially if links aren't working on a wp site
+
+# BEGIN WordPress
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+RewriteRule ^index.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+</IfModule>
+# End WordPress
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+wordpress woocomerce 
+--------------------
+// some code snippets on this website..
+// http://uploadwp.com/community/index.php?threads/front-end-code-snippets-to-customize-woocommerce.48/
+//change the name of the woocomerce single product tabs 
+ add_filter( 'woocommerce_product_tabs', 'woo_rename_tabs', 98 );
+function woo_rename_tabs( $tabs ) {
+$tabs['description']['title'] = __( 'About This T-Shirt' ); // Rename the description tab
+$tabs['reviews']['title'] = __( 'Customer Feedback' ); // Rename the reviews tab
+$tabs['additional_information']['title'] = __( 'Details' ); // Rename the additional information tab
+return $tabs;
+} 
+
+
+//remove a product tab
+add_filter( 'woocommerce_product_tabs', 'woo_remove_product_tabs', 98 );
+function woo_remove_product_tabs( $tabs ) {
+unset( $tabs['additional_information'] ); // Remove the additional information tab
+return $tabs;
+}
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+wordpress jquery
+----------------
+
+//can't use the $ due to compatibility mode
+/* Regular jQuery */
+$('.hideable').on('click', function() {
+  $(this).hide();
+})
+
+/* Compatibility Mode */
+jQuery('.hideable').on('click', function() {
+  jQuery(this).hide();
+})
+
+
+-
+
+
+//if loading scripts in the footer..
+(function($) {
+    
+  $('.hideable').on('click', function() {
+    $(this).hide();
+  })
+    
+})( jQuery );
+
+
+-
+
+
+//if youmust load scripts in the header..
+jQuery(document).ready(function( $ ) {
+    
+  $('.hideable').on('click', function() {
+    $(this).hide();
+  })
+    
+});
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+Remove p tags from img
+----------------------
+//in functions.php
+
+function wpautop_forked($pee, $br = 1) {
+
+if ( trim($pee) === '' )
+return '';
+$pee = $pee . "\n"; // just to make things a little easier, pad the end
+$pee = preg_replace('|<br />\s*<br />|', "\n\n", $pee);
+// Space things out a little
+$allblocks = '(?:table|thead|tfoot|caption|col|colgroup|tbody|tr|td|th|div|dl|dd|dt|ul|ol|li
+|pre|select|option|form|map|area|blockquote|img|address|math|style|input
+|p|h[1-6]|hr|fieldset|legend|section|article|aside|hgroup|header|footer
+|nav|figure|figcaption|details|menu|summary)';
+$pee = preg_replace('!(<' . $allblocks . '[^>]*>)!', "\n$1", $pee);
+$pee = preg_replace('!(</' . $allblocks . '>)!', "$1\n\n", $pee);
+$pee = str_replace(array("\r\n", "\r"), "\n", $pee); // cross-platform newlines
+if ( strpos($pee, '<object') !== false ) {
+$pee = preg_replace('|\s*<param([^>]*)>\s*|', "<param$1>", $pee); // no pee inside object/embed
+$pee = preg_replace('|\s*</embed>\s*|', '</embed>', $pee);
+}
+$pee = preg_replace("/\n\n+/", "\n\n", $pee); // take care of duplicates
+// make paragraphs, including one at the end
+$pees = preg_split('/\n\s*\n/', $pee, -1, PREG_SPLIT_NO_EMPTY);
+$pee = '';
+foreach ( $pees as $tinkle )
+$pee .= '<p>' . trim($tinkle, "\n") . "</p>\n";
+$pee = preg_replace('|<p>\s*</p>|', '', $pee); // under certain strange conditions it could create a P of entirely whitespace
+$pee = preg_replace('!<p>([^<]+)</(div|address|form)>!', "<p>$1</p></$2>", $pee);
+$pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee); // don't pee all over a tag
+$pee = preg_replace("|<p>(<li.+?)</p>|", "$1", $pee); // problem with nested lists
+$pee = preg_replace('|<p><blockquote([^>]*)>|i', "<blockquote$1><p>", $pee);
+$pee = str_replace('</blockquote></p>', '</p></blockquote>', $pee);
+$pee = preg_replace('!<p>\s*(</?' . $allblocks . '[^>]*>)!', "$1", $pee);
+$pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*</p>!', "$1", $pee);
+if ($br) {
+$pee = preg_replace_callback('/<(script|style).*?<\/\\1>/s', create_function('$matches', 'return str_replace("\n", "<WPPreserveNewline />", $matches[0]);'), $pee);
+$pee = preg_replace('|(?<!<br />)\s*\n|', "<br />\n", $pee); // optionally make line breaks
+$pee = str_replace('<WPPreserveNewline />', "\n", $pee);
+}
+$pee = preg_replace('!(</?' . $allblocks . '[^>]*>)\s*<br />!', "$1", $pee);
+$pee = preg_replace('!<br />(\s*</?(?:p|li|div|dl|dd|dt|th|pre|td|ul|ol)[^>]*>)!', '$1', $pee);
+if (strpos($pee, '<pre') !== false)
+$pee = preg_replace_callback('!(<pre[^>]*>)(.*?)</pre>!is', 'clean_pre', $pee );
+$pee = preg_replace( "|\n</p>$|", '</p>', $pee );
+
+return $pee;
+}
+
+remove_filter('the_content', 'wpautop');
+add_filter('the_content', 'wpautop_forked');
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

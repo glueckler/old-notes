@@ -1,0 +1,509 @@
+Functions
+---------
+------
+--
+
+
+
+//function bodies must be within {} even if they are 1 line
+
+//ex without any parameter names
+var makeNoise = function() {
+  console.log("Pling!");
+};
+
+makeNoise();
+// → Pling!
+
+
+-
+
+//ex with two parameter names
+var power = function(base, exponent) {
+  var result = 1;
+  for (var count = 0; count < exponent; count++)
+    result *= base;
+  return result;
+};
+
+console.log(power(2, 10));
+// → 1024
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+declaration notation
+---
+//if a statement (not an expression, a statement) starts with function, it is a function declaration, which requires a name
+//and, not being an expression, cannot be called by writing parentheses after it
+
+//it possible to create a function without typing: var square = function(x);
+//this is the same..
+function square(x) {
+  return x * x;
+}
+
+-
+
+//function declarations are not part of the regular top-to-bottom flow of control
+//Function declarations load before any code is executed.
+//ex, this will still work
+console.log("The future says:", future());
+
+function future() {
+  return "We STILL have no flying cars.";
+}
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+expression notation
+---
+//If an expression (var foo = <<< that is an expression) starts with the keyword function, it is a function expression
+//named function expression
+var foo = function bar() { ... }
+
+//Anonymous Function expression
+var foo = function() { ... }
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+Immidiately Invoked Function Expression (IIFE)
+---
+//function declarations cannot be immidiately invoked,
+//however function expressions can be
+
+//ex of a function expression (it doesn't begin with function) being invoked immidiately
+(function() { ... }());
+
+//ex another example
+var dayName = function() {
+  var names = ["Sunday", "Monday", "Tuesday", "Wednesday",
+               "Thursday", "Friday", "Saturday"];
+  return function(number) {
+    return names[number];
+  };
+}();
+console.log(dayName(3));
+// → Wednesday
+
+//Now names is a local variable in an (unnamed) function.
+//This function is created and immediately called, and its return value (the actual dayName function) is stored in a variable
+
+//Note
+//We could have pages and pages of code in this function, with 100 local variables, and they would all be internal to our module—visible to the module itself but not to outside code
+
+
+
+
+-
+
+//DO NOT use declaration notation inside of an if block or a loop
+//javascript engines interpret this differently in browsers and the lastest standard forbids it
+//ex
+function example() {
+  function a() {} // Okay
+  if (something) {
+    function b() {} // Danger!
+  }
+}
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+function as values
+---
+//It is possible to store a function value in a new place, pass it as an argument to a function, and so on.
+//Similarly, a variable that holds a function is still just a regular variable and can be assigned a new value, like so:
+var launchMissiles = function(value) {
+  missileSystem.launch("now");
+};
+if (safeMode)
+  launchMissiles = function(value) {/* do nothing */};
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+return
+------
+//a return statement determines the values of a functions return
+
+//when control comes across the return statement, it immediately jumps out of the function and gives the return value to the code that called the function
+
+//the return keyword without anything after it will return undefined
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+scope
+-----
+//In JavaScript, functions are the only things that create a new scope..
+//whereas some programming languages produce a new local environment inside any block of code between braces (like if statements?)
+
+
+var x = "outside";
+
+var f1 = function() {
+  var x = "inside f1";
+};
+f1();
+console.log(x);
+// → outside
+
+var f2 = function() {
+  x = "inside f2";
+};
+f2();
+console.log(x);
+// → inside f2
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+Optional Arguments
+------------------
+//If you pass too many, the extra ones are ignored. If you pass too few, the missing parameters simply get assigned the value undefined
+
+//the following code is allowed and works..
+alert("Hello", "Good Evening", "How do you do?");
+//this will alert "Hello"
+//even though alert only calls for one argument, the others are ignored
+
+//The upside is that this behavior can be used to have a function take “optional” arguments.
+//ex
+function power(base, exponent) {
+  if (exponent == undefined)
+    exponent = 2;
+  var result = 1;
+  for (var count = 0; count < exponent; count++)
+    result *= base;
+  return result;
+}
+
+console.log(power(4));
+// → 16
+console.log(power(4, 3));
+// → 64
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+Closure
+-------
+//ex
+function wrapValue(n) {
+  var localVariable = n;
+  return function() { return localVariable; };
+}
+
+var wrap1 = wrapValue(1);
+var wrap2 = wrapValue(2);
+console.log(wrap1());
+// → 1
+console.log(wrap2());
+// → 2
+
+//wrap1 becomes the return value of wrapValue(1), but it first creates a new variable (localVariable) within the scope of that specific function
+//therefore it will always have access to that frozen localVariable even if the same function is called and assigned to another variable in your code, which it is (in wrap2).
+
+
+-
+
+//ex
+function multiplier(factor) {
+  return function(number) {
+    return number * factor;
+  };
+}
+
+var twice = multiplier(2);
+console.log(twice(5));
+// → 10
+
+//here, twice will equal the return value of multiplier which is another function
+//but it will retain the parameter that was passed in when the variable was created (factor, which is 2 in this example).
+//it does this behind the scenes
+var twice = function(number) { return number * factor };
+//But factor has been closed and frozen with a value of 2
+
+//This feature — being able to reference a specific instance of local variables in an enclosing function — is called closure
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+recursion
+---------
+//It is perfectly okay for a function to call itself, as long as it takes care not to overflow the stack.
+//A function that calls itself is called a recursive function
+
+function power(base, exponent) {
+  if (exponent == 0)
+    return 1;
+  else
+    return base * power(base, exponent - 1);
+}
+
+console.log(power(2, 3));
+// → 8
+
+//note that in Javascript this is about 10times slower than the looping version
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+calling methods vs settings properties
+--------------------------------------
+window.onload = initAll;
+//here you are setting the onload property of the window object to reference the initAll function itself.
+
+window.onload = initAll();
+//here you are setting the onload property to hold the return value of initAll, since it will execute in place on that line.
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+higher order functions
+----------------------
+//Functions that operate on other functions, either by taking them as arguments or by returning them, are called higher-order functions
+
+//ex a function that creates another function
+function greaterThan(n) {
+  return function(m) { return m > n; };
+}
+var greaterThan10 = greaterThan(10);
+console.log(greaterThan10(11));
+// → true
+
+
+-
+
+//ex
+function filter(array, test) {
+  var passed = [];
+  for (var i = 0; i < array.length; i++) {
+    if (test(array[i]))
+      passed.push(array[i]);
+  }
+  return passed;
+}
+
+console.log(filter(ancestry, function(person) {
+  return person.born > 1900 && person.born < 1925;
+}));
+// → [{name: "Philibert Haverbeke", …}, …]
+
+
+//this function is to filter out the young people in a certain JSON
+//This uses the argument named test, a function value, to fill in a “gap” in the computation.
+//The test function is called for each element, and its return value determines whether an element is included in the returned array.
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+Constructors
+------------
+//In JavaScript, calling a function with the new keyword in front of it causes it to be treated as a constructor
+
+//An object created with new is said to be an instance of its constructor
+//Use a capital letter at the beginning of the name of your constructors
+//NOTE that a function called with new automatically returns its 'this' object so there is no need for a seperate return this; statement
+
+function Rabbit(type) {
+  this.type = type;
+}
+
+var killerRabbit = new Rabbit("killer");
+var blackRabbit = new Rabbit("black");
+console.log(blackRabbit.type);
+// → black
+
+
+-
+
+//Constructors (in fact, all functions) automatically get a property named prototype, which by default holds a plain, empty object that derives from Object.prototype
+//Every instance created with this constructor will have this object as its prototype
+//Note that the prototype properties of the constructor object are not passed on to objects created with a constructor, they are only looked at if the object is missing that property
+
+//So to add a speak method to rabbits created with the Rabbit constructor, we can simply do this:
+
+Rabbit.prototype.speak = function(line) {
+  console.log("The " + this.type + " rabbit says '" +
+              line + "'");
+};
+blackRabbit.speak("Doom...");
+// → The black rabbit says 'Doom...'
+
+//Note, The actual prototype of a constructor is Function.prototype since constructors are functions.
+//Its prototype property will be the prototype of instances created through it but is not its own prototype.
+
+
+-
+
+binary operator instanceof
+---
+//quickly find if an object was derived from a specific constructor
+//ex
+console.log([1] instanceof Array);
+// → true
+
+
+-
+
+
+inheritance
+---
+//Typically, the new constructor will call the old constructor (using the call method in order to be able to give it the new object as its this value).
+//Once this constructor has been called, we can assume that all the fields that the old object type is supposed to contain have been added.
+//ex
+function RTextCell(text) {
+  TextCell.call(this, text);
+}
+
+//We arrange for the constructor’s prototype to derive from the old prototype so that instances of this type will also have access to the properties in that prototype.
+RTextCell.prototype = Object.create(TextCell.prototype);
+
+//Finally, we can override some of these properties by adding them to our new prototype.
+RTextCell.prototype.draw = function( ... ) { ... };
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

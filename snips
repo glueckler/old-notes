@@ -1,0 +1,150 @@
+SNIPPETs
+--------
+---
+-
+
+
+JAVASCRIPT
+----------
+
+
+path of current url
+-------------------
+
+var path = window.location.pathname;
+//will equal "/" at the site index
+//ie it only includes everything after the domain name
+
+path.split("/");
+//will create an array of everything in between /'s
+
+path.pop();
+//will then set path to the last value of the array
+
+
+
+
+create empty arrays
+---
+Array(5) //[ , , , , ]
+//full of undefined values
+
+Array(5).split(0).join(0); //['','','','','']
+//full of empty strings
+
+//check out this for more..
+https://gist.github.com/wiledal/3c5b63887cc8a010a330b89aacff2f2e
+
+
+
+-
+
+last char in string
+---
+var lastChar = myString.substr(myString.length -1);
+
+
+-
+
+turn string of numbers into array of numbers
+---
+var a = "1,2,3,4";
+var b = a.split(',').map(Number);
+
+
+//Note: For older browsers that don't support map, you can add an implementation yourself like:
+Array.prototype.map = Array.prototype.map || function(_x) {
+    for(var o=[], i=0; i<this.length; i++) {
+        o[i] = _x(this[i]);
+    }
+    return o;
+};
+
+
+-
+
+equals true if even
+---
+var even = !(num & 1); //returns true if even
+
+
+return true if even
+---
+function isEven(num) {
+  if( !(num & 1) ) { return true; }
+  else { return false; }
+}
+
+-
+
+
+create array of emails (inside and object, inside and object)
+---
+
+function getAllEmails(users) {
+  return Object.values(users).map(user => user.email);
+}
+
+
+-
+
+
+check an email against an array of emails
+---
+function getUserByEmail(email) {
+  return Object.values(users).find(user => user.email === email);
+}
+
+
+
+-
+
+random hex code generator
+---
+
+'#' + (function co(lor){   return (lor +=
+  [0,1,2,3,4,5,6,7,8,9,'a','b','c','d','e','f'][Math.floor(Math.random()*16)])
+  && (lor.length == 6) ?  lor : co(lor); })('');
+
+
+-
+
+string into true
+---
+
+//ex
+!!('on') // ===> true
+
+
+-
+
+number to string
+---
+
+chairId = '' + 3
+
+
+-
+
+Guard statement
+---
+
+if(!(chairID in chairsOb)) {
+  res.sendStatus(404);
+  return;
+}
+
+
+
+
+
+
+--------------------------------------------------------------------
+
+
+
+
+
+
+
+

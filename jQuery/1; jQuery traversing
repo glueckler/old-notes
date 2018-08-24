@@ -1,0 +1,60 @@
+traversing methods
+------------------
+---------
+-
+-
+
+
+
+
+.first()
+$('li').first() //first one on entire page or...
+
+.last()
+$('li').last() //last on on entire page
+
+.eq()
+$('li').eq(*) //select by zero-index (*)
+
+.children()
+$('ul:first').children() //all first children of ul, or maybe all children of first ul?
+
+.siblings()
+$('li:first').siblings() //includes all other li in list except first
+
+.parent()
+$('li:first').parent() //the parent element (ul in this case)
+.parent().parent() //chaining is possible
+
+.prev()
+//previous element
+
+.next()
+//next element
+
+.closest()
+// grabs closest parent list
+.closest('.list')
+
+.find()
+.find('li') //grabs all li's
+//example which sets the background-clip
+var $box = $('.box');
+$('.inputs').find('input').on('change', function() {
+  $box.css('background-clip', $(this).attr('id'));
+});
+
+.filter()
+.filter('.special') //only .special will remain
+
+.is()
+//returns true if acting on .special
+if($(this).is('.special')){}
+//check if element is in focus
+$("..").is(":focus")
+// or the opposite
+!$('..').is(":focus")
+
+.length()
+$("#foo > div").length //number of elements in the jQuery element
+

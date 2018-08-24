@@ -1,0 +1,187 @@
+angular html
+------------
+template
+--------
+<html lang="en" ng-app="app1">
+<div ng-controller="ctrl1" >
+
+--
+
+<html ng-app="app1" ng-init="person = {fName: 'Derek', lName: 'Banas'};
+capitals = [{city: 'Montgomery', state: 'Alabama'}, {city: 'Juneau', state: 'Alaska'}, {city: 'Phoenix', state: 'Arizona'}]">
+
+angular controller html
+-------------------------
+<!-- Adds a controller that the Angular module will control.
+    The view is the div element and all that it contains. The $scope
+    component is used to provide data to the view. -->
+
+<div ng-controller="ctrl1">
+</div>
+
+ <!-- Define 2 elements that will be bound to the first and
+      second values in the scope using the ng-model directive. If
+      either value changes here it will change in the scope and
+      vice versa -->
+
+<input type="text" ng-model="first" />
+<input type="text" ng-model="second" />
+
+      <!-- Bind a click on this button to the function updateValue
+      using ng-click -->
+
+<button ng-click="updateValue()">Sum</button>
+<br><br>
+ 
+      <!-- Displays the Scope value of calculation in the expression-->
+
+{{calculation}}
+ 
+      <!-- You can perform calculations in expressions -->
+
+<p>5 + 5 = {{5+5}}</p>
+ 
+      <!-- Expressions bind data to HTML as well -->
+
+<p>Your first value is {{first}}</p>
+ 
+      <!-- You can do the same with ng-bind -->
+
+<p>Your second value is
+<span data-ng-bind="second"></span>
+</p>
+
+      <!-- Strings can be built in expressions -->
+
+<p>{{person.fName + " " + person.lName}} you entered {{first + " and " + second}}</p>
+ 
+      <!-- ng-repeat cycles through a collection -->
+
+<ul>
+<li ng-repeat = "capital in capitals">
+  {{ 'City: ' + capital.city + ', State: ' + capital.state}}
+</li>
+</ul>
+
+---------
+
+angular js
+----------
+template
+--------
+var app1 = angular.module('app1',[]);
+
+app1.controller('ctrl1', function($scope){
+    
+
+      $scope.updateValue = function() {
+
+  };
+
+});
+
+// Here we implement the template, module, controller and scope
+
+var app1 = angular.module('app1', []);
+
+angular controller js
+---------------------
+
+// Define the Controller and implement the Scope which links HTML
+// Angular sees that my factory
+// function contains the $scope component and then it gets it and passes
+// it to the function automatically.
+
+app1.controller('ctrl1', function($scope) {
+ 
+  // Define initial values
+  $scope.first = 1;
+  $scope.second = 1;
+ });
+
+  // Change the value for calculation when the button is clicked
+  $scope.updateValue = function() {
+    $scope.calculation = $scope.first + ' + ' + $scope.second +
+      " = " + (+$scope.first + +$scope.second);
+  };
+
+
+
+
+-
+
+angular $http
+-------------
+// Simple GET request example:
+$http({
+  method: 'GET',
+  url: '/someUrl'
+}).then(function successCallback(response) {
+    // this callback will be called asynchronously
+    // when the response is available
+  }, function errorCallback(response) {
+    // called asynchronously if an error occurs
+    // or server returns response with an error status.
+  });
+
+angular $http.jsonp
+-------------------
+
+PLEASE INJECT $HTTP INTO CONTROLLER 
+EX
+function MyController($scope, $http) {
+   // ... your code
+}
+
+JSONP requests must specify a callback to be used in the response from the server. This callback is passed as a query parameter in the request. You must specify the name of this parameter by setting the jsonpCallbackParam property on the request config object.
+
+$http.jsonp('some/trusted/url', {jsonpCallbackParam: 'callback'})
+
+//in my example
+$http.jsonp(wikAPI + srch + cb).success(function(data){})
+
+
+-
+
+angular forEach
+---------------
+var values = {name: 'misko', gender: 'male'};
+var log = [];
+angular.forEach(values, function(value, key) {
+  this.push(key + ': ' + value);
+}, log);
+expect(log).toEqual(['name: misko', 'gender: male']);
+
+
+
+-
+
+angular examples
+----------------
+
+<div class="articles">
+  <ul>
+    <a ng-href="{{result.page}}" target="_blank" ng-repeat="result in results">
+      <li>
+        <h1>{{result.title}}</h1>
+        <p>{{result.body}}</p>
+      </li>
+    </a>
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------

@@ -1,0 +1,225 @@
+Javascript and the DOM
+----------------------
+------------
+----
+--
+-
+
+
+
+
+
+document
+--------
+//the global variable document gives us access to elements of the DOM
+//it's documentElement property refers to the object representing the <html> tag
+//it also has head and body properties
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+trees
+-----
+//the dom can be thought of as a tree where each node (or child) in the tree may refer to other nodes
+//leaf nodes may be thought of as text in the document or html comments
+//document.documentElement is the root of the DOM tree
+
+//each DOM node has a nodeType property which contains a numeric code that determines the type of node
+
+Regular Elements
+---
+//regular elements have a node value of 1
+//which is also defined as the constant property document.ELEMENT_NODE
+
+-
+
+Text Nodes
+---
+//text nodes have a value of 3
+//document.TEXT_NODE
+
+-
+
+Comment Nodes
+---
+//comment nodes have a value of 8
+//document.COMMENT_NODE
+
+-
+
+NOTE
+---
+//the DOM creates text nodes for white spaces between nodes
+//ex
+<!doctype html>
+<html>
+  <head>
+    <title>My home page</title>
+  </head>
+  <body>
+    <h1>My home page</h1>
+    <p>Hello, I am Marijn and this is my home page.</p>
+    <p>I also wrote a book! Read it
+      <a href="http://eloquentjavascript.net">here</a>.</p>
+  </body>
+</html>
+
+//this body node doesn't only have 3 nodes..
+//it has seven
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+
+Moving through the tree
+-----------------------
+.parentNode
+---
+//every node has a parentNode property, which points to it's parent
+
+.childNodes
+---
+//every element node has a childNodes property which points to an array like object contain each child
+
+.firstChild (and .lastChild)
+---
+//points to the first (or last) element of the node
+//null if the element has only 1 child
+
+.previousSibling (or .nextSibling)
+---
+//for the first child, previous sibling will be null
+
+.getElementByTagName
+---
+//all element nodes have a getElementByTagName property
+//returns an array like object of each child node (and any descendants) which has a the desired tag name
+//ex
+var link = document.body.getElementsByTagName("a")[0];
+console.log(link.href);
+
+.getElementById
+---
+//ex
+<p>My ostrich Gertrude:</p>
+<p><img id="gertrude" src="img/ostrich.png"></p>
+
+<script>
+  var ostrich = document.getElementById("gertrude");
+  console.log(ostrich.src);
+</script>
+
+.getElementsByClassName
+---
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+
+
+Changing the Document
+---------------------
+//Element Nodes have a number of properties which can be used to change their content
+
+.removeChild
+---
+//removes the child element
+
+.appendChild
+---
+//adds a child to the end of the list
+
+.insertBefore
+---
+//inserts the node given as the first argument before the node given by the second argument
+
+.replaceChild
+---
+//used to replace one node with another
+//first argument is a new node and the second is to be replaced
+
+
+
+
+
+
+
+------------------------------------------------------------------------------
+
+
+
+document. ...
+-----
+//ex - a very basic DOM
+
+
+var document = {
+  documentElement: {
+    tagName: 'HTML',
+    children: [
+      {
+        tagName: 'HEAD',
+        children: [
+          {
+            tagName: 'TITLE',
+            children: [
+              'DOM Example'
+            ]
+          }
+        ]
+      },
+      {
+        tagName: 'BODY'
+      }
+    ]
+  }
+};
+
+
+//you can search shit like this..
+//document.documentElement.children[1].children[0].innerHTML
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

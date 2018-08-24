@@ -1,0 +1,201 @@
+HTML
+----
+--
+-
+
+
+
+
+HTML Element list - https://developer.mozilla.org/en-US/docs/Web/HTML/Element
+
+
+
+
+favicon
+-------
+//For the main favicon itself, it's best for cross-browser compatibility not to use any HTML. Just name the file favicon.ico and place it in the root of your domain
+//https://github.com/audreyr/favicon-cheat-sheet
+
+add this to <head>
+------------------
+<link rel="shortcut icon" href="favicon.ico" />
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+HTML entities
+-------------
+&nbsp; // non-breaking space
+
+-
+
+< - &lt; // less than
+
+-
+
+> - &gt; // greater than
+
+-
+
+' - &#39;
+
+-
+
+" - &quot;
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+html email contact
+------------------
+<p>
+This is an email link:
+<a href="mailto:someone@example.com?Subject=Hello%20again" target="_top">Send Mail</a>
+<a href="mailto:lankypete7@gmail.com?Subject=Hi%20Pete" target="_top">Send Mail</a>
+</p>
+<p>
+<b>Note:</b> Spaces between words should be replaced by %20 to ensure that the browser will display the text properly.
+</p>
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+html radio buttons
+------------------
+<form action="">
+  <input type="radio" name="gender" value="male" checked"> Male<br>
+  <input type="radio" name="gender" value="female"> Female<br>
+  <input type="radio" name="gender" value="other"> Other
+</form>
+
+//this is not recomended as it only sees function in html
+onclick="radioFunction();
+
+//or instead of onclick..
+onchange="myFunction()
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+HTML Data Attributes
+--------------------
+//all custom data attributes must start with data-
+
+data attributes html and css
+----------------------------
+<div class="rocket" data-altitude="100"> //in html
+</div>
+
+div.rocket[data-altitude="100"] {        //in css
+
+}
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+html input
+----------
+//image as search button
+<input class="search-button" type="image" height="30px" alt="Search" src="https://d30y9cdsu7xlg0.cloudfront.net/png/95-200.png" >
+
+// insert background image into text input elements
+.search-div {
+  background-image: url('images/microphone.png');
+  background-repeat: no-repeat;
+  background-position: right;
+}
+
+
+
+
+
+
+
+
+

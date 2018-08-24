@@ -1,0 +1,54 @@
+bcrypt
+------
+----
+-
+
+
+
+
+
+Storing passwords
+-----------------
+//instead of saving the password directly, use bcrypt.hashSync and save the resulting hash of the password
+
+//ex
+const bcrypt = require('bcrypt');
+const password = "purple-monkey-dinosaur"; // you will probably this from req.params
+const hashedPassword = bcrypt.hashSync(password, 10);
+
+
+
+---------------------------------------------------
+
+
+
+Checking Log in
+---------------
+//When you need to check if the user's password is correct (ie. when logging in), use bcrypt.compareSync
+
+//ex
+bcrypt.compareSync("purple-monkey-dinosaur", hashedPassword); // returns true
+bcrypt.compareSync("pink-donkey-minotaur", hashedPassword); // returns false
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

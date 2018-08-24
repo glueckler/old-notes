@@ -1,0 +1,144 @@
+JS
+--
+-
+
+
+
+a couple things to note..
+
+Don't mix up the use of bracket notation and dot notation.. this is not valid..
+arr1[i].insideArr[j]
+this is valid..
+arr1[i][insideArr[j]];
+
+
+
+
+
+
+
+
+
+
+
+Javascript Variables
+--------------------
+//varible names can be anything that isn't a reserved word (such as var)
+//no spaces
+//can include numbers but not begin with a number
+//no punctuation except for $ and _
+
+//a single var statement may declare multiple variables
+var one = 1, two = 2;
+console.log(one + two);
+// → 3
+
+var anything; //will have the value undefined since nothing is attached to it
+
+
+
+
+
+
+
+
+
+
+
+----------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+Constructor Functions
+---------------------
+//a basic constructor function
+var Car = function() {
+  this.wheels = 4;
+  this.engines = 1;
+  this.seats = 5;
+};
+
+//make sure to use keyword "new" when calling a constructor function
+var myCar = new Car();
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+javascript time functions
+-------------------------
+setTimeout(function(){}, 4000) //delays 4 seconds before function
+
+
+-
+
+setInterval(function(){}, 4000) //repeats every 4 seconds
+//doesn't start right away
+
+
+-
+
+//use clearInterval() to stop an interval..
+//it must be attached to a variable
+//ex
+var myInterval = setIntervale( function(){console.log(new Date);} ,1000);
+//clear interval..
+clearIntervale(myInterval);
+
+
+-
+
+//this will start right away..
+function setIntervalAndExecute(fn, t) {
+    fn();
+    return(setInterval(fn, t));
+}
+//Then, in your code, you could just do this:
+var i = setIntervalAndExecute(dothis, 20000);
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+

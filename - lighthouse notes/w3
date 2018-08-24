@@ -1,0 +1,195 @@
+week 3
+------
+--
+-
+
+
+
+
+html
+---
+
+give your content context
+
+css
+---
+
+give your content appearance
+
+
+
+
+
+------------------------------
+
+
+
+
+d2
+--
+
+btw
+---
+if you're running a debugger inside a function, anything you type in the console is as if it were inseid the function..
+
+
+
+jQuery
+---
+var newHeading = $('<h1>Heading</h1>');
+$('body').prepend(newHeading) // returns body jQuery object
+newHeading.prependTo('body') // return newHeading jQuery object
+
+// Read, writing better jQuery code!
+
+
+
+
+event delegation
+---
+$('body').on('click, 'li', function() {
+  $(this).fadeOut();
+})
+
+$(ul).append('<li>Another ne list item</li>')
+
+//therefore since the new li was created after the on click event was added.. it will still have the click event listeners
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+d3
+--
+
+ajax
+---
+//used the make XMLHttpResquests
+(xhr) --> in network tab
+ignore legacy ajax
+get the good shit
+
+
+--
+
+check out 'fetch' library
+and Promises
+
+--
+
+hi-jax
+hijacking a form and instead submitting it with ajax
+
+--
+
+npm start
+//runs server.js by default.. I think
+
+
+--
+
+app.use(express.static('public'))
+//then express will serve any file in the specific public folder when that path is given
+//same with script tags within html, will be served by public folder
+
+
+---
+<textarea></textarea>
+//don't put spaces in between!
+//use placeholder if ya want
+
+---
+
+
+
+// var json = JSON.stingify(squeaks);
+// res.send(json);
+//same as
+res.json(squeaks);
+//but the type of response is json, not html
+
+-
+res.send(JSON.strigify(squeaks)) //will send html
+
+res.send(squeaks) //will actually also send json as well (express knows) but.. be explicit
+
+
+---
+
+ajax will automatically parse json if content-type is application/json
+//if it is text/html, it will return a string
+
+
+---
+
+function getSqueakHTML(squeak) {
+
+var squeak
+  return $('<article>', {
+    'class' : 'squeak',
+    childre: [
+      $('<header>', {
+        text: squeak.squeaker.username
+      })
+    ]
+  })
+}
+
+
+
+
+
+
+-------------------------------------------------------------------
+
+
+
+
+
+
+d4
+
+mongo db
+---
+
+//all json
+
+
+find in terminal
+--
+db.urls.find().pretty()
+
+
+nodemon
+---
+rs - restart server
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+BEM
+---
+-
+
+
+//don't use descendant selectors!
+//For any custom styles on the site, use modifier classes
+//There will be some instances we're generic selectors could be easier to use
+//ex imagine a div with paragraphs that may one day be outputted by a CMS
+//fuck putting a modifier class on each paragraph, use a .generic-content-container div
+//and then style p tags withing
+//ex
+.generic-content-container {
+
+  p {
+    line-height: 1.65;
+    font-size: 1.125rem;
+    margin: 1.8rem 0;
+  }
+
+  p a {
+    font-weight: 700;
+  }
+
+}
+
+//That was not BEM
+//This is BEM
+
+Block - independant reusable part of a design
+
+Element - belongs to a block and is dependant to a block (cannot be used outside its block)
+//use __
+
+Modifier - Used on a block or an element, to indicate a change to the default state
+//use --
+
+//ex of a testimonial
+class="testimonial"
+
+//element, a image at the top unique to the testimonial blocks
+class="testimonial__image"
+
+
+//ex of a button
+//in html
+//block
+class="btn"
+
+//modifier to use the same button but in orange
+class="btn btn--orange"
+
+//modifier to make a large orange button
+class="btn btn--orange btn--large"
+
+
+//in css
+.btn {
+  background-color: $main-blue;
+  color: #fff; 
+  text-decoration: none;
+  padding: .75rem 1.2rem;
+  display: inline-block;
+
+  &--orange {
+    background-color: $main-orange;
+  }
+
+  &--large {
+    padding: 1.1rem 1.9rem;
+
+    @mixin atSmall {
+      font-size: 1.25rem;
+    }
+  }
+}
+
+

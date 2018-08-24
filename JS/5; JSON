@@ -1,0 +1,64 @@
+JSON
+----
+--
+-
+
+
+
+
+{
+  "name": "New York City",
+  "boroughs": [
+    "Manhattan",
+    "Queens",
+    "Brooklyn",
+    "The Bronx",
+    "Staten Island"],
+  "population": 8491079,
+  "area_codes": [212, 347, 646, 718, 917, 929],
+  "position": { "lat": 40.7127, "lng": -74.0059 }
+}
+
+
+
+
+
+
+Methods
+---
+
+
+JSON.parse()
+//Parse a string as JSON, optionally transform the produced value and its properties, and return the value.
+
+JSON.stringify()
+//Return a JSON string corresponding to the specified value, optionally including only certain properties or replacing property values in a user-defined manner.
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,445 @@
+Git & github
+------------
+-------
+--
+
+
+
+
+
+
+
+git config
+----------
+
+git config --list //will all show git config settings
+
+git config user.name //show github username
+
+git config user.email  //show email address
+
+git config --global user.email 'your@email.com'
+
+git config --global user.name 'Your Name'
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+git staging
+-----------
+git add "*.txt" //adds all text files
+
+git add . //adds all new, deleted, modified
+
+git add -u //adds deleted, modified
+
+git add -ignore-removal . //adds new, modified
+
+git add filename.js //adds specific file to staging
+
+git reset //will remove all files from staging
+
+git reset filename.txt //will remove "filename.txt" from staging
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+git commit
+----------
+git commit -m "this is the commit message" //commit the files in the staging area
+
+git commit -am "commit message" //stage all files and commit in one command
+
+esc > :wq
+Escape a frozen commit
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+git checkout
+------------
+git checkout -- <target> //reverts local repo to the target commit
+
+git checkout <branch> //switch to that branch
+
+git checkout -- . //will checkout last commit?
+
+git checkout master~1 //checkout most recent commit
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+git branches
+------------
+//don't have uncommited changes when creating new branches
+
+git branch //lists all branches in repo
+
+git branch count-to-ten //creates a branch named count-to-ten
+
+git branch -d count-to-ten //deletes count-to-ten branch
+
+git branch -d <branch name> //will delete a branch
+
+git branch clean_up //creates a branch off the master called clean_up
+
+git branch //shows available branches
+
+git checkout count-to-ten //switches to count-to-ten branch
+
+git checkout -b our-features //creates a new branch and switches to it in one command
+
+git merge count-to-ten //merges the count-to-ten branch (to the current checked out branch)
+//or do it on github with a new pull request
+
+git merge count-to-ten --no-ff //merges with a dedicated commit in repositories history
+
+git push origin count-to-ten //uploads the count-to-ten branch to github
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+git reset
+---------
+git reset --hard HEAD //will force the working directory back to the last commit and delete new/changed files
+
+git reset --hard master~1 //Reset current branch to one commit ago on master
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+git clean
+---------
+//warning removes files permanently
+//Always add -n or --dry-run options to preview the damage you'll do!
+
+git clean -f //If you just clean untracked files
+
+git clean -f -d  //If you want to also remove directories
+
+git clean -f -X  //If you just want to remove ignored files
+
+git clean -f -x  //If you want to remove ignored as well as non-ignored files
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+git remote
+----------
+git remote -v //git will then show you the server address it will push to
+
+git remote add origin <URLFROMGITHUB>
+
+git remote rm origin
+
+git remote set-url origin https://github.com/lankypete/travel-site.git //this will change the address the repo will push to
+
+git remote add upstream https://github.com/jlord/patchwork.git //adds another remote named "upstream" (typically the original repo URL from the author.. assuming you forked it)
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+git push and git pull
+---------------------
+git push origin master //origin stands for the address of your repo, master is the branch you want to push
+
+git push -u origin master // The name of our remote is origin and the default local branch name is master. -u tells Git to remember the parameters, so that next time we can simply run git push
+
+git pull <REMOTENAME> <BRANCHNAME>
+
+git pull origin master  // pulls from the repo
+
+git fetch --dry-run //to see the changes before you pull in
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+git clone
+---------
+
+git clone git@github.com:whatever folder-name
+//clones the git repo into the specific folder name
+
+git clone git@github.com:whatever .
+//dump the contents of the clone into current directory
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+git diff
+--------
+
+git diff HEAD  //differences in pulled files than existing local repo
+
+git diff --staged //differences in staged files than online
+
+git diff -u oldfile.js newfile.js
+
+git diff --staged //difference between staged files and committed
+
+git diff //difference between staged files to working directory
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+git information commands
+------------------------
+
+git log // to see the local git repo log
+
+git ls-tree -r master --name-only //list all the files currently being tracked under the branch master
+//Note they will still appear tracked until next commit
+
+git status //to see what changes are ready to be committed
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+git rm
+------
+git rm //will not only remove the actual files from disk, but will also stage the removal of the files
+
+git rm -r --cached <file> //To stop tracking a file you need to remove it from the index. This can be achieved with this command.
+
+git rm -r --cached . //remove everything from being tracked
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+Other Commands
+--------------
+
+git remote add origin https://github.com/try-git/try_git.git //adds repository from computer to github
+
+git reset filename.js //removes it from staging
+
+git merge clean_up //converts the branch "clean_up" into the branch you are in
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+Git Merge Conflicts
+-------------------
+1.Update the conflicted files listed in git status. Git adds markers to files that have conflicts. These markers look like..
+
+	   <<<<<<< HEAD
+	   console.log("Writing changes to dev console");
+	   =======
+	   debug("Writing changes to debug module);
+	   >>>>>>> dev-updates
+
+The <<<<<<< section are the changes from one commit, the ======= separates the changes, and >>>>>>> for the other conflicting commit.
+
+2.Edit the files so that they look exactly how they should, removing the markers. Use git add to stage the resolved changes.
+
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+github pages
+------------
+url
+-
+username.github.io/repo-name
+
+
+preparing the file names and urls
+-
+//github pages expects a folder named 'docs'
+//and
+//since site will live at a url that isn't the base of its domain
+//ei
+//this..
+lankypete.github.io/site-here
+//instead of this ..
+lankypete.github.io/
+//we need to update the way our html references our CSS and JS files
+//so
+//if you're using 'usemin'
+<!-- build:js assets/scripts/App.js -->
+//and update background image paths
+
+push master branch to github
+-
+
+on github repo
+-
+settings > GitHub pages > Source
+
+Master Branch
+"use only docs folder for github pages"
+
+
+
+
+
+
+
+
+
+---------------------------------------------------------------------------
+
+
+
+
+

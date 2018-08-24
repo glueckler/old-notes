@@ -1,0 +1,73 @@
+Math properties
+---------------
+--------
+--
+
+
+
+
+
+
+Math.max
+//Returns the largest of the given numbers. If at least one of the arguments cannot be converted to a number, NaN is returned
+//ex
+Math.max(10, 20);   //  20
+Math.max(-10, -20); // -10
+Math.max(-10, 20);  //  20
+
+-
+
+Math.min
+
+-
+
+Math.sqrt
+
+-
+
+.cos
+
+-
+
+.sin
+
+-
+
+.tan
+
+-
+
+.acos, .asin, .atan
+
+-
+
+Math.PI
+
+-
+
+Math.random()
+//random number between 0 (inclusive) and 1 (exclusive)
+
+-
+
+Math.floor
+//rounds down to the nearest whole number
+//ex
+console.log(Math.floor(Math.random() * 10));
+// → 2
+
+-
+
+.ceil
+//rounds up to the nearest whole number
+
+-
+
+.round( input )
+//rounds to the nearest whole number
+
+
+
+
+
+

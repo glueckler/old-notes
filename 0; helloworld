@@ -1,0 +1,439 @@
+HelloWorld
+----------
+-----------
+---
+--
+-
+
+
+
+General Notes
+-----
+--
+-
+
+Flexbox can be used to easily create equal height boxes (in columns).  Just set the parent div to display: flex; and the children to display: flex;
+
+Position absolute if the element doesn't interact, use floats if th eelement does
+
+Floated elements inside a fixed/absolute container will set the height of the parent div
+
+Use a negative margin to compensate for the displacement of relative positioned elements
+
+Use a negative margin on the right side of a gutter-column row container (the same size as the padding-right for each column)
+
+use a 1px padding value on parent elements which nest elements that have margin.  This will allow the margin on the inner elements something to push up against.  Otherwise the margin on the inner elements will not appear.
+
+flexbox defaults to align-items: stretch; which will ruin the aspect ratio of images, use align-items: center; instead
+
+padding and margin (when used as a percentage) are relative the the outer elements width
+
+gulp.task('icons', ['dependancy1', 'dependancy2']); dependancy1 and dependancy2 will run at the same time, not good, sometimes, make sure dependancy2 includes dependancy1 as a dependancy
+
+have text with the name of your company in the div that houses the logo, for seo (text-indent: -9999px)
+
+use the transform: scale... property to adjust images that are background-images.  (transform-origin: horizontal vertical)
+
+::before and ::after pseudo selectors will insert content Inside the element they are hooked to, but Before (or After) any of the content within that element
+
+the first element in a jquery array is the native javascript element
+
+a full screen modal can be achieved with position:fixed; top:0; right:0; bottom:0; left:0;
+
+make sure font is position: absolute; to use transform: scale();
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+How to build a site
+-------------------
+-Create project folder/copy site-template folder
+	-
+	cp -r site-template/. NEW-DIRECTORY
+	-
+
+-Start Git repository
+	-
+	git init
+	-
+	git remote add origin <URL>
+	- or..
+	git remote set-url origin <URL>
+	-
+
+-npm init
+
+-npm install
+	-
+	npm install jquery --save
+	-
+	npm install normalize.css --save
+	-
+	npm install gulp gulp-watch gulp-rename del --save-dev
+	-
+	npm install gulp-svg-sprite gulp-imagemin --save-dev
+	-
+	npm install --save-dev gulp-postcss autoprefixer postcss-simple-vars postcss-nested postcss-import postcss-mixins postcss-hexrgba postcss-inherit
+	-
+	npm install browser-sync --save-dev
+	-
+	npm install webpack --save-dev
+	-
+	npm install babel-core babel-loader babel-preset-es2015 --save-dev
+	-
+
+-insert all html markup
+
+-Begin styling, mobile first
+
+-set responsive images
+	-for art direction/cropping
+	-for file size
+
+-set up sprites
+
+-write javascript
+
+-add lazy loading
+
+-browser compatibility
+	-svg2png
+	-flexbox
+	-etc
+
+-compress/revision images and files
+
+-build distribution files
+	-
+	gulp build
+	-
+	gulp previewDist
+	-
+
+-add to github pages
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+Directories
+-----------
+ /   = Root directory
+ .   = This location
+ ..  = Up a directory
+ ./  = Current directory
+ ../ = Parent of current directory
+ ../../ = Two directories backwards
+
+
+node directories
+'./' //is the current working directory
+
+'/**/' //goes into any future hypothetical folders
+
+'/*.css' //any file with a css extension
+
+'/temp' //(in css) points to base of folder which is being served to the browser
+
+
+-
+
+html
+-
+
+<img src="picture.jpg">	picture.jpg is located in the same folder as the current page
+
+<img src="images/picture.jpg">	picture.jpg is located in the images folder located in the current folder
+
+<img src="/images/picture.jpg">	picture.jpg is located in the images folder located at the root of the current web
+
+<img src="../picture.jpg">	picture.jpg is located in the folder one level up from the current folder
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+Ruby/Rails
+----------
+
+Update
+------
+gem update rails --no-ri --no-rdoc //update gems
+
+rvm get stable --autolibs=enable //update ruby version manager
+
+gem update --system //update ruby gem manager
+
+Version
+-------
+ruby -v  //ruby version
+
+rails -v  //rails version
+
+Gems
+----
+gem install bundler  //essential tool for managing gems when developing and running Rails applications
+
+gem install nokogiri  //Nokogiri is a gem that is a dependency for many other gems
+
+gem install compass  //Compass works with SASS
+
+rvm use ruby-2.4.0@rails5.0 --create  //makes a gemset for the current stable version of rails
+
+gem install rails  //installs current stable release of rails
+
+gem install rails --version=3.2.18  //for that specific version of rails
+
+
+
+
+
+
+
+
+
+
+
+
+--------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+Domain Emails
+-------------
+https://problogger.com/how-to-set-up-an-email-account-that-uses-your-domain-name/
+//First create the domain name email address
+//Or use email fetcher - https://www.hostgator.com/help/article/google-mail-fetcher
+
+1. Log into your blog hosting control panel, or cpanel.
+2. Click on Email Accounts in the Email section.
+3. Enter the details for your new account, and click Create Account, as shown here.
+4. Now go back to your cpanel and click on Forwarders in the Mail section. Then click Add Forwarder.
+
+//Then set up gmail to reply through desired domain
+//see the blog link above
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+Browser Support
+---------------
+
+
+
+
+browser support images
+----------------------
+
+picturefill
+-
+npm install picturefill --save
+
+//add picture fill to Vendor.js
+import 'picturefill';
+
+//that's it!
+
+
+
+
+
+
+
+
+browser SVG > PNG
+-----------------
+
+//first, use gulp to create an png image from the svg file
+//in sprites.js
+...
+svg2png = require('gulp-svg2png');
+
+...
+
+gulp.task('createSprite', ['beginClean'], function() {
+	return gulp.src('./app/assets/images/icons/**/*.svg')
+		.pipe(svgSprite(config))
+		.pipe(gulp.dest('./app/temp/sprite/'));
+});
+
+gulp.task('createPngCopy',['createSprite'], function(){
+	return gulp.src('./app/temp/sprite/css/*.svg')
+		.pipe(svg2png())
+		.pipe(gulp.dest('./app/temp/sprite/css'));
+});
+
+gulp.task('copySpriteGraphic', ['createPngCopy'], function(){
+	return gulp.src('./app/temp/sprite/css/**/*.{svg,png}')
+		.pipe(gulp.dest('./app/assets/images/sprites'));
+});
+
+...
+
+
+//I had difficulty with the node package svg2png
+//Watch the video..
+//use modernizr..
+
+
+
+
+
+
+
+
+
+
+
+
+-----------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+Going Live
+----------
+
+npm install gulp-imagemin --save-dev
+npm install gulp-usemin --save-dev
+npm install gulp-rev gulp-cssnano gulp-uglify --save-dev
+
+
+-
+
+//inside index.html
+//add comments for usemin to reference in the build
+//by the way, the /assets/... looks towards the root of the website for assets
+//if the site is to hosted somewhere like github, assets/... will look relative to index.html
+//ex
+<!-- the following is a comment for the usemin package-->
+<!-- build:css /assets/styles/styles.css-->
+<link rel="stylesheet" href="temp/styles/styles.css">
+<!-- endbuild -->
+
+<!-- build:js /assets/scripts/Vendor.js -->
+<script src="/temp/scripts/Vendor.js"></script>
+<!-- endbuild -->
+
+
+
+-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,62 @@
+jQuery Functions
+----------------
+------
+--
+
+
+
+
+
+
+
+
+document
+--------
+
+$(document).ready(function(){...});
+//or...
+$(function(){});
+
+$(window).height();
+// returns height of browser viewport
+
+$(document).height();
+// returns height of HTML document (same as pageHeight in screenshot)
+
+$(window).width();
+// returns width of browser viewport
+
+$(document).width();
+// returns width of HTML document (same as pageWidth in screenshot)
+
+
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+$.each()
+
+// ex
+
+$.each([ 52, 97 ], function( index, value ) {
+  alert( index + ": " + value );
+});
+
+
+
+
+---------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+

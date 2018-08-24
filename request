@@ -1,0 +1,167 @@
+npm request
+-----------
+----
+--
+-
+
+
+
+npm install request
+
+var request = require('request');
+
+
+
+
+Methods
+-------
+request.get(options, callback)
+request.post(options, callback)
+request.head(options, callback)
+request.delete(options, callback)
+
+
+
+
+----------------------------------------------------------------
+
+
+
+
+
+GET request
+-----------
+//ex - a simple HTTP GET request to https://sytantris.github.io/http-examples/
+// prints out the status code of the response
+
+request('https://sytantris.github.io/http-examples/', function(err, response, body) {
+  if (err) throw err;
+  console.log('Response Status Code:', response.statusCode);
+  console.log(body);
+});
+
+
+-
+
+Arg 1 - a full URL as a string
+---
+//you must add the https://
+//if a simple URL is provided then it is assumed "/" is the request path
+
+Arg 2 - a callback(err, response, body)
+
+
+
+
+
+
+
+------------------------------------------------------------
+
+
+
+
+
+
+URL options
+-----------
+//The first argument to request can either be a URL string, or an object of options
+
+url: The destination URL of the HTTP request
+
+method: The HTTP method to be used (GET, POST, DELETE, etc)
+
+headers: An object of HTTP headers (key-value) to be set in the request
+
+form: An object containing key-value form data
+
+//NOTE: request doesn't send a user agent by default, use key-value
+
+-
+
+
+//ex
+const options = {
+    url: 'https://www.reddit.com/r/funny.json',
+    method: 'GET',
+    headers: {
+        'Accept': 'application/json',
+        'Accept-Charset': 'utf-8',
+        'User-Agent': 'my-reddit-client'
+    }
+};
+
+
+
+
+
+
+
+---------------------------------------------------------------
+
+
+
+
+
+
+
+
+Streams
+-------
+//In short, using streams for large amounts of data (like files) can help reduce your app's memory footprint and response time.
+//To make this easier to use, each of the request methods can pipe their output to another stream.
+
+
+-
+
+
+//ex
+// require `request` and the Node `fs` (filesystem) module
+var request = require('request');
+var fs = require('fs');
+
+request.get('https://sytantris.github.io/http-examples')               // Note 1
+       .on('error', function (err) {                                   // Note 2
+         throw err;
+       })
+       .on('response', function (response) {   git                        // Note 3
+         console.log('Response Status Code: ', response.statusCode);
+         console.log(response.headers['content-type']) // ex 'image/png'
+       })
+       .pipe(fs.createWriteStream('./downloaded.html'));               // Note 4
+
+// Notes:
+// 1. `request.get` is equivalent to `request()`
+//no buffering data like the http/https modules
+// 2. `request.on('error', callback)` handles any error
+// 3. `request.on('response, callback)` handles the response
+// 4. when chained to a stream as shown above, handles the incoming readable data stream, transforming it into a writable data stream
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

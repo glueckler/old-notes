@@ -1,0 +1,271 @@
+Array.prototype. ...
+--------------------
+--------
+--
+
+
+
+
+
+Array Methods (Array.prototype. ... )
+-------------------------------------
+
+
+.indexOf()
+//returns the index within the calling String object of the first occurrence of the specified value, starting the search at fromIndex.
+//Returns -1 if the value is not found.
+//syntax str.indexOf(searchValue[, fromIndex])
+
+//ex
+console.log([1, 2, 3, 2, 1].indexOf(2));
+// → 1
+
+
+---
+
+
+.lastIndexOf() //returns the index within the calling String object of the last occurrence of the specified value
+
+//ex
+console.log([1, 2, 3, 2, 1].lastIndexOf(2));
+// → 3
+
+
+---
+
+
+.shift() //Removes first item of array
+
+.pop() //Removes last item of array
+
+.push() //Adds items to end of array
+
+.unshift() /Adds item to front of array
+
+
+---
+
+
+.slice() //returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included)
+var a = ['zero', 'one', 'two', 'three'];
+var sliced = a.slice(1, 3);
+console.log(a);      // ['zero', 'one', 'two', 'three']
+console.log(sliced); // ['one', 'two']
+
+
+---
+
+
+.splice() //changes the contents of an array by removing existing elements and/or adding new elements
+
+//ex - https://www.w3schools.com/jsref/jsref_splice.asp
+
+array.splice(index, howmany, item1, ....., itemX)
+
+//index
+//Required. An integer that specifies at what position to add/remove items, Use negative values to specify the position from the end of the array
+
+//howmany
+//Optional. The number of items to be removed. If set to 0, no items will be removed
+
+//item1, ..., itemX
+//Optional. The new item(s) to be added to the array
+
+
+---
+
+
+.concat()
+newArray = oldArray.concat(otherArray);
+// The concat() method is used to merge two or more arrays.
+// This method does not change the existing arrays, but instead returns a new array
+
+// ex
+var arr1 = ['a', 'b', 'c'];
+var arr2 = ['d', 'e', 'f'];
+var arr3 = arr1.concat(arr2);
+// arr3 is a new array [ "a", "b", "c", "d", "e", "f" ]
+
+---
+
+
+.localeCompare() //method returns a number indicating whether a reference string comes before or after or is the same as the given string
+
+
+---
+
+
+.charCodeAt() //The charCodeAt() method returns an integer between 0 and 65535 representing the UTF-16 code unit at the given index
+
+
+---
+
+
+.fromCharCode() //The static String.fromCharCode() method returns a string created by using the specified sequence of Unicode values
+
+
+---
+
+
+.toString() //Turns int into a string
+
+
+---
+
+
+.parseInt(string) //turns string into int
+
+
+---
+
+
+.map()
+//The map() method creates a new array with the results of calling a provided function on every element in the calling array
+//Syntax
+var new_array = arr.map(function callback(currentValue, index, array) {
+    // Return element for new_array
+}[, thisArg])
+
+var oldArray = [1, 2, 3];
+var timesFour = oldArray.map(function(val){
+  return val * 4;
+});
+console.log(timesFour); // returns [4, 8, 12]
+
+
+---
+
+
+.reduce()
+//The reduce() method applies a function against an accumulator and each element in the array (from left to right) to reduce it to a single value
+//Syntax
+arr.reduce(callback[, initialValue])
+//callback..
+  function (
+    accumulator,
+    currentValue,
+    currentIndex,
+    array
+  )
+
+//ex flatten an array
+var flattened = [[0, 1], [2, 3], [4, 5]].reduce(
+  function(a, b) {
+    return a.concat(b);
+  },
+  []
+);
+// flattened is [0, 1, 2, 3, 4, 5]
+
+//example of reduce being used to subtract all the values of an array:
+var singleVal = array.reduce(function(previousVal, currentVal) {
+  return previousVal - currentVal;
+}, 0);
+
+
+---
+
+
+.filter()
+//The following code is an example of using filter to remove array elements that are equal to five:
+array = array.filter(function(val) {
+  return val !== 5;
+});
+
+
+---
+
+
+.sort()
+//a compare function that will sort the elements from smallest to largest number:
+
+//ex
+var fruit = ['cherries', 'apples', 'bananas'];
+fruit.sort(); // ['apples', 'bananas', 'cherries']
+
+//ex
+var scores = [1, 10, 21, 2];
+scores.sort(); // [1, 10, 2, 21]
+// Note that 10 comes before 2,
+// because '10' is mix of two characters '1' and '0' so '10' is before '2' in Unicode code point order.
+
+
+//ex
+var numbers = [4, 2, 5, 1, 3];
+numbers.sort(function(a, b) {
+  return a - b;
+});
+console.log(numbers);
+
+// [1, 2, 3, 4, 5]
+
+
+
+---
+
+
+
+.includes()
+//The includes() method determines whether an array includes a certain element, returning true or false as appropriate
+
+//ex
+var a = [1, 2, 3];
+a.includes(2); // true
+a.includes(4); // false
+
+
+---
+
+
+.find()
+//The find() method returns the value of the first element in the array that satisfies the provided testing function. Otherwise undefined is returned.
+
+//ex
+function isBigEnough(element) {
+  return element >= 15;
+}
+[12, 5, 8, 130, 44].find(isBigEnough); // 130
+
+
+---
+
+
+.reverse()
+var myArray = [1, 2, 3];
+myArray.reverse();
+
+
+---
+
+
+.split()
+var array = string.split('s'); //splits string at every s character
+
+
+---
+
+
+.every()
+returns true if every element of array returns true
+
+
+---
+
+
+.some()
+returns true if one element in an array returns true
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
